@@ -6,7 +6,7 @@ function k = get_keyboard_num
 % Edited by AS 8/2014
 
 % change to productID number of native keyboard
-keyboard_id = 594; k = 0; d = PsychHID('Devices');
+keyboard_id = 0; k = 0; d = PsychHID('Devices');
 for nn = 1:length(d)
     if (d(nn).productID == keyboard_id) && strcmp(d(nn).usageName, 'Keyboard');
         k = nn;

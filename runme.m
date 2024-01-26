@@ -1,24 +1,27 @@
 function runme(name, trigger, stim_set, num_runs, task_num, start_run)
-% Prompts experimenter for session parameters and executes functional
-% localizer experiment used to define regions in high-level visual cortex
-% selective to faces, places, bodies, and printed characters.
-%
-% Inputs (optional):
-%   1) name -- session-specific identifier (e.g., particpant's initials)
-%   2) trigger -- option to trigger scanner (0 = no, 1 = yes)
-%   3) stim_set -- stimulus set (1 = standard, 2 = alternate, 3 = both)
-%   4) num_runs -- number of runs (stimuli repeat after 2 runs/set)
-%   5) task_num -- which task (1 = 1-back, 2 = 2-back, 3 = oddball)
-%   6) start_run -- run number to begin with (if sequence is interrupted)
-%
-% Version 3.0 8/2017
-% Anthony Stigliani (astiglia@stanford.edu)
-% Department of Psychology, Stanford University
+%{ 
+Prompts experimenter for session parameters and executes functional
+localizer experiment used to define regions in high-level visual cortex
+selective to faces, places, bodies, and printed characters.
 
+Inputs (optional):
+  1) name -- session-specific identifier (e.g., particpant's initials)
+  2) trigger -- option to trigger scanner (0 = no, 1 = yes)
+  3) stim_set -- stimulus set (1 = standard, 2 = alternate, 3 = both)
+  4) num_runs -- number of runs (stimuli repeat after 2 runs/set)
+  5) task_num -- which task (1 = 1-back, 2 = 2-back, 3 = oddball)
+  6) start_run -- run number to begin with (if sequence is interrupted)
+
+Run fLocMINI using this command: 
+runme('okazaki_pilot_01_initials, 0, 3, 4, 1, start_run) % Edit if interrupted
+runme('okazaki_pilot_01_DT', 0, 3, 2, 1)
+
+Version 3.0 8/2017
+Anthony Stigliani (astiglia@stanford.edu)
+Department of Psychology, Stanford University
+%}
 
 %% add paths and check inputs
-
-addpath('functions');
 
 % session name
 if nargin < 1
@@ -67,6 +70,7 @@ end
 
 
 %% initialize session object and execute experiment
+
 
 % setup fLocSession and save session information
 session = fLocSession(name, trigger, stim_set, num_runs, task_num);

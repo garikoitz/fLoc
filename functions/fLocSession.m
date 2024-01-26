@@ -122,8 +122,14 @@ classdef fLocSession
                 session.keyboard = laptop_key;
                 session.input = button_key;
             else
-                session.keyboard = laptop_key;
-                session.input = laptop_key;
+                % session.keyboard = laptop_key;
+                % session.input = laptop_key;
+
+                % Okazaki: from the same usb the response box and the
+                % keyboard is comming, being 5 de trigger of scanner and
+                % 1,2,3,4 the button numbers. Make the input 5                
+                session.keyboard = button_key;
+                session.input = button_key;
             end
         end
         
@@ -158,7 +164,7 @@ classdef fLocSession
                 Screen('Flip', window_ptr);
                 DrawFormattedText(window_ptr, session.instructions, 'center', 'center', tcol);
                 Screen('Flip', window_ptr);
-                get_key('g', session.keyboard);
+                get_key('5', session.keyboard);
             elseif session.trigger == 1
                 Screen('FillRect', window_ptr, bcol);
                 Screen('Flip', window_ptr);
@@ -233,7 +239,10 @@ classdef fLocSession
             score_str = [hit_str '\n' fa_str];
             DrawFormattedText(window_ptr, score_str, 'center', 'center', tcol);
             Screen('Flip', window_ptr);
-            get_key('g', session.keyboard);
+            % FOR OKAZAKI we will use 4, which is the control box red
+            % button
+            % For rest of places we can maintain 5 as the generic one
+            get_key('4', session.keyboard);
             ShowCursor;
             Screen('CloseAll');
         end
