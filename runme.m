@@ -14,7 +14,16 @@ Inputs (optional):
 
 Run fLocMINI using this command: 
 runme('okazaki_pilot_01_initials, 0, 3, 4, 1, start_run) % Edit if interrupted
-runme('okazaki_pilot_01_DT', 0, 3, 2, 1)
+
+MORNING
+runme('okazaki_multisite_20240129_DT', 0, 3, 6, 1)
+runme('okazaki_multisite_20240129_ST', 0, 3, 6, 1)
+
+AFTERNOON
+runme('okazaki_multisite_20240129_DT02', 0, 3, 6, 1)
+runme('okazaki_multisite_20240129_ST02', 0, 3, 6, 1)
+
+
 
 Version 3.0 8/2017
 Anthony Stigliani (astiglia@stanford.edu)

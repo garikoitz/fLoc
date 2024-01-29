@@ -17,3 +17,13 @@ if b == 0
 end
 
 end
+
+
+%{
+d = PsychHID('Devices');
+for nn = 1:length(d)
+    if strcmp(d(nn).usageName, 'Keyboard')
+        disp(d(nn))
+    end
+end
+%}
