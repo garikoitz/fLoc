@@ -16,12 +16,13 @@ Run fLocMINI using this command:
 runme('okazaki_pilot_01_initials, 0, 3, 4, 1, start_run) % Edit if interrupted
 
 MORNING
-runme('okazaki_multisite_20240129_DT', 0, 3, 6, 1)
-runme('okazaki_multisite_20240129_ST', 0, 3, 6, 1)
+runme('okazaki_multisite_20240129_DT', 0, 3, 6, 1): scanner B
+runme('okazaki_multisite_20240129_ST', 0, 3, 6, 1): scanner B
 
 AFTERNOON
-runme('okazaki_multisite_20240129_DT02', 0, 3, 6, 1)
-runme('okazaki_multisite_20240129_ST02', 0, 3, 6, 1)
+runme('okazaki_multisite_20240129_TM_B', 0, 3, 6,1);  scanner B
+runme('okazaki_multisite_20240129_TK_B', 0, 3, 6,1);  scanner B
+TK was always scanned with lights on
 
 
 
