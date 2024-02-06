@@ -51,6 +51,8 @@ Screen('BlendFunction', params.display.windowPtr, GL_SRC_ALPHA, GL_ONE_MINUS_SRC
 
 
 % open window and find center
+Screen('Preference', 'SkipSyncTests', 1)
+Screen('Preference','VisualDebugLevel', 3)
 S = Screen('Screens');
 screen_num = max(S);
 [w, rect] = Screen('OpenWindow', screen_num);

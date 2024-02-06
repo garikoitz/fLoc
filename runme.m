@@ -15,14 +15,50 @@ Inputs (optional):
 Run fLocMINI using this command: 
 runme('okazaki_pilot_01_initials, 0, 3, 4, 1, start_run) % Edit if interrupted
 
-MORNING
+
+20240129 MORNING
 runme('okazaki_multisite_20240129_DT', 0, 3, 6, 1): scanner B
 runme('okazaki_multisite_20240129_ST', 0, 3, 6, 1): scanner B
 
-AFTERNOON
+20240129 AFTERNOON
 runme('okazaki_multisite_20240129_TM_B', 0, 3, 6,1);  scanner B
 runme('okazaki_multisite_20240129_TK_B', 0, 3, 6,1);  scanner B
-TK was always scanned with lights on
+
+20240130 MORNING
+runme('okazaki_multisite_20240130_ST_B', 0, 3, 6, 1): scanner B
+runme('okazaki_multisite_20240130_DT_B', 0, 3, 6, 1): scanner B
+
+20240130 AFTERNOON
+runme('okazaki_multisite_20240130_TK_B', 0, 3, 6,1);  scanner B
+runme('okazaki_multisite_20240130_TM_B', 0, 3, 6,1);  scanner B
+
+TK was always scanned with lights on.
+A couple of times scanner B was stopped with reconstruction errors, we
+restarted the functional in the correct scanner option and that was it.
+ There where a couple of times that the scan was started but the log or not
+ or whatever. They will have less amount of scans, so not convert and
+ that's it. The rest seems to be ok. 
+
+
+
+20240205 
+Takemura-san
+runme('okazaki_multisite_20240205_TH-JP_B', 0, 3, 6,1);  scanner B
+
+Lerma-san
+runme('okazaki_multisite_20240205_GL-EU_B', 0, 3, 6,1);  scanner B
+
+20240206
+Takemura-san
+runme('okazaki_multisite_20240206_TH-JP_B', 0, 3, 6,1);  scanner B
+
+Lerma-san
+runme('okazaki_multisite_20240206_GL-EU_B', 0, 3, 6,1);  scanner B
+
+
+
+
+
 
 
 

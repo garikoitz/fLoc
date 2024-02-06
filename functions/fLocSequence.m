@@ -21,8 +21,15 @@ classdef fLocSequence
     end
     
     properties (Constant, Hidden)
+        % JP
         stim_set1 = {'body' 'JP_word1' 'adult' 'JP_FF1' 'JP_CB1'};
         stim_set2 = {'limb' 'JP_word2' 'child' 'JP_CS1' 'JP_SC1'};
+        % EU
+        % stim_set1 = {'body' 'JP_word1' 'adult' 'JP_FF1' 'JP_CB1'};
+        % stim_set2 = {'limb' 'JP_word2' 'child' 'JP_CS1' 'JP_SC1'};
+        % ES
+        % stim_set1 = {'body' 'JP_word1' 'adult' 'JP_FF1' 'JP_CB1'};
+        % stim_set2 = {'limb' 'JP_word2' 'child' 'JP_CS1' 'JP_SC1'};
         stim_per_set = 72;
         task_names = {'1back' '2back' 'oddball'};
         task_freq = 0.5;
