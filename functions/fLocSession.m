@@ -164,14 +164,14 @@ classdef fLocSession
                 Screen('Flip', window_ptr);
                 DrawFormattedText(window_ptr, session.instructions, 'center', 'center', tcol);
                 Screen('Flip', window_ptr);
-                get_key('5', session.keyboard);
+                get_key('s', session.keyboard);
             elseif session.trigger == 1
                 Screen('FillRect', window_ptr, bcol);
                 Screen('Flip', window_ptr);
                 DrawFormattedText(window_ptr, session.instructions, 'center', 'center', tcol); % 'flipHorizontal', 1);
                 Screen('Flip', window_ptr);
                 while 1
-                    get_key('g', session.keyboard);
+                    get_key('s', session.keyboard);
                     [status, ~] = start_scan;
                     if status == 0
                         break

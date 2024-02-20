@@ -6,7 +6,8 @@ function b = get_box_num
 % Edited by AS 8/2014
 
 % change to productID number of local button box
-box_id = 8; b = 0; d = PsychHID('Devices');
+% box_id 12 is for BCBL
+box_id = 12; b = 0; d = PsychHID('Devices');
 for nn = 1:length(d)
     if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
         b = nn;
