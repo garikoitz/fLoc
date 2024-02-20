@@ -8,6 +8,8 @@ function k = get_keyboard_num
 % change to productID number of native keyboard
 % trigger box is identified as keyboard and it is 257
 % the real keyboard BCBL is 545
+% 834 is tiger's MAC
+% 671 is tiger's bluetooth
 keyboard_id = 257; k = 0; d = PsychHID('Devices');
 for nn = 1:length(d)
     if (d(nn).productID == keyboard_id) && strcmp(d(nn).usageName, 'Keyboard');
