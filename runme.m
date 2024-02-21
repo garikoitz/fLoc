@@ -40,6 +40,44 @@ restarted the functional in the correct scanner option and that was it.
  that's it. The rest seems to be ok. 
 
 
+FOR WORD HEIGHT CALCULATION
+===========================
+
+BCBL
+----
+Screen resolution: 
+Screen size: 
+Screen distance: 
+
+VIENNA
+------
+Screen resolution: 
+Screen size: 
+Screen distance: 
+
+OKAZAKI
+-------
+Screen resolution: 1920 x 1080
+Screen size: vertical 239mm, horiz: 420mm 
+Screen distance: 854mm
+
+TAMAGAWA
+--------
+Screen resolution: 1920 x 1080
+Screen size: vertical 239mm, horiz: 420mm 
+Screen distance: 854mm
+
+
+
+
+
+=========
+= SCANS =
+=========
+
+OKAZAKI
+=======
+
 
 20240205 
 Takemura-san
@@ -56,8 +94,33 @@ Lerma-san
 runme('okazaki_multisite_20240206_GL-EU_B', 0, 3, 6,1);  scanner B
 
 
+20240130 AFTERNOON
+runme('okazaki_multisite_20240130_TK_B', 0, 3, 6,1);  scanner B
+runme('okazaki_multisite_20240130_TM_B', 0, 3, 6,1);  scanner B
 
 
+TAMAGAWA
+========
+20240221
+--------
+runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
+runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
+runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
+
+20240222
+--------
+runme('tamagawa_multisite_20240222_-JP', 0, 3, 6,1);
+runme('tamagawa_multisite_20240222_-ES', 0, 3, 6,1);
+
+
+
+# To end the process: 
+cmd+0: to be in the command line
+shift+cmd+0: to go  back to the editor
+shift+return: 
+ctrl-c
+sca
+Screen('Close')
 
 
 
