@@ -9,7 +9,7 @@ function b = get_box_num
 % box_id 12 is for BCBL
 % 834 is tiger's MAC
 % 671 is tiger's bluetooth
-box_id = 834; b = 0; d = PsychHID('Devices');
+box_id = 12; b = 0; d = PsychHID('Devices');
 for nn = 1:length(d)
     if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
         b = nn;

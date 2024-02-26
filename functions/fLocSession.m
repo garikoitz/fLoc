@@ -128,7 +128,7 @@ classdef fLocSession
                 % Okazaki: from the same usb the response box and the
                 % keyboard is comming, being 5 de trigger of scanner and
                 % 1,2,3,4 the button numbers. Make the input 5                
-                session.keyboard = button_key;
+                session.keyboard = laptop_key;
                 session.input = button_key;
             end
         end
