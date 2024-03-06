@@ -124,16 +124,16 @@ classdef fLocSession
                 session.keyboard = laptop_key;
                 session.input = button_key;
             else
-                 session.keyboard = laptop_key;
-                 session.input = button_key;
-
                 % Okazaki: from the same usb the response box and the
                 % keyboard is comming, being 5 de trigger of scanner and
                 % 1,2,3,4 the button numbers. Make the input 5                
                 % session.keyboard = button_key;
                 % session.input = button_key;
+                
                 % BCBL: keyboard is keyboard, already assign the trigger box as keyboard
 				% assign the response box as button_key/input/box
+                % BCBL: get s from keyboard
+                % get 4 from input
 				session.keyboard = laptop_key; %laptop_key; % button_key % ;
                 session.input = button_key;  %laptop_key; %button_key;
             end
@@ -249,8 +249,8 @@ classdef fLocSession
             % button
             % For rest of places we can maintain 5 as the generic one
             % get_key('4', session.keyboard);
-            % FOR BCBL it is s
-            get_key('s', session.keyboard);
+            % FOR BCBL it is 4 the red button from response box
+            get_key('4', session.input);
             ShowCursor;
             Screen('CloseAll');
         end
