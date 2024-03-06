@@ -57,15 +57,25 @@ Screen distance:
 
 OKAZAKI
 -------
-Screen resolution: 1920 x 1080
-Screen size: vertical 239mm, horiz: 420mm 
-Screen distance: 854mm
+Screen resolution: 1280 x 1024
+Screen size: 391mm →13.1deg 
+Screen distance: 1704mm 
+Outside gray square: w: 43cm, h: 32.5cm
+Inside stimulus size (phase scrambled size): w: 26cm, h: 24.5
+The height of letters it was aprox 3.5, checkerboards height: 4cm
+
+it seems that pixels are not rectangular, same image in the console display
+was: outside grey square: w: 37.5cm, h: 30 cm
+inside phase scrambles square: 22.5cm per side
 
 TAMAGAWA
 --------
 Screen resolution: 1920 x 1080
 Screen size: vertical 239mm, horiz: 420mm 
 Screen distance: 854mm
+See photo of square inside screen: h: 169 mm ; v: 169 mm
+Outside square: The phase scrambled are size is: h:421
+v:242mm
 
 
 
