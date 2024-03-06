@@ -6,9 +6,13 @@ function b = get_box_num
 % Edited by AS 8/2014
 
 % change to productID number of local button box
-% box_id 12 is for BCBL
+% box_id 12 is for BCBL   % box 12 is the response box
 % 834 is tiger's MAC
-% 671 is tiger's bluetooth
+% 5648 is tiger's steelseries
+% 671 is tiger's bluetooth keyboard
+
+% it seems that when using tiger's mac, only 834 keyboard is working,
+% I use 5648 as input but it is not useful
 box_id = 834; b = 0; d = PsychHID('Devices');
 for nn = 1:length(d)
     if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))

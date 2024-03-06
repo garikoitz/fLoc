@@ -118,18 +118,20 @@ classdef fLocSession
         function session = find_inputs(session)
             laptop_key = get_keyboard_num;
             button_key = get_box_num;
+            % BCBL, seems that we need to set trigger to 1, because we are
+            % actually using trigger box of scanner
             if session.trigger == 1 && button_key ~= 0
                 session.keyboard = laptop_key;
                 session.input = button_key;
             else
-                % session.keyboard = laptop_key;
-                % session.input = laptop_key;
+                 session.keyboard = laptop_key;
+                 session.input = button_key;
 
                 % Okazaki: from the same usb the response box and the
                 % keyboard is comming, being 5 de trigger of scanner and
                 % 1,2,3,4 the button numbers. Make the input 5                
-                session.keyboard = button_key;
-                session.input = button_key;
+                % session.keyboard = button_key;
+                % session.input = button_key;
             end
         end
         
@@ -242,7 +244,9 @@ classdef fLocSession
             % FOR OKAZAKI we will use 4, which is the control box red
             % button
             % For rest of places we can maintain 5 as the generic one
-            get_key('4', session.keyboard);
+            % get_key('4', session.keyboard);
+            % FOR BCBL it is s
+            get_key('s', session.keyboard);
             ShowCursor;
             Screen('CloseAll');
         end
