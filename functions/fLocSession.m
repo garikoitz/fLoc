@@ -132,6 +132,10 @@ classdef fLocSession
                 % 1,2,3,4 the button numbers. Make the input 5                
                 % session.keyboard = button_key;
                 % session.input = button_key;
+                % BCBL: keyboard is keyboard, already assign the trigger box as keyboard
+				% assign the response box as button_key/input/box
+				session.keyboard = laptop_key; %laptop_key; % button_key % ;
+                session.input = button_key;  %laptop_key; %button_key;
             end
         end
         

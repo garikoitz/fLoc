@@ -30,7 +30,9 @@ end
 d = PsychHID('Devices');
 for nn = 1:length(d)
     if strcmp(d(nn).usageName, 'Keyboard')
+        disp(nn)
         disp(d(nn))
+
     end
 end
 %}

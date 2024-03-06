@@ -15,14 +15,123 @@ Inputs (optional):
 Run fLocMINI using this command: 
 runme('okazaki_pilot_01_initials, 0, 3, 4, 1, start_run) % Edit if interrupted
 
-MORNING
+
+20240129 MORNING
 runme('okazaki_multisite_20240129_DT', 0, 3, 6, 1): scanner B
 runme('okazaki_multisite_20240129_ST', 0, 3, 6, 1): scanner Bs
 
-AFTERNOON
+20240129 AFTERNOON
 runme('okazaki_multisite_20240129_TM_B', 0, 3, 6,1);  scanner B
 runme('okazaki_multisite_20240129_TK_B', 0, 3, 6,1);  scanner B
-TK was always scanned with lights on
+
+20240130 MORNING
+runme('okazaki_multisite_20240130_ST_B', 0, 3, 6, 1): scanner B
+runme('okazaki_multisite_20240130_DT_B', 0, 3, 6, 1): scanner B
+
+20240130 AFTERNOON
+runme('okazaki_multisite_20240130_TK_B', 0, 3, 6,1);  scanner B
+runme('okazaki_multisite_20240130_TM_B', 0, 3, 6,1);  scanner B
+
+TK was always scanned with lights on.
+A couple of times scanner B was stopped with reconstruction errors, we
+restarted the functional in the correct scanner option and that was it.
+ There where a couple of times that the scan was started but the log or not
+ or whatever. They will have less amount of scans, so not convert and
+ that's it. The rest seems to be ok. 
+
+
+FOR WORD HEIGHT CALCULATION
+===========================
+
+BCBL
+----
+Screen resolution: 
+Screen size: 
+Screen distance: 
+
+VIENNA
+------
+Screen resolution: 
+Screen size: 
+Screen distance: 
+
+OKAZAKI
+-------
+Screen resolution: 1280 x 1024
+Screen size: 391mm →13.1deg 
+Screen distance: 1704mm 
+Outside gray square: w: 43cm, h: 32.5cm
+Inside stimulus size (phase scrambled size): w: 26cm, h: 24.5
+The height of letters it was aprox 3.5, checkerboards height: 4cm
+
+it seems that pixels are not rectangular, same image in the console display
+was: outside grey square: w: 37.5cm, h: 30 cm
+inside phase scrambles square: 22.5cm per side
+
+TAMAGAWA
+--------
+Screen resolution: 1920 x 1080
+Screen size: vertical 239mm, horiz: 420mm 
+Screen distance: 854mm
+See photo of square inside screen: h: 169 mm ; v: 169 mm
+Outside square: The phase scrambled are size is: h:421
+v:242mm
+
+
+
+
+
+=========
+= SCANS =
+=========
+
+OKAZAKI
+=======
+
+
+20240205 
+Takemura-san
+runme('okazaki_multisite_20240205_TH-JP_B', 0, 3, 6,1);  scanner B
+
+Lerma-san
+runme('okazaki_multisite_20240205_GL-EU_B', 0, 3, 6,1);  scanner B
+
+20240206
+Takemura-san
+runme('okazaki_multisite_20240206_TH-JP_B', 0, 3, 6,1);  scanner B
+
+Lerma-san
+runme('okazaki_multisite_20240206_GL-EU_B', 0, 3, 6,1);  scanner B
+
+
+20240130 AFTERNOON
+runme('okazaki_multisite_20240130_TK_B', 0, 3, 6,1);  scanner B
+runme('okazaki_multisite_20240130_TM_B', 0, 3, 6,1);  scanner B
+
+
+TAMAGAWA
+========
+20240221
+--------
+runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
+runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
+runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
+
+20240222
+--------
+runme('tamagawa_multisite_20240222_-JP', 0, 3, 6,1);
+runme('tamagawa_multisite_20240222_-ES', 0, 3, 6,1);
+
+
+
+# To end the process: 
+cmd+0: to be in the command line
+shift+cmd+0: to go  back to the editor
+shift+return: 
+ctrl-c
+sca
+Screen('Close')
+
 
 
 
