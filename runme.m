@@ -46,8 +46,10 @@ FOR WORD HEIGHT CALCULATION
 BCBL
 ----
 Screen resolution: 
-Screen size: 
+Screen size: heigth: 41, width:55
 Screen distance: 
+Square inside screen: height: 31 cm ; width: 33 cm
+The CB are size is: height: 6 cm
 
 VIENNA
 ------
@@ -121,6 +123,18 @@ runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
 --------
 runme('tamagawa_multisite_20240222_-JP', 0, 3, 6,1);
 runme('tamagawa_multisite_20240222_-ES', 0, 3, 6,1);
+
+
+BCBL
+========
+20240417
+--------
+runme('bcbl_multisite_20240417_GL-ES', 0, 3, 6,1);
+runme('bcbl_TEST', 0, 3, 6,1);
+
+
+
+
 
 
 
