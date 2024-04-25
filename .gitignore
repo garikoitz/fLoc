@@ -1,3 +1,5 @@
+onset
+onset/*
 data/*
 !data/data_dir.txt
 *.mat
