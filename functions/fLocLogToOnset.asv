@@ -1,4 +1,4 @@
-function fLocLogToOnset(floc_dir,floc_log_folder_name,output_format)
+function fLocLogToOnset(floc_dir,floc_log_folder_name,output_format, output_verbose)
 %fLocLogToOnset Summary of this function goes here
 %   This function is used to generate the onset files for 
 %   Kepa SPM analysis, It will tak floc_log_folder_name, go to the folder and then
@@ -23,7 +23,7 @@ all_sessions = floc_log_folder_names(longNameIndex);
 
 for i= 1: length(all_sessions)
 floc_log_folder_name=all_sessions(i).name
-fLocLogToOnset(floc_dir,floc_log_folder_name,'SPM')
+fLocLogToOnset(floc_dir,floc_log_folder_name)
 end;
 %}
 
@@ -102,7 +102,7 @@ if strcmp(output_format,'SPM')
     % Write the table to an Excel file
     filename = sprintf('%s_%s_onset.xls', subID, sesID);
 
-    writetable(shrinked_table,fullfile(floc_dir,"onset_spm", filename));
+    writetable(shrinked_table,fullfile(floc_dir,"onset", filename));
 
 
 elseif strcmp(output_format,'BIDS')
@@ -118,17 +118,16 @@ elseif strcmp(output_format,'BIDS')
     
     shrinked_table=onset_table(block_index,:);
     
-
+    run_index=1:38:size(shriked_table,1);
     run_nums=1:6;
 
     for i = run_nums
-        run_table=shrinked_table(1+38*(i-1):38*i,:);
-        % Write the table to an Excel file
-        filename = sprintf('%s_%s_task-%s_run-%02i_event.tsv', subID, sesID, task_name, i);
-        writetable(run_table,fullfile(floc_dir,"onset_bids", filename), 'Delimiter', '\t', 'FileType', 'text') ;
+        run_table= shrinked_table(1+38*(i-1):38+38*(i-1),:)
     end
-     
-    
+     % Write the table to an Excel file
+    filename = sprintf('%s_%s_onset.xls', subID, sesID);
+
+    writetable(shrinked_table,fullfile(floc_dir,"onset", filename));
 end
 
 
