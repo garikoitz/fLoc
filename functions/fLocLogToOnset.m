@@ -23,7 +23,7 @@ all_sessions = floc_log_folder_names(longNameIndex);
 
 for i= 1: length(all_sessions)
 floc_log_folder_name=all_sessions(i).name
-fLocLogToOnset(floc_dir,floc_log_folder_name,'SPM')
+fLocLogToOnset(floc_dir,floc_log_folder_name,'BIDS')
 end;
 %}
 
@@ -106,11 +106,11 @@ if strcmp(output_format,'SPM')
 
 
 elseif strcmp(output_format,'BIDS')
-    task_name='MINIblock';
+    task_name='fLoc';
     
     duration=repmat(6, 2736, 1);
     onset_table = table(onset_reshape, duration, stimuli_nonumbers,  ...
-        'VariableNames', {'onset', 'duration', 'trail_type'});
+        'VariableNames', {'onset', 'duration', 'trial_type'});
     b=mkdir(fullfile(floc_dir,"onset_bids"));
 
     block_index=1:12:size(onset_table,1); 
@@ -124,7 +124,7 @@ elseif strcmp(output_format,'BIDS')
     for i = run_nums
         run_table=shrinked_table(1+38*(i-1):38*i,:);
         % Write the table to an Excel file
-        filename = sprintf('%s_%s_task-%s_run-%02i_event.tsv', subID, sesID, task_name, i);
+        filename = sprintf('%s_%s_task-%s_run-%02i_events.tsv', subID, sesID, task_name, i);
         writetable(run_table,fullfile(floc_dir,"onset_bids", filename), 'Delimiter', '\t', 'FileType', 'text') ;
     end
      

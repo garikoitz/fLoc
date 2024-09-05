@@ -30,6 +30,10 @@ classdef fLocSequence
         % ES
         stim_set1 = {'body' 'ES_word1' 'adult' 'ES_FF1' 'ES_CB1'};
         stim_set2 = {'limb' 'ES_word2' 'child' 'ES_CS1' 'ES_SC1'};
+
+        % stim_set1 = {'body' 'chars' 'adult' 'instrument' 'corridor'};
+        % stim_set2 = {'limb' 'numbers' 'child' 'car' 'house'};
+        
         stim_per_set = 72;
         task_names = {'1back' '2back' 'oddball'};
         task_freq = 0.5;
