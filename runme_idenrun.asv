@@ -230,9 +230,6 @@ num_of_stim=length(seq.stim_onsets);
 
 num_of_TR=num_of_stim/(TR/onset_dur)+6;
 
-total_TR=sprintf("########### \n Total TR for this experiment is %i \n ########### \n", num_of_TR);
-disp(total_TR);
-
 if ~exist(session_dir, 'dir') == 7
     mkdir(session_dir);
 end
