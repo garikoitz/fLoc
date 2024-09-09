@@ -28,13 +28,13 @@ classdef fLocSequence_idenrun
         % stim_set1 = {'body' 'EU_word1' 'adult' 'EU_FF1' 'EU_CB1'};
         % stim_set2 = {'limb' 'EU_word2' 'child' 'EU_CS1' 'EU_SC1'};
         % ES
-        stim_set1 = {'body' 'ES_word1' 'adult' 'ES_FF1' 'ES_CB1'};
-        stim_set2 = {'limb' 'ES_word2' 'child' 'ES_CS1' 'ES_SC1'};
+        stim_set1 = {'body' 'ES_word' 'adult' 'ES_FF' 'ES_CB'};
+        stim_set2 = {'limb' 'ES_word' 'child' 'ES_CS' 'ES_SC'};
 
         % stim_set1 = {'body' 'chars' 'adult' 'instrument' 'corridor'};
         % stim_set2 = {'limb' 'numbers' 'child' 'car' 'house'};
         trials_per_cond= 12;
-        stim_per_set = 72;
+        stim_per_set = 134;
         task_names = {'1back' '2back' 'oddball'};
         task_freq = 0.5;
     end
