@@ -1,8 +1,8 @@
-
-%lang={'ES','EU','JP'};
-%stim={'CB','SC','FF','CS','word'};
 basedir='/Users/tiger/toolboxes/fLoc/stimuli';
-category={'Bodies', 'Faces'};
+lang={'ES','EU','JP'};
+stim={'CB','SC','FF','CS','word'};
+
+category={'Body', 'Face'};
 set1={'body','adult'};
 set2={'limb','child'};
 

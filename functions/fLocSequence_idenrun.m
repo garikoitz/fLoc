@@ -15,8 +15,8 @@ classdef fLocSequence_idenrun
     end
     
     properties (Constant)
-        stim_conds = {'Bodies' 'RealWords' 'Faces' 'Lexical' 'Perceptual'};
-        stim_per_block = 10;   % number of stimuli in a block
+        stim_conds = {'Bodies' 'RealWords' 'Faces' 'FalseFonts' 'ConsonantStrings' 'Srambled'};
+        stim_per_block = 12;   % number of stimuli in a block
         stim_duty_cycle = 0.5; % duration of stimulus duty cycle (s)
     end
     
@@ -28,12 +28,12 @@ classdef fLocSequence_idenrun
         % stim_set1 = {'body' 'EU_word1' 'adult' 'EU_FF1' 'EU_CB1'};
         % stim_set2 = {'limb' 'EU_word2' 'child' 'EU_CS1' 'EU_SC1'};
         % ES
-        stim_set1 = {'body' 'ES_word' 'adult' 'ES_FF' 'ES_CB'};
-        stim_set2 = {'limb' 'ES_word' 'child' 'ES_CS' 'ES_SC'};
+        stim_set1 = {'body' 'ES_word' 'adult' 'ES_FF' 'ES_CS' 'ES_SC'};
+        % stim_set2 = {'limb' 'ES_word' 'child' 'ES_CS' 'ES_SC'};
 
         % stim_set1 = {'body' 'chars' 'adult' 'instrument' 'corridor'};
         % stim_set2 = {'limb' 'numbers' 'child' 'car' 'house'};
-        trials_per_cond= 12;
+        trials_per_cond= 7;
         stim_per_set = 134;
         task_names = {'1back' '2back' 'oddball'};
         task_freq = 0.5;
@@ -136,9 +136,7 @@ classdef fLocSequence_idenrun
             [unique_cats, ~, idxs] = unique(seq.run_sets(:));
             unique_cats = unique_cats';
             cnts = accumarray(idxs(:), 1, [], @sum)';
-            % Extra, every cat will do twice because we combine 2 runs
-            % together
-            stim_per_cat = cnts *2 * seq.stim_per_block * seq.num_conds;
+            stim_per_cat = cnts * seq.stim_per_block * seq.num_conds;
             cycles_per_cat = ceil(stim_per_cat / seq.stim_per_set);
             % randomize the order of stimuli minimizing image repetition
             stim_nums = cell(1, length(cycles_per_cat));
