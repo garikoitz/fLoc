@@ -46,6 +46,7 @@ classdef fLocSession_idenrun
     methods
         
         % class constructor
+        % name='test_tlei'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;)
         function session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num)
             session.name = deblank(name);
             session.trigger = trigger;
@@ -151,6 +152,7 @@ classdef fLocSession_idenrun
             tcol = session.text_color; bcol = session.blank_color; fcol = session.fix_color;
             resp_keys = {}; resp_press = zeros(length(stim_names), 1);
             % setup screen and load all stimuli in run
+            
             [window_ptr, center] = do_screen;
             center_x = center(1); center_y = center(2); s = session.stim_size / 2;
             stim_rect = [center_x - s center_y - s center_x + s center_y + s];

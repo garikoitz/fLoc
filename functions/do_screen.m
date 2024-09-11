@@ -54,8 +54,9 @@ Screen('BlendFunction', params.display.windowPtr, GL_SRC_ALPHA, GL_ONE_MINUS_SRC
 Screen('Preference', 'SkipSyncTests', 1)
 Screen('Preference','VisualDebugLevel', 0)
 S = Screen('Screens');
+
 screen_num = max(S);
-[w, rect] = Screen('OpenWindow', screen_num);
+[w, rect] = Screen('OpenWindow', screen_num,[133,133,133]);
 center = rect(3:4) / 2;
 
 % set text properties

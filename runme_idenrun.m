@@ -139,6 +139,11 @@ runme('bcbl_TEST', 0, 3, 6,1);
 runme_idenrun('bcbl_idenrun_5runs_GL-ES', 0, 3, 5, 1);
 
 
+========
+20240911
+--------
+runme_idenrun('test_newseq', 0, 1, 5, 1);
+## the stimulus set is using first set, not things combined. 
 
 
 # To continue to next run
