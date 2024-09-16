@@ -48,10 +48,10 @@ FOR WORD HEIGHT CALCULATION
 BCBL
 ----
 Screen resolution: 
-Screen size: heigth: 41, width:55
+Screen size: heigth: 41, width:55 %measured 0916 2024
 Screen distance: 
 Square inside screen: height: 31 cm ; width: 33 cm
-The CB are size is: height: 6 cm
+The CB are size is: height: 6 cm; word 4cm
 
 (This one needs to change because I measure it wrong! )
 

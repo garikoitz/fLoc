@@ -53,7 +53,7 @@ classdef fLocSession_idenrun
     methods
         
         % class constructor
-        % name='test_tlei'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;)
+        % name='test_0916'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;)
         function session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num, use_eyelink)
             session.name = deblank(name);
             session.trigger = trigger;
