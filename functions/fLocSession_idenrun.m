@@ -8,6 +8,7 @@ classdef fLocSession_idenrun
         sequence  % session fLocSequence object
         responses % behavioral response data structure
         parfiles  % paths to vistasoft-compatible parfiles
+        use_eyelink % option to use eyelink in scanner (0 = no, 1 = yes)
     end
     
     properties (Hidden)
@@ -36,20 +37,24 @@ classdef fLocSession_idenrun
     properties (Dependent)
         id        % session-specific id string
         task_name % descriptor for each task number
+        el % eyelink initializer
     end
     
     properties (Dependent, Hidden)
         hit_rate     % proportion of task probes detected in each run
         instructions % task-specific instructions for participant
+        dummymode % if eyelink is connected or not
+        edfFile % the eyelink log file
     end
     
     methods
         
         % class constructor
         % name='test_tlei'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;)
-        function session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num)
+        function session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num, use_eyelink)
             session.name = deblank(name);
             session.trigger = trigger;
+            session.use_eyelink=use_eyelink;
             if nargin < 3
                 session.stim_set = 3;
             else
@@ -140,6 +145,7 @@ classdef fLocSession_idenrun
             end
         end
         
+
         % execute a run of the experiment
         function session = run_exp(session, run_num)
             % get timing information and initialize response containers
@@ -190,46 +196,108 @@ classdef fLocSession_idenrun
                     end
                 end
             end
-            % display countdown numbers
-            [cnt_time, rem_time] = deal(session.count_down + GetSecs);
-            cnt = session.count_down;
-            while rem_time > 0
-                if floor(rem_time) <= cnt
-                    DrawFormattedText(window_ptr, num2str(cnt), 'center', 'center', tcol);
+            %% if use eyelink, initialize eyelink and record things
+            % if use_eyelink, start recording eyelink, otherwise, no
+            if session.use_eyelink
+                [session.el,session.dummymode, session.edfFile]=init_eyelink(session) ;
+                disp("eyelink initialized ")
+                Eyelink('SetOfflineMode');% Put tracker in idle/offline mode before recording
+                Eyelink('StartRecording'); % Start tracker recording
+                
+                % display countdown numbers
+                [cnt_time, rem_time] = deal(session.count_down + GetSecs);
+                cnt = session.count_down;
+                while rem_time > 0
+                    if floor(rem_time) <= cnt
+                        DrawFormattedText(window_ptr, num2str(cnt), 'center', 'center', tcol);
+                        Screen('Flip', window_ptr);
+                        cnt = cnt - 1;
+                    end
+                    rem_time = cnt_time - GetSecs;
+                end
+                
+                start_time = GetSecs;
+                for ii = 1:length(stim_names)
+                    Eyelink('Command', 'record_status_message "TRIAL %d/%d"', ii, length(stim_names));
+                    % display blank screen if baseline and image if stimulus
+                    if strcmp(stim_names{ii}, 'baseline')
+                        [~, RtFixation]=Screen('FillRect', window_ptr, bcol);
+                        draw_fixation(window_ptr, center, fcol);
+                        Eyelink('Message', 'Fixation display: %d ms',round(RtFixation-start_time)*1000);
+                    else
+                        [~, RtStart]=Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
+                        draw_fixation(window_ptr, center, fcol);
+                        Eyelink('Message', 'Stimuli display: %d ms, %s',round((RtStart-start_time)*1000),stim_names{ii});
+                    end
                     Screen('Flip', window_ptr);
-                    cnt = cnt - 1;
-                end
-                rem_time = cnt_time - GetSecs;
-            end
-            % main display loop
-            start_time = GetSecs;
-            for ii = 1:length(stim_names)
-                % display blank screen if baseline and image if stimulus
-                if strcmp(stim_names{ii}, 'baseline')
-                    Screen('FillRect', window_ptr, bcol);
-                    draw_fixation(window_ptr, center, fcol);
-                else
-                    Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
-                    draw_fixation(window_ptr, center, fcol);
-                end
-                Screen('Flip', window_ptr);
-                % collect responses
-                ii_press = []; ii_keys = [];
-                [keys, ie] = record_keys(start_time + (ii - 1) * sdc, stim_dur, k);
-                ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
-                % display ISI if necessary
-                if isi_dur > 0
-                    Screen('FillRect', window_ptr, bcol);
-                    draw_fixation(window_ptr, center, fcol);
-                    [keys, ie] = record_keys(start_time + (ii - 1) * sdc + stim_dur, isi_dur, k);
+                    % collect responses
+                    ii_press = []; ii_keys = [];
+                    [keys, ie] = record_keys(start_time + (ii - 1) * sdc, stim_dur, k);
                     ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
-                    Screen('Flip', window_ptr);
+                    % display ISI if necessary
+                    if isi_dur > 0
+                        Screen('FillRect', window_ptr, bcol);
+                        draw_fixation(window_ptr, center, fcol);
+                        [keys, ie] = record_keys(start_time + (ii - 1) * sdc + stim_dur, isi_dur, k);
+                        ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
+                        Screen('Flip', window_ptr);
+                    end
+                    resp_keys{ii} = ii_keys;
+                    resp_press(ii) = min(ii_press);
+                    Eyelink('Message', 'End of experiment');
                 end
-                resp_keys{ii} = ii_keys;
-                resp_press(ii) = min(ii_press);
+            %% if don't use_eyelink, it's like before
+            else
+                % main display loop
+                % display countdown numbers
+                [cnt_time, rem_time] = deal(session.count_down + GetSecs);
+                cnt = session.count_down;
+                while rem_time > 0
+                    if floor(rem_time) <= cnt
+                        DrawFormattedText(window_ptr, num2str(cnt), 'center', 'center', tcol);
+                        Screen('Flip', window_ptr);
+                        cnt = cnt - 1;
+                    end
+                    rem_time = cnt_time - GetSecs;
+                end
+                start_time = GetSecs;
+                for ii = 1:length(stim_names)
+                    % display blank screen if baseline and image if stimulus
+                    if strcmp(stim_names{ii}, 'baseline')
+                        Screen('FillRect', window_ptr, bcol);
+                        draw_fixation(window_ptr, center, fcol);
+                    else
+                        Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
+                        draw_fixation(window_ptr, center, fcol);
+                    end
+                    Screen('Flip', window_ptr);
+                    % collect responses
+                    ii_press = []; ii_keys = [];
+                    [keys, ie] = record_keys(start_time + (ii - 1) * sdc, stim_dur, k);
+                    ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
+                    % display ISI if necessary
+                    if isi_dur > 0
+                        Screen('FillRect', window_ptr, bcol);
+                        draw_fixation(window_ptr, center, fcol);
+                        [keys, ie] = record_keys(start_time + (ii - 1) * sdc + stim_dur, isi_dur, k);
+                        ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
+                        Screen('Flip', window_ptr);
+                    end
+                    resp_keys{ii} = ii_keys;
+                    resp_press(ii) = min(ii_press);
+                end
+            
             end
-            
-            
+            if session.use_eyelink==1
+                Eyelink('StopRecording'); % Stop tracker recording
+                Eyelink('SetOfflineMode'); % Put tracker in idle/offline mode
+                Eyelink('Command', 'clear_screen 0'); % Clear Host PC backdrop graphics at the end of the experiment
+                WaitSecs(0.5); % Allow some time before closing and transferring file
+                Eyelink('CloseFile'); % Close EDF file on Host PC
+                % Transfer a copy of the EDF file to Display PC
+                transferFile; % See transferFile function below
+            end
+
             % store responses
             session.responses(run_num).keys = resp_keys;
             session.responses(run_num).press = resp_press;
@@ -249,6 +317,7 @@ classdef fLocSession_idenrun
             score_str = [hit_str '\n' fa_str];
             DrawFormattedText(window_ptr, score_str, 'center', 'center', tcol);
             Screen('Flip', window_ptr);
+            
             % FOR OKAZAKI we will use 4, which is the control box red
             % button
             % For rest of places we can maintain 5 as the generic one
@@ -302,8 +371,43 @@ classdef fLocSession_idenrun
                 session.parfiles{rr} = fpath;
             end
         end
-        
-    end
+        % funciton to close EDF file
+        function transferFile(session)
+            try
+                if session.dummymode ==0 % If connected to EyeLink
+                    % Show 'Receiving data file...' text until file transfer is complete
+                    Screen('FillRect', window, session.el.backgroundcolour); % Prepare background on backbuffer
+                    Screen('DrawText', window, 'Receiving data file...', 5, height-35, 0); % Prepare text
+                    Screen('Flip', window); % Present text
+                    fprintf('Receiving data file ''%s.edf''\n', session.edfFile); % Print some text in Matlab's Command Window
+                    
+                    % Transfer EDF file to Host PC
+                    % [status =] Eyelink('ReceiveFile',['src'], ['dest'], ['dest_is_path'])
+                    %status = Eyelink('ReceiveFile');
+                    % Optionally uncomment below to change edf file name when a copy is transferred to the Display PC
+                    % % If <src> is omitted, tracker will send last opened data file.
+                    % % If <dest> is omitted, creates local file with source file name.
+                    % % Else, creates file using <dest> as name.  If <dest_is_path> is supplied and non-zero
+                    % % uses source file name but adds <dest> as directory path.
+                    % newName = ['Test_',char(datetime('now','TimeZone','local','Format','y_M_d_HH_mm')),'.edf'];                
+                    newName = [session.edfFile,'_',char(datetime('now','TimeZone','local')),'.edf'];  
+                    status = Eyelink('ReceiveFile', [], newName, 0);
+                    
+                    % Check if EDF file has been transferred successfully and print file size in Matlab's Command Window
+                    if status > 0
+                        fprintf('EDF file size: %.1f KB\n', status/1024); % Divide file size by 1024 to convert bytes to KB
+                    end
+                    % Print transferred EDF file path in Matlab's Command Window
+                    fprintf('Data file ''%s.edf'' can be found in ''%s''\n', session.edfFile, pwd);
+                else
+                    fprintf('No EDF file saved in Dummy mode\n');
+                end
+            catch % Catch a file-transfer error and print some text in Matlab's Command Window
+                fprintf('Problem receiving data file ''%s''\n', session.edfFile);
+                psychrethrow(psychlasterror);
+            end
+        end
     
+    end
 end
 

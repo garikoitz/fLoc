@@ -55,7 +55,7 @@ Screen('Preference', 'SkipSyncTests', 1)
 Screen('Preference','VisualDebugLevel', 0)
 S = Screen('Screens');
 
-screen_num = 0 ; %max(S);
+screen_num = max(S);
 [w, rect] = Screen('OpenWindow', screen_num,[133,133,133]);
 center = rect(3:4) / 2;
 

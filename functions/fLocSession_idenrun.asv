@@ -8,6 +8,7 @@ classdef fLocSession_idenrun
         sequence  % session fLocSequence object
         responses % behavioral response data structure
         parfiles  % paths to vistasoft-compatible parfiles
+        use_eyelink % option to use eyelink in scanner (0 = no, 1 = yes)
     end
     
     properties (Hidden)
@@ -36,6 +37,7 @@ classdef fLocSession_idenrun
     properties (Dependent)
         id        % session-specific id string
         task_name % descriptor for each task number
+        eyelink % eyelink initializer
     end
     
     properties (Dependent, Hidden)
@@ -47,9 +49,10 @@ classdef fLocSession_idenrun
         
         % class constructor
         % name='test_tlei'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;)
-        function session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num)
+        function session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num, use_eyelink)
             session.name = deblank(name);
             session.trigger = trigger;
+            session.use_eyelink=use_eyelink;
             if nargin < 3
                 session.stim_set = 3;
             else
@@ -98,6 +101,12 @@ classdef fLocSession_idenrun
                 instructions = 'Fixate. Press a button when a scrambled image appears.';
             end
         end
+
+        function eyelink = get.eyelink(session) 
+            if session.use_eyelink ==1
+                disp(1)
+            end
+        end
         
         % define/load stimulus sequences for this session
         function session = load_seqs(session)
@@ -140,6 +149,7 @@ classdef fLocSession_idenrun
             end
         end
         
+
         % execute a run of the experiment
         function session = run_exp(session, run_num)
             % get timing information and initialize response containers
@@ -190,46 +200,108 @@ classdef fLocSession_idenrun
                     end
                 end
             end
-            % display countdown numbers
-            [cnt_time, rem_time] = deal(session.count_down + GetSecs);
-            cnt = session.count_down;
-            while rem_time > 0
-                if floor(rem_time) <= cnt
-                    DrawFormattedText(window_ptr, num2str(cnt), 'center', 'center', tcol);
+            %% if use eyelink, initialize eyelink and record things
+            % if use_eyelink, start recording eyelink, otherwise, no
+            if session.use_eyelink
+                init_eyelink ;
+                disp("eyelink initialized ")
+                Eyelink('SetOfflineMode');% Put tracker in idle/offline mode before recording
+                Eyelink('StartRecording'); % Start tracker recording
+                
+                % display countdown numbers
+                [cnt_time, rem_time] = deal(session.count_down + GetSecs);
+                cnt = session.count_down;
+                while rem_time > 0
+                    if floor(rem_time) <= cnt
+                        DrawFormattedText(window_ptr, num2str(cnt), 'center', 'center', tcol);
+                        Screen('Flip', window_ptr);
+                        cnt = cnt - 1;
+                    end
+                    rem_time = cnt_time - GetSecs;
+                end
+                
+                start_time = GetSecs;
+                for ii = 1:length(stim_names)
+                    Eyelink('Command', 'record_status_message "TRIAL %d/%d"', ii, length(stim_names));
+                    % display blank screen if baseline and image if stimulus
+                    if strcmp(stim_names{ii}, 'baseline')
+                        [~, RtFixation]=Screen('FillRect', window_ptr, bcol);
+                        draw_fixation(window_ptr, center, fcol);
+                        Eyelink('Message', 'Fixation display: %d ms',round(RtFixation-start_time)*1000);
+                    else
+                        [~, RtStart]=Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
+                        draw_fixation(window_ptr, center, fcol);
+                        Eyelink('Message', 'Stimuli display: %d ms, %s',round((RtStart-start_time)*1000),stim_names{ii});
+                    end
                     Screen('Flip', window_ptr);
-                    cnt = cnt - 1;
-                end
-                rem_time = cnt_time - GetSecs;
-            end
-            % main display loop
-            start_time = GetSecs;
-            for ii = 1:length(stim_names)
-                % display blank screen if baseline and image if stimulus
-                if strcmp(stim_names{ii}, 'baseline')
-                    Screen('FillRect', window_ptr, bcol);
-                    draw_fixation(window_ptr, center, fcol);
-                else
-                    Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
-                    draw_fixation(window_ptr, center, fcol);
-                end
-                Screen('Flip', window_ptr);
-                % collect responses
-                ii_press = []; ii_keys = [];
-                [keys, ie] = record_keys(start_time + (ii - 1) * sdc, stim_dur, k);
-                ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
-                % display ISI if necessary
-                if isi_dur > 0
-                    Screen('FillRect', window_ptr, bcol);
-                    draw_fixation(window_ptr, center, fcol);
-                    [keys, ie] = record_keys(start_time + (ii - 1) * sdc + stim_dur, isi_dur, k);
+                    % collect responses
+                    ii_press = []; ii_keys = [];
+                    [keys, ie] = record_keys(start_time + (ii - 1) * sdc, stim_dur, k);
                     ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
-                    Screen('Flip', window_ptr);
+                    % display ISI if necessary
+                    if isi_dur > 0
+                        Screen('FillRect', window_ptr, bcol);
+                        draw_fixation(window_ptr, center, fcol);
+                        [keys, ie] = record_keys(start_time + (ii - 1) * sdc + stim_dur, isi_dur, k);
+                        ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
+                        Screen('Flip', window_ptr);
+                    end
+                    resp_keys{ii} = ii_keys;
+                    resp_press(ii) = min(ii_press);
+                    Eyelink('Message', 'End of experiment');
                 end
-                resp_keys{ii} = ii_keys;
-                resp_press(ii) = min(ii_press);
+            %% if don't use_eyelink, it's like before
+            else
+                % main display loop
+                % display countdown numbers
+                [cnt_time, rem_time] = deal(session.count_down + GetSecs);
+                cnt = session.count_down;
+                while rem_time > 0
+                    if floor(rem_time) <= cnt
+                        DrawFormattedText(window_ptr, num2str(cnt), 'center', 'center', tcol);
+                        Screen('Flip', window_ptr);
+                        cnt = cnt - 1;
+                    end
+                    rem_time = cnt_time - GetSecs;
+                end
+                start_time = GetSecs;
+                for ii = 1:length(stim_names)
+                    % display blank screen if baseline and image if stimulus
+                    if strcmp(stim_names{ii}, 'baseline')
+                        Screen('FillRect', window_ptr, bcol);
+                        draw_fixation(window_ptr, center, fcol);
+                    else
+                        Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
+                        draw_fixation(window_ptr, center, fcol);
+                    end
+                    Screen('Flip', window_ptr);
+                    % collect responses
+                    ii_press = []; ii_keys = [];
+                    [keys, ie] = record_keys(start_time + (ii - 1) * sdc, stim_dur, k);
+                    ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
+                    % display ISI if necessary
+                    if isi_dur > 0
+                        Screen('FillRect', window_ptr, bcol);
+                        draw_fixation(window_ptr, center, fcol);
+                        [keys, ie] = record_keys(start_time + (ii - 1) * sdc + stim_dur, isi_dur, k);
+                        ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
+                        Screen('Flip', window_ptr);
+                    end
+                    resp_keys{ii} = ii_keys;
+                    resp_press(ii) = min(ii_press);
+                end
+            
             end
-            
-            
+            if use_eyelink
+                Eyelink('StopRecording'); % Stop tracker recording
+                Eyelink('SetOfflineMode'); % Put tracker in idle/offline mode
+        Eyelink('Command', 'clear_screen 0'); % Clear Host PC backdrop graphics at the end of the experiment
+        WaitSecs(0.5); % Allow some time before closing and transferring file
+        Eyelink('CloseFile'); % Close EDF file on Host PC
+        % Transfer a copy of the EDF file to Display PC
+        transferFile; % See transferFile function below
+            end
+
             % store responses
             session.responses(run_num).keys = resp_keys;
             session.responses(run_num).press = resp_press;
@@ -249,6 +321,7 @@ classdef fLocSession_idenrun
             score_str = [hit_str '\n' fa_str];
             DrawFormattedText(window_ptr, score_str, 'center', 'center', tcol);
             Screen('Flip', window_ptr);
+            
             % FOR OKAZAKI we will use 4, which is the control box red
             % button
             % For rest of places we can maintain 5 as the generic one

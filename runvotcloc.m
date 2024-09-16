@@ -1,16 +1,18 @@
-function runme_idenrun(name, trigger, stim_set, num_runs, task_num, start_run)
+function runvotcloc(name, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
 %{ 
-Prompts experimenter for session parameters and executes functional
-localizer experiment used to define regions in high-level visual cortex
-selective to faces, places, bodies, and printed characters.
+Prompts experimenter for session parameters and executes functional localizer experiment used 
+to define regions in high-level visual cortex selective to faces, places, bodies, and printed characters.
 
 Inputs (optional):
   1) name -- session-specific identifier (e.g., particpant's initials)
   2) trigger -- option to trigger scanner (0 = no, 1 = yes)
-  3) stim_set -- stimulus set (1 = standard, 2 = alternate, 3 = both)
+  3) stim_set -- stimulus set (1 = standard, 2 = alternate, 3 = both) % for
+  VOTCLOC we will always use 1. because we already combine Faces catagory
+  and Limbs catagory into a big stimulus set
   4) num_runs -- number of runs (stimuli repeat after 2 runs/set)
   5) task_num -- which task (1 = 1-back, 2 = 2-back, 3 = oddball)
-  6) start_run -- run number to begin with (if sequence is interrupted)
+  6) use_eyelink -- options to use eyelink (0 = no, 1 = yes )
+  7) start_run -- run number to begin with (if sequence is interrupted)
 
 Run fLocMINI using this command: 
 runme('okazaki_pilot_01_initials, 0, 3, 4, 1, start_run) % Edit if interrupted
@@ -18,7 +20,7 @@ runme('okazaki_pilot_01_initials, 0, 3, 4, 1, start_run) % Edit if interrupted
 
 20240129 MORNING
 runme('okazaki_multisite_20240129_DT', 0, 3, 6, 1): scanner B
-runme('okazaki_multisite_20240129_ST', 0, 3, 6, 1): scanner Bs
+runme('okazaki_multisite_20240129_ST', 0, 3, 6, 1): scanner B
 
 20240129 AFTERNOON
 runme('okazaki_multisite_20240129_TM_B', 0, 3, 6,1);  scanner B
@@ -51,6 +53,8 @@ Screen distance:
 Square inside screen: height: 31 cm ; width: 33 cm
 The CB are size is: height: 6 cm
 
+(This one needs to change because I measure it wrong! )
+
 VIENNA
 ------
 Screen resolution: 
@@ -80,69 +84,10 @@ Outside square: The phase scrambled are size is: h:421
 v:242mm
 
 
-
-
-
-=========
-= SCANS =
-=========
-
-OKAZAKI
-=======
-
-
-20240205 
-Takemura-san
-runme('okazaki_multisite_20240205_TH-JP_B', 0, 3, 6,1);  scanner B
-
-Lerma-san
-runme('okazaki_multisite_20240205_GL-EU_B', 0, 3, 6,1);  scanner B
-
-20240206
-Takemura-san
-runme('okazaki_multisite_20240206_TH-JP_B', 0, 3, 6,1);  scanner B
-
-Lerma-san
-runme('okazaki_multisite_20240206_GL-EU_B', 0, 3, 6,1);  scanner B
-
-
-20240130 AFTERNOON
-runme('okazaki_multisite_20240130_TK_B', 0, 3, 6,1);  scanner B
-runme('okazaki_multisite_20240130_TM_B', 0, 3, 6,1);  scanner B
-
-
-TAMAGAWA
-========
-20240221
---------
-runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
-runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
-runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
-
-20240222
---------
-runme('tamagawa_multisite_20240222_-JP', 0, 3, 6,1);
-runme('tamagawa_multisite_20240222_-ES', 0, 3, 6,1);
-
-
-BCBL
-========
-20240417
---------
-runme('bcbl_multisite_20240417_GL-ES', 0, 3, 6,1);
-runme('bcbl_TEST', 0, 3, 6,1);
-
-
-========
-20240909
---------
-runme_idenrun('bcbl_idenrun_5runs_GL-ES', 0, 3, 5, 1);
-
-
 ========
 20240911
 --------
-runme_idenrun('test_newseq', 0, 1, 5, 1);
+runvotcloc('test_newseq', 0, 1, 5, 1);
 ## the stimulus set is using first set, not things combined. 
 
 
@@ -162,8 +107,6 @@ shift+return:
 ctrl-c
 sca
 Screen('Close')
-
-
 
 
 Version 3.0 8/2017
@@ -212,9 +155,14 @@ if nargin < 5
         task_num = input('Which task? (1 = 1-back, 2 = 2-back, 3 = oddball) : ');
     end
 end
-
-% which run number to begin executing (default = 1)
 if nargin < 6
+    use_eyelink = -1;
+        while ~ismember(use_eyelink, 0:1)
+            use_eyelink = input('Use Eyetracker? (0 = no, 1 = yes) : ');
+        end
+end
+% which run number to begin executing (default = 1)
+if nargin < 7
     start_run = 1;
 end
 
@@ -223,7 +171,7 @@ end
 
 
 % setup fLocSession and save session information
-session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num);
+session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num, use_eyelink);
 session = load_seqs(session);
 session_dir = (fullfile(session.exp_dir, 'data', session.id));
 

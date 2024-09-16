@@ -134,14 +134,32 @@ runme('bcbl_TEST', 0, 3, 6,1);
 
 
 
+========
+20240909
+--------
+runme_idenrun('bcbl_idenrun_5runs_GL-ES', 0, 3, 5, 1);
 
 
+========
+20240911
+--------
+runme_idenrun('test_newseq', 0, 1, 5, 1);
+## the stimulus set is using first set, not things combined. 
 
+
+# To continue to next run
+BCBL
+========
+Ask participant to press red button which is number 4
+
+Then start the sequence on MRI MRI will pulse s to the prompt
 
 # To end the process: 
 cmd+0: to be in the command line
 shift+cmd+0: to go  back to the editor
 shift+return: 
+
+# to stop the experiment
 ctrl-c
 sca
 Screen('Close')
