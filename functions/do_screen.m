@@ -1,4 +1,4 @@
-function [w, center] = doScreen
+function [w, rect, center, screen_num] = doScreen
 % Opens a full-screen window, sets text properties, and hides the cursor.
 % Written by KGS Lab
 % Edited by AS 8/2014

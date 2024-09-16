@@ -1,4 +1,4 @@
-function [el, dummymode, edfFile]=init_eyelink(session)
+function [el, dummymode, edfFile]=init_eyelink(session,window,rect,screenNumber)
     %% STEP 1: INITIALIZE EYELINK CONNECTION; OPEN EDF FILE; GET EYELINK TRACKER VERSION
     
     % Initialize EyeLink connection (dummymode = 0) or run in "Dummy Mode" without an EyeLink connection (dummymode = 1);
@@ -102,7 +102,8 @@ function [el, dummymode, edfFile]=init_eyelink(session)
     
     % You must call this function to apply the changes made to the el structure above
     EyelinkUpdateDefaults(el);
-    
+    width = rect(3);
+    height = rect(4);
     % Set display coordinates for EyeLink data by entering left, top, right and bottom coordinates in screen pixels
     Eyelink('Command','screen_pixel_coords = %ld %ld %ld %ld', 0, 0, width-1, height-1);
     % Write DISPLAY_COORDS message to EDF file: sets display coordinates in DataViewer
@@ -130,6 +131,7 @@ function [el, dummymode, edfFile]=init_eyelink(session)
     
     % Allow a supported EyeLink Host PC button box to accept calibration or drift-check/correction targets via button 5
     Eyelink('Command', 'button_function 5 "accept_target_fixation"');
+    
     % Hide mouse cursor
     HideCursor(screenNumber);
     % Start listening for keyboard input. Suppress keypresses to Matlab windows.

@@ -18,6 +18,9 @@ classdef fLocSession_idenrun
         keyboard  % device number of native computer keyboard
         hit_cnt   % number of hits per run
         fa_cnt    % number of false alarms per run
+        el % eyelink initializer
+        edfFile % the eyelink log file
+        dummymode % if eyelink is connected or not
     end
     
     properties (Constant)
@@ -37,20 +40,20 @@ classdef fLocSession_idenrun
     properties (Dependent)
         id        % session-specific id string
         task_name % descriptor for each task number
-        el % eyelink initializer
+        %el % eyelink initializer
     end
     
     properties (Dependent, Hidden)
         hit_rate     % proportion of task probes detected in each run
         instructions % task-specific instructions for participant
-        dummymode % if eyelink is connected or not
-        edfFile % the eyelink log file
+        %dummymode % if eyelink is connected or not
+        %edfFile % the eyelink log file
     end
     
     methods
         
         % class constructor
-        % name='test_tlei'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;)
+        % name='test_tlei'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;)
         function session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num, use_eyelink)
             session.name = deblank(name);
             session.trigger = trigger;
@@ -157,53 +160,55 @@ classdef fLocSession_idenrun
             stim_dir = fullfile(session.exp_dir, 'stimuli');
             tcol = session.text_color; bcol = session.blank_color; fcol = session.fix_color;
             resp_keys = {}; resp_press = zeros(length(stim_names), 1);
-            % setup screen and load all stimuli in run
-            
-            [window_ptr, center] = do_screen;
-            center_x = center(1); center_y = center(2); s = session.stim_size / 2;
-            stim_rect = [center_x - s center_y - s center_x + s center_y + s];
-            img_ptrs = [];
-            for ii = 1:length(stim_names)
-                if strcmp(stim_names{ii}, 'baseline')
-                    img_ptrs(ii) = 0;
-                else
-                    cat_dir = stim_names{ii}(1:find(stim_names{ii} == '-') - 1);
-                    img = imread(fullfile(stim_dir, cat_dir, stim_names{ii}));
-                    img_ptrs(ii) = Screen('MakeTexture', window_ptr, img);
-                end
-            end
-            % start experiment triggering scanner if applicable
-            if session.trigger == 0
-                Screen('FillRect', window_ptr, bcol);
-                Screen('Flip', window_ptr);
-                DrawFormattedText(window_ptr, session.instructions, 'center', 'center', tcol);
-                Screen('Flip', window_ptr);
-                get_key('s', session.keyboard);
-            elseif session.trigger == 1
-                Screen('FillRect', window_ptr, bcol);
-                Screen('Flip', window_ptr);
-                DrawFormattedText(window_ptr, session.instructions, 'center', 'center', tcol); % 'flipHorizontal', 1);
-                Screen('Flip', window_ptr);
-                while 1
-                    get_key('s', session.keyboard);
-                    [status, ~] = start_scan;
-                    if status == 0
-                        break
-                    else
-                        message = 'Trigger failed.';
-                        DrawFormattedText(window_ptr, message, 'center', 'center', fcol);
-                        Screen('Flip', window_ptr);
-                    end
-                end
-            end
+
             %% if use eyelink, initialize eyelink and record things
             % if use_eyelink, start recording eyelink, otherwise, no
             if session.use_eyelink
-                [session.el,session.dummymode, session.edfFile]=init_eyelink(session) ;
+                % setup screen and load all stimuli in run
+                [window_ptr, rect, center,screen_num] = do_screen;
+                center_x = center(1); center_y = center(2); s = session.stim_size / 2;
+                stim_rect = [center_x - s center_y - s center_x + s center_y + s];
+                img_ptrs = [];
+                for ii = 1:length(stim_names)
+                    if strcmp(stim_names{ii}, 'baseline')
+                        img_ptrs(ii) = 0;
+                    else
+                        cat_dir = stim_names{ii}(1:find(stim_names{ii} == '-') - 1);
+                        img = imread(fullfile(stim_dir, cat_dir, stim_names{ii}));
+                        img_ptrs(ii) = Screen('MakeTexture', window_ptr, img);
+                    end
+                end
+
+                
+                [session.el,session.dummymode, session.edfFile]=init_eyelink(session,window_ptr,rect,screen_num) ;
                 disp("eyelink initialized ")
                 Eyelink('SetOfflineMode');% Put tracker in idle/offline mode before recording
                 Eyelink('StartRecording'); % Start tracker recording
                 
+                % start experiment triggering scanner if applicable
+                if session.trigger == 0
+                    Screen('FillRect', window_ptr, bcol);
+                    Screen('Flip', window_ptr);
+                    DrawFormattedText(window_ptr, session.instructions, 'center', 'center', tcol);
+                    Screen('Flip', window_ptr);
+                    get_key('s', session.keyboard);
+                elseif session.trigger == 1
+                    Screen('FillRect', window_ptr, bcol);
+                    Screen('Flip', window_ptr);
+                    DrawFormattedText(window_ptr, session.instructions, 'center', 'center', tcol); % 'flipHorizontal', 1);
+                    Screen('Flip', window_ptr);
+                    while 1
+                        get_key('s', session.keyboard);
+                        [status, ~] = start_scan;
+                        if status == 0
+                            break
+                        else
+                            message = 'Trigger failed.';
+                            DrawFormattedText(window_ptr, message, 'center', 'center', fcol);
+                            Screen('Flip', window_ptr);
+                        end
+                    end
+                end
                 % display countdown numbers
                 [cnt_time, rem_time] = deal(session.count_down + GetSecs);
                 cnt = session.count_down;
@@ -221,15 +226,15 @@ classdef fLocSession_idenrun
                     Eyelink('Command', 'record_status_message "TRIAL %d/%d"', ii, length(stim_names));
                     % display blank screen if baseline and image if stimulus
                     if strcmp(stim_names{ii}, 'baseline')
-                        [~, RtFixation]=Screen('FillRect', window_ptr, bcol);
+                        Screen('FillRect', window_ptr, bcol);
                         draw_fixation(window_ptr, center, fcol);
-                        Eyelink('Message', 'Fixation display: %d ms',round(RtFixation-start_time)*1000);
                     else
-                        [~, RtStart]=Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
+                        Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
                         draw_fixation(window_ptr, center, fcol);
-                        Eyelink('Message', 'Stimuli display: %d ms, %s',round((RtStart-start_time)*1000),stim_names{ii});
                     end
-                    Screen('Flip', window_ptr);
+                    [~, RtStart] = Screen('Flip', window_ptr);
+                    % Eyelink wrote file
+                    Eyelink('Message', 'Stimuli display: %d ms, %s',round((RtStart-start_time)*1000),stim_names{ii});
                     % collect responses
                     ii_press = []; ii_keys = [];
                     [keys, ie] = record_keys(start_time + (ii - 1) * sdc, stim_dur, k);
@@ -240,7 +245,9 @@ classdef fLocSession_idenrun
                         draw_fixation(window_ptr, center, fcol);
                         [keys, ie] = record_keys(start_time + (ii - 1) * sdc + stim_dur, isi_dur, k);
                         ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
-                        Screen('Flip', window_ptr);
+                        [~, RtStart2]=Screen('Flip', window_ptr);
+                        Eyelink('Message', 'Stimuli displayed222: %d ms, %s',round((RtStart2-start_time)*1000),stim_names{ii});
+                        Eyelink('Message', 'Stimuli duration check: %d ms, %s',round((RtStart2-RtStart)*1000),stim_names{ii});
                     end
                     resp_keys{ii} = ii_keys;
                     resp_press(ii) = min(ii_press);
@@ -249,6 +256,44 @@ classdef fLocSession_idenrun
             %% if don't use_eyelink, it's like before
             else
                 % main display loop
+                % setup screen and load all stimuli in run
+                [window_ptr, rect, center,screen_num] = do_screen;
+                center_x = center(1); center_y = center(2); s = session.stim_size / 2;
+                stim_rect = [center_x - s center_y - s center_x + s center_y + s];
+                img_ptrs = [];
+                for ii = 1:length(stim_names)
+                    if strcmp(stim_names{ii}, 'baseline')
+                        img_ptrs(ii) = 0;
+                    else
+                        cat_dir = stim_names{ii}(1:find(stim_names{ii} == '-') - 1);
+                        img = imread(fullfile(stim_dir, cat_dir, stim_names{ii}));
+                        img_ptrs(ii) = Screen('MakeTexture', window_ptr, img);
+                    end
+                end
+                % start experiment triggering scanner if applicable
+                if session.trigger == 0
+                    Screen('FillRect', window_ptr, bcol);
+                    Screen('Flip', window_ptr);
+                    DrawFormattedText(window_ptr, session.instructions, 'center', 'center', tcol);
+                    Screen('Flip', window_ptr);
+                    get_key('s', session.keyboard);
+                elseif session.trigger == 1
+                    Screen('FillRect', window_ptr, bcol);
+                    Screen('Flip', window_ptr);
+                    DrawFormattedText(window_ptr, session.instructions, 'center', 'center', tcol); % 'flipHorizontal', 1);
+                    Screen('Flip', window_ptr);
+                    while 1
+                        get_key('s', session.keyboard);
+                        [status, ~] = start_scan;
+                        if status == 0
+                            break
+                        else
+                            message = 'Trigger failed.';
+                            DrawFormattedText(window_ptr, message, 'center', 'center', fcol);
+                            Screen('Flip', window_ptr);
+                        end
+                    end
+                end
                 % display countdown numbers
                 [cnt_time, rem_time] = deal(session.count_down + GetSecs);
                 cnt = session.count_down;
@@ -289,13 +334,14 @@ classdef fLocSession_idenrun
             
             end
             if session.use_eyelink==1
+                height = rect(4);
                 Eyelink('StopRecording'); % Stop tracker recording
                 Eyelink('SetOfflineMode'); % Put tracker in idle/offline mode
                 Eyelink('Command', 'clear_screen 0'); % Clear Host PC backdrop graphics at the end of the experiment
                 WaitSecs(0.5); % Allow some time before closing and transferring file
                 Eyelink('CloseFile'); % Close EDF file on Host PC
                 % Transfer a copy of the EDF file to Display PC
-                transferFile; % See transferFile function below
+                transferFile(session, window_ptr,height); % See transferFile function below
             end
 
             % store responses
@@ -372,7 +418,7 @@ classdef fLocSession_idenrun
             end
         end
         % funciton to close EDF file
-        function transferFile(session)
+        function transferFile(session,window,height)
             try
                 if session.dummymode ==0 % If connected to EyeLink
                     % Show 'Receiving data file...' text until file transfer is complete
@@ -391,14 +437,15 @@ classdef fLocSession_idenrun
                     % % uses source file name but adds <dest> as directory path.
                     % newName = ['Test_',char(datetime('now','TimeZone','local','Format','y_M_d_HH_mm')),'.edf'];                
                     newName = [session.edfFile,'_',char(datetime('now','TimeZone','local')),'.edf'];  
-                    status = Eyelink('ReceiveFile', [], newName, 0);
+                    dst_dir = fullfile(session.exp_dir, 'data', session.id);
+                    status = Eyelink('ReceiveFile', [], fullfile(dst_dir,newName), 0);
                     
                     % Check if EDF file has been transferred successfully and print file size in Matlab's Command Window
                     if status > 0
                         fprintf('EDF file size: %.1f KB\n', status/1024); % Divide file size by 1024 to convert bytes to KB
                     end
                     % Print transferred EDF file path in Matlab's Command Window
-                    fprintf('Data file ''%s.edf'' can be found in ''%s''\n', session.edfFile, pwd);
+                    fprintf('Data file ''%s.edf'' can be found in ''%s''\n', session.edfFile, dst_dir);
                 else
                     fprintf('No EDF file saved in Dummy mode\n');
                 end
