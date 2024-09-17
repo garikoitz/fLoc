@@ -11,7 +11,7 @@ function b = get_box_num
 % 671 is tiger's bluetooth
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth keyboard
-box_id = 671; b = 0; d = PsychHID('Devices');
+box_id = 12; b = 0; d = PsychHID('Devices');
 for nn = 1:length(d)
     if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
         b = nn;
