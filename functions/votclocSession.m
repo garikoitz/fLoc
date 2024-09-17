@@ -1,11 +1,11 @@
-classdef fLocSession_idenrun
+classdef votclocSession
     
     properties
         name      % participant initials or id string
         date      % session date
         trigger   % option to trigger scanner (0 = no, 1 = yes)
         num_runs  % number of runs in experiment
-        sequence  % session fLocSequence object
+        sequence  % session votclocSequence object
         responses % behavioral response data structure
         parfiles  % paths to vistasoft-compatible parfiles
         use_eyelink % option to use eyelink in scanner (0 = no, 1 = yes)
@@ -53,8 +53,8 @@ classdef fLocSession_idenrun
     methods
         
         % class constructor
-        % name='test_0916'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;)
-        function session = fLocSession_idenrun(name, trigger, stim_set, num_runs, task_num, use_eyelink)
+        % name='test_0917_14'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;)
+        function session = votclocSession(name, trigger, stim_set, num_runs, task_num, use_eyelink)
             session.name = deblank(name);
             session.trigger = trigger;
             session.use_eyelink=use_eyelink;
@@ -109,11 +109,11 @@ classdef fLocSession_idenrun
         
         % define/load stimulus sequences for this session
         function session = load_seqs(session)
-            fname = [session.id '_fLocSequence.mat'];
+            fname = [session.id '_votclocSequence.mat'];
             fpath = fullfile(session.exp_dir, 'data', session.id, fname);
             % make stimulus sequences if not already defined for session
             if ~exist(fpath, 'file')
-                seq = fLocSequence_idenrun(session.stim_set, session.num_runs, session.task_num);
+                seq = votclocSequence(session.stim_set, session.num_runs, session.task_num);
                 seq = make_runs(seq);
                 mkdir(fileparts(fpath));
                 save(fpath, 'seq', '-v7.3');
@@ -152,7 +152,8 @@ classdef fLocSession_idenrun
         % execute a run of the experiment
         function session = run_exp(session, run_num)
             % get timing information and initialize response containers
-            session = find_inputs(session); k = session.input;
+            session = find_inputs(session); 
+            k = session.input;
             sdc = session.sequence.stim_duty_cycle;
             stim_dur = session.sequence.stim_dur;
             isi_dur = session.sequence.isi_dur;
@@ -160,26 +161,25 @@ classdef fLocSession_idenrun
             stim_dir = fullfile(session.exp_dir, 'stimuli');
             tcol = session.text_color; bcol = session.blank_color; fcol = session.fix_color;
             resp_keys = {}; resp_press = zeros(length(stim_names), 1);
-
-            %% if use eyelink, initialize eyelink and record things
-            % if use_eyelink, start recording eyelink, otherwise, no
-            if session.use_eyelink
-                % setup screen and load all stimuli in run
-                [window_ptr, rect, center,screen_num] = do_screen;
-                center_x = center(1); center_y = center(2); s = session.stim_size / 2;
-                stim_rect = [center_x - s center_y - s center_x + s center_y + s];
-                img_ptrs = [];
-                for ii = 1:length(stim_names)
-                    if strcmp(stim_names{ii}, 'baseline')
-                        img_ptrs(ii) = 0;
-                    else
-                        cat_dir = stim_names{ii}(1:find(stim_names{ii} == '-') - 1);
-                        img = imread(fullfile(stim_dir, cat_dir, stim_names{ii}));
-                        img_ptrs(ii) = Screen('MakeTexture', window_ptr, img);
-                    end
+            % setup screen and load all stimuli to textures in run
+            [window_ptr, rect, center,screen_num] = do_screen;
+            center_x = center(1); center_y = center(2); s = session.stim_size / 2;
+            stim_rect = [center_x - s center_y - s center_x + s center_y + s];
+            img_ptrs = [];
+            for ii = 1:length(stim_names)
+                if strcmp(stim_names{ii}, 'baseline')
+                    img_ptrs(ii) = 0;
+                else
+                    cat_dir = stim_names{ii}(1:find(stim_names{ii} == '-') - 1);
+                    img = imread(fullfile(stim_dir, cat_dir, stim_names{ii}));
+                    img_ptrs(ii) = Screen('MakeTexture', window_ptr, img);
                 end
+            end
 
-                
+
+            %% if use eyelink, initialize eyelink and record things 
+            % the following is a run we specified
+            if session.use_eyelink             
                 [session.el,session.dummymode, session.edfFile]=init_eyelink(session,window_ptr,rect,screen_num) ;
                 disp("eyelink initialized ")
                 Eyelink('SetOfflineMode');% Put tracker in idle/offline mode before recording
@@ -222,19 +222,27 @@ classdef fLocSession_idenrun
                 end
                 
                 start_time = GetSecs;
+                Eyelink('Command', 'Start of Run%d', run_num)
+                Eylink('Message', 'Start run')
                 for ii = 1:length(stim_names)
                     Eyelink('Command', 'record_status_message "TRIAL %d/%d"', ii, length(stim_names));
                     % display blank screen if baseline and image if stimulus
                     if strcmp(stim_names{ii}, 'baseline')
                         Screen('FillRect', window_ptr, bcol);
                         draw_fixation(window_ptr, center, fcol);
+                        [~, RtFixiation] = Screen('Flip', window_ptr);
+                        % Eyelink wrote event of baseline or fixation
+                        Eyelink('Message', 'Fixation')
+                        Eyelink('Message', 'Fixation display: %d ms, %s',round((RtFixiation-start_time)*1000), stim_names{ii});
                     else
                         Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
                         draw_fixation(window_ptr, center, fcol);
+                        [~, RtStart] = Screen('Flip', window_ptr);
+                        % Eyelink wrote event of stimuli
+                        Eyelink('Message', 'Stimuli display: %d ms, %s',round((RtStart-start_time)*1000),stim_names{ii});
                     end
-                    [~, RtStart] = Screen('Flip', window_ptr);
-                    % Eyelink wrote file
-                    Eyelink('Message', 'Stimuli display: %d ms, %s',round((RtStart-start_time)*1000),stim_names{ii});
+                    
+
                     % collect responses
                     ii_press = []; ii_keys = [];
                     [keys, ie] = record_keys(start_time + (ii - 1) * sdc, stim_dur, k);
@@ -245,14 +253,16 @@ classdef fLocSession_idenrun
                         draw_fixation(window_ptr, center, fcol);
                         [keys, ie] = record_keys(start_time + (ii - 1) * sdc + stim_dur, isi_dur, k);
                         ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
-                        [~, RtStart2]=Screen('Flip', window_ptr);
-                        Eyelink('Message', 'Stimuli displayed222: %d ms, %s',round((RtStart2-start_time)*1000),stim_names{ii});
-                        Eyelink('Message', 'Stimuli duration check: %d ms, %s',round((RtStart2-RtStart)*1000),stim_names{ii});
+                        [~, ttoc]=Screen('Flip', window_ptr);
                     end
+                    
+                    Eyelink('Message', 'Event finished: %d ms, %s',round((ttoc-start_time)*1000),stim_names{ii});                
                     resp_keys{ii} = ii_keys;
                     resp_press(ii) = min(ii_press);
-                    Eyelink('Message', 'End of experiment');
+                    
                 end
+                Eyelink('Command', 'End of Run%d', run_num);
+                Eyelink('Message', 'End of Run%d', run_num);
             %% if don't use_eyelink, it's like before
             else
                 % main display loop
@@ -405,7 +415,7 @@ classdef fLocSession_idenrun
                 block_conds = session.sequence.block_conds(:, rr);
                 cond_names = conds(block_conds + 1);
                 cond_cols = cols(block_conds + 1);
-                fname = [session.id '_fLoc_run' num2str(rr) '.par'];
+                fname = [session.id '_votcloc_run' num2str(rr) '.par'];
                 fpath = fullfile(session.exp_dir, 'data', session.id, fname);
                 fid = fopen(fpath, 'w');
                 for bb = 1:length(block_onsets)

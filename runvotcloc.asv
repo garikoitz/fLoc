@@ -190,6 +190,7 @@ num_of_stim=length(seq.stim_onsets);
 
 NORDIC_scans=1;
 dummy_scans=5;
+
 num_of_TR=num_of_stim/(TR/onset_dur)+NORDIC_scans+dummy_scans;
 
 script_TR=sprintf("########### \n Total volumns for this experiment is %i \n ########### \n", num_of_TR);

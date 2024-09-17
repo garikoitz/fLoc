@@ -1,4 +1,4 @@
-classdef fLocSequence_idenrun
+classdef votclocSequence
     
     properties
         num_runs    % number of runs in experiment
@@ -55,7 +55,7 @@ classdef fLocSequence_idenrun
     methods
         
         % class constructor
-        function seq = fLocSequence_idenrun(stim_set, num_runs, task_num)
+        function seq = votclocSequence(stim_set, num_runs, task_num)
             if nargin < 1
                 seq.stim_set = 3;
             else
@@ -82,7 +82,7 @@ classdef fLocSequence_idenrun
         function run_dur = get.run_dur(seq)
             block_dur = seq.stim_per_block * seq.stim_duty_cycle;
             % trials_per_cond
-            blocks_per_run = 1 + (1 + length(seq.stim_conds))*seq.trials_per_cond + 1;
+            blocks_per_run = 1 + (1 + length(seq.stim_conds))*seq.trials_per_cond+ 1;
             run_dur = block_dur * blocks_per_run;
         end
         
