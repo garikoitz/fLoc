@@ -95,7 +95,12 @@ runvotcloc('test_newseq', 0, 1, 5, 1);
 20240916
 --------
 runvotcloc('test_newname', 0, 1, 3, 1, 0);
-## the stimulus set is using first set, not things combined. 
+
+========
+20240917
+--------
+runvotcloc('test_eylink_msg01', 0, 1, 3, 1, 1);
+
 
 
 # To continue to next run
@@ -190,7 +195,7 @@ num_of_stim=length(seq.stim_onsets);
 
 NORDIC_scans=1;
 dummy_scans=5;
-num_of_TR=num_of_stim/(TR/onset_dur)+NORDIC_scans+dummy_scans;
+num_of_TR=round(num_of_stim/(TR/onset_dur))+NORDIC_scans+dummy_scans;
 
 script_TR=sprintf("########### \n Total volumns for this experiment is %i \n ########### \n", num_of_TR);
 disp(script_TR);
