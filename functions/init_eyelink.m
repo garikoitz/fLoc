@@ -112,7 +112,7 @@ function [el, dummymode, edfFile]=init_eyelink(session,window,rect,screenNumber)
     % Set number of calibration/validation dots and spread: horizontal-only(H) or horizontal-vertical(HV) as H3, HV3, HV5, HV9 or HV13
     Eyelink('Command', 'calibration_type = HV13'); % horizontal-vertical 13-points
     % Set the proportion area to calibrate
-    Eyelink('Command','calibration_area_proportion = 0.715 0.94')
+    Eyelink('Command','calibration_area_proportion = 0.715 0.715')
     
     %%%%%%%%%%%%%%%%% Uncomment following lines if area to calibrate must be defined
     %     Eyelink('command', 'generate_default_targets = NO');
