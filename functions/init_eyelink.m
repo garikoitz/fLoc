@@ -1,4 +1,4 @@
-function [el, dummymode, edfFile]=init_eyelink(session,window,rect,screenNumber)
+function [el, dummymode, edfFile]=init_eyelink(session,run_num,window,rect,screenNumber)
     %% STEP 1: INITIALIZE EYELINK CONNECTION; OPEN EDF FILE; GET EYELINK TRACKER VERSION
     
     % Initialize EyeLink connection (dummymode = 0) or run in "Dummy Mode" without an EyeLink connection (dummymode = 1);
@@ -14,23 +14,31 @@ function [el, dummymode, edfFile]=init_eyelink(session,window,rect,screenNumber)
         dummymode = 1;
     end
     
-    % Open dialog box for EyeLink Data file name entry. File name up to 8 characters
+    %{ 
+    %Open dialog box for EyeLink Data file name entry. File name up to 8 characters
     prompt = {'Enter EDF file name (up to 8 characters)'};
     dlg_title = 'Create EDF file';
     def = {'demo'}; % Create a default edf file name
     answer = inputdlg(prompt, dlg_title, 1, def); % Prompt for new EDF file name
+    
+ 
     % Print some text in Matlab's Command Window if a file name has not been entered
     if  isempty(answer)
         fprintf('Session cancelled by user\n')
         error('Session cancelled by user'); % Abort experiment (see cleanup function below)
     end
-    edfFile = answer{1}; % Save file name to a variable
+
+    %}
+    session_name=session.name(1:6);
+    new_name = sprintf('%sr%d', session_name, run_num);
+    edfFile = new_name; %answer{1}; % Save file name to a variable
     % Print some text in Matlab's Command Window if file name is longer than 8 characters
     if length(edfFile) > 8
         fprintf('Filename needs to be no more than 8 characters long (letters, numbers and underscores only)\n');
         error('Filename needs to be no more than 8 characters long (letters, numbers and underscores only)');
     end
     
+    %%
     % Open an EDF file and name it
     failOpen = Eyelink('OpenFile', edfFile);
     if failOpen ~= 0 % Abort if it fails to open
