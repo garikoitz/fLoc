@@ -103,6 +103,8 @@ runvotcloc('test_eylink_msg01', 0, 1, 3, 1, 1);
 
 
 runvotcloc('test_eylink_luo01', 0, 1, 10, 1, 1);
+
+runvotcloc('TLEI_test', 0, 1, 10, 1, 1)
 # To continue to next run
 BCBL
 ========

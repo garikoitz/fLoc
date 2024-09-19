@@ -180,8 +180,8 @@ classdef votclocSession
             %% if use eyelink, initialize eyelink and record things 
             % the following is a run we specified
             if session.use_eyelink             
-                [session.el,session.dummymode, session.edfFile]=init_eyelink(session,run_num,window_ptr,rect,screen_num) ;
-                disp("eyelink initialized ")
+                [session.el,session.dummymode, session.edfFile]=init_eyelink(session,run_num,window_ptr,rect,screen_num);
+                
                 Eyelink('SetOfflineMode');% Put tracker in idle/offline mode before recording
                 Eyelink('StartRecording'); % Start tracker recording
                 

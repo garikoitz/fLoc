@@ -149,4 +149,5 @@ function [el, dummymode, edfFile]=init_eyelink(session,run_num,window,rect,scree
     Screen('FillRect', window, el.backgroundcolour);
     % Put EyeLink Host PC in Camera Setup mode for participant setup/calibration
     EyelinkDoTrackerSetup(el);
+    disp("eyelink initialized ");
 end
