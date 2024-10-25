@@ -34,7 +34,7 @@ classdef fLocSequence
         % stim_set1 = {'body' 'chars' 'adult' 'instrument' 'corridor'};
         % stim_set2 = {'limb' 'numbers' 'child' 'car' 'house'};
         
-        stim_per_set = 72;
+        stim_per_set = 52; % 52 because CN I only create 52
         task_names = {'1back' '2back' 'oddball'};
         task_freq = 0.5;
     end

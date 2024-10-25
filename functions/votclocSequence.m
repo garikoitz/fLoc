@@ -34,7 +34,7 @@ classdef votclocSequence
         % stim_set1 = {'body' 'chars' 'adult' 'instrument' 'corridor'};
         % stim_set2 = {'limb' 'numbers' 'child' 'car' 'house'};
         trials_per_cond= 7;
-        stim_per_set = 134;
+        stim_per_set = 52; % because now for FF there are only 52
         task_names = {'1back' '2back' 'oddball'};
         task_freq = 0.5;
     end

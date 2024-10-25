@@ -106,6 +106,10 @@ runvotcloc('test_eylink_luo01', 0, 1, 10, 1, 1);
 
 runvotcloc('TLEI_test', 0, 1, 10, 1, 1)
 # To continue to next run
+20241025
+
+runvotcloc('iderun_testLUO', 0, 1, 6, 1, 1)
+
 BCBL
 ========
 Ask participant to press red button which is number 4
