@@ -105,10 +105,17 @@ runvotcloc('test_eylink_msg01', 0, 1, 3, 1, 1);
 runvotcloc('test_eylink_luo01', 0, 1, 10, 1, 1);
 
 runvotcloc('TLEI_test', 0, 1, 10, 1, 1)
-# To continue to next run
+========
 20241025
-
 runvotcloc('iderun_testLUO', 0, 1, 6, 1, 1)
+上次的note 不知道在哪了
+第二次重新进入的时候，有没有调整idrun的run数？
+========
+20241029
+runvotcloc('sprun_testLUO', 0, 3, 6, 1, 1)
+test sprun 6 run, equal to 3 complementary run, 
+also gonna test if eye_link works well
+
 
 BCBL
 ========
@@ -189,7 +196,7 @@ end
 
 
 % setup votclocSession and save session information
-session = votclocSession(name, trigger, stim_set, num_runs, task_num, use_eyelink);
+session = votclocSession_seprun(name, trigger, stim_set, num_runs, task_num, use_eyelink);
 session = load_seqs(session);
 session_dir = (fullfile(session.exp_dir, 'data', session.id));
 
@@ -201,7 +208,9 @@ num_of_stim=length(seq.stim_onsets);
 
 NORDIC_scans=1;
 dummy_scans=5;
-num_of_TR=round(num_of_stim/(TR/onset_dur))+NORDIC_scans+dummy_scans;
+%counter down is in sec
+count_down=session.count_down; 
+num_of_TR=dummy_scans+count_down/TR-dummy_scans+round(num_of_stim/(TR/onset_dur))+NORDIC_scans;
 
 script_TR=sprintf("########### \n Total volumns for this experiment is %i \n ########### \n", num_of_TR);
 disp(script_TR);

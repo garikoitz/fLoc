@@ -8,7 +8,6 @@ function b = get_box_num
 % change to productID number of local button box
 % box_id 12 is for BCBL /the response box
 % 834 is tiger's MAC
-% 671 is tiger's bluetooth
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth keyboard
 box_id = 12; b = 0; d = PsychHID('Devices');
