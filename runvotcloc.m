@@ -1,18 +1,19 @@
-function runvotcloc(name, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
+function runvotcloc(name, lang,trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
 %{ 
 Prompts experimenter for session parameters and executes functional localizer experiment used 
 to define regions in high-level visual cortex selective to faces, places, bodies, and printed characters.
 
 Inputs (optional):
   1) name -- session-specific identifier (e.g., particpant's initials)
-  2) trigger -- option to trigger scanner (0 = no, 1 = yes)
-  3) stim_set -- stimulus set (1 = standard, 2 = alternate, 3 = both) % for
+  2) language -- language of the participant (e.g., CN, ES, JP, AT, FR, IT)
+  3) trigger -- option to trigger scanner (0 = no, 1 = yes)
+  4) stim_set -- stimulus set (1 = standard, 2 = alternate, 3 = both) % for
   VOTCLOC we will always use 1. because we already combine Faces catagory
   and Limbs catagory into a big stimulus set
-  4) num_runs -- number of runs (stimuli repeat after 2 runs/set)
-  5) task_num -- which task (1 = 1-back, 2 = 2-back, 3 = oddball)
-  6) use_eyelink -- options to use eyelink (0 = no, 1 = yes )
-  7) start_run -- run number to begin with (if sequence is interrupted)
+  5) num_runs -- number of runs (stimuli repeat after 2 runs/set)
+  6) task_num -- which task (1 = 1-back, 2 = 2-back, 3 = oddball)
+  7) use_eyelink -- options to use eyelink (0 = no, 1 = yes )
+  8) start_run -- run number to begin with (if sequence is interrupted)
 
 Run fLocMINI using this command: 
 runme('okazaki_pilot_01_initials, 0, 3, 4, 1, start_run) % Edit if interrupted
@@ -116,6 +117,11 @@ runvotcloc('sprun_testLUO', 0, 3, 6, 1, 1)
 test sprun 6 run, equal to 3 complementary run, 
 also gonna test if eye_link works well
 
+========
+20241111
+New FEATURE BCBL: I add lang to the runvotcloc parametes, from now on there
+will be 8 parameters
+
 
 BCBL
 ========
@@ -134,9 +140,10 @@ sca
 Screen('Close')
 
 
-Version 3.0 8/2017
-Anthony Stigliani (astiglia@stanford.edu)
-Department of Psychology, Stanford University
+Version 0.0.2/2024
+Yongning Lei (t.lei@bcbl.eu)
+Basque Center on Cognition Brain and Language
+Was derived from Anthony Stigliani (astiglia@stanford.edu)
 %}
 
 %% add paths and check inputs
@@ -149,8 +156,15 @@ if nargin < 1
     end
 end
 
+% session lang
+if nargin < 3
+    lang = [];
+    while isempty(deblank(lang))
+        lang = input('Testing language : ', 's');
+    end
+end
 % option to trigger scanner
-if nargin < 2
+if nargin < 3
     trigger = -1;
     while ~ismember(trigger, 0:1)
         trigger = input('Trigger scanner? (0 = no, 1 = yes) : ');
@@ -158,7 +172,7 @@ if nargin < 2
 end
 
 % which stimulus set/s to use
-if nargin < 3
+if nargin < 4
     stim_set = -1;
     while ~ismember(stim_set, 1:3)
         stim_set = input('Which stimulus set? (1 = standard, 2 = alternate, 3 = both) : ');
@@ -166,7 +180,7 @@ if nargin < 3
 end
 
 % number of runs to generate
-if nargin < 4
+if nargin < 5
     num_runs = -1;
     while ~ismember(num_runs, 1:24)
         num_runs = input('How many runs? : ');
@@ -174,20 +188,20 @@ if nargin < 4
 end
 
 % which task to use
-if nargin < 5
+if nargin < 6
     task_num = -1;
     while ~ismember(task_num, 1:3)
         task_num = input('Which task? (1 = 1-back, 2 = 2-back, 3 = oddball) : ');
     end
 end
-if nargin < 6
+if nargin < 7
     use_eyelink = -1;
         while ~ismember(use_eyelink, 0:1)
             use_eyelink = input('Use Eyetracker? (0 = no, 1 = yes) : ');
         end
 end
 % which run number to begin executing (default = 1)
-if nargin < 7
+if nargin < 8
     start_run = 1;
 end
 
@@ -196,7 +210,7 @@ end
 
 
 % setup votclocSession and save session information
-session = votclocSession_seprun(name, trigger, stim_set, num_runs, task_num, use_eyelink);
+session = votclocSession(name, lang, trigger ,stim_set, num_runs, task_num, use_eyelink);
 session = load_seqs(session);
 session_dir = (fullfile(session.exp_dir, 'data', session.id));
 

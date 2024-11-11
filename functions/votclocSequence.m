@@ -1,6 +1,7 @@
 classdef votclocSequence
     
     properties
+        lang        % stimulus langauge
         num_runs    % number of runs in experiment
         stim_onsets % onset times of each stimulus in a run
         stim_names  % sequence of stimulus filenames
@@ -28,7 +29,7 @@ classdef votclocSequence
         % stim_set1 = {'body' 'EU_word1' 'adult' 'EU_FF1' 'EU_CB1'};
         % stim_set2 = {'limb' 'EU_word2' 'child' 'EU_CS1' 'EU_SC1'};
         % ES
-        stim_set1 = {'bodylimb' 'CN_RW' 'face' 'CN_FF' 'CN_CS' 'CN_SC'};
+        % stim_set1 = {'bodylimb' '_RW' 'face' 'ES_FF' 'ES_CS' 'ES_SC'};
         % stim_set2 = {'limb' 'ES_word' 'child' 'ES_CS' 'ES_SC'};
 
         % stim_set1 = {'body' 'chars' 'adult' 'instrument' 'corridor'};
@@ -47,27 +48,33 @@ classdef votclocSequence
     end
     
     properties (Dependent, Hidden)
+        stim_set1  % dynamically generate stimulus set based on lang
         num_conds % number of conditions in experiment
         run_sets  % stimulus set used in each run
-        % stim_per_set % total number of stimuli used in each set in each run  
+        
     end
     
     methods
-        
+         
         % class constructor
-        function seq = votclocSequence(stim_set, num_runs, task_num)
+        function seq = votclocSequence(lang, stim_set, num_runs, task_num)
             if nargin < 1
-                seq.stim_set = 3;
+                seq.lang = 'ES';
+            else
+                seq.lang=lang;
+            end
+            if nargin < 2
+                seq.stim_set = 1;
             else
                 seq.stim_set = stim_set;
             end
-            if nargin < 2
-                seq.num_runs = 4;
+            if nargin < 3
+                seq.num_runs = 5;
             else
                 seq.num_runs = num_runs;
             end
-            if nargin < 3
-                seq.task_num = 3;
+            if nargin < 4
+                seq.task_num = 1;
             else
                 seq.task_num = task_num;
             end
@@ -122,6 +129,17 @@ classdef votclocSequence
             end
         end
         
+        % dynamically generate stimulus set based on lang
+        function stim_set1 = get.stim_set1(seq)
+            stim_set1= {...
+                'bodylimb' ...
+                sprintf('%s_word',seq.lang) ...
+                'face' ...
+                sprintf('%s_FF',seq.lang) ...
+                sprintf('%s_CS',seq.lang) ...
+                sprintf('%s_SC',seq.lang) ...
+                };
+        end
         % get total number of stim of one set in each run
         %{
         function stim_per_set = get.stim_per_set(seq)

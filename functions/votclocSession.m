@@ -3,6 +3,7 @@ classdef votclocSession
     properties
         name      % participant initials or id string
         date      % session date
+        lang      % language of the word stimulus
         trigger   % option to trigger scanner (0 = no, 1 = yes)
         num_runs  % number of runs in experiment
         sequence  % session votclocSequence object
@@ -40,22 +41,20 @@ classdef votclocSession
     properties (Dependent)
         id        % session-specific id string
         task_name % descriptor for each task number
-        %el % eyelink initializer
     end
     
     properties (Dependent, Hidden)
         hit_rate     % proportion of task probes detected in each run
         instructions % task-specific instructions for participant
-        %dummymode % if eyelink is connected or not
-        %edfFile % the eyelink log file
     end
     
     methods
-        
+   
         % class constructor
-        % name='test_0917_14'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;)
-        function session = votclocSession(name, trigger, stim_set, num_runs, task_num, use_eyelink)
+        % name='test_0917_14'; lang = 'JP'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;)
+        function session = votclocSession(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink)
             session.name = deblank(name);
+            session.lang = lang;
             session.trigger = trigger;
             session.use_eyelink=use_eyelink;
             if nargin < 3
@@ -64,12 +63,12 @@ classdef votclocSession
                 session.stim_set = stim_set;
             end
             if nargin < 4
-                session.num_runs = 4;
+                session.num_runs = 5;
             else
                 session.num_runs = num_runs;
             end
             if nargin < 5
-                session.task_num = 3;
+                session.task_num = 1;
             else
                 session.task_num = task_num;
             end
@@ -80,7 +79,7 @@ classdef votclocSession
         
         % get session-specific id string
         function id = get.id(session)
-            par_str = [session.name '_' session.date];
+            par_str = [session.name '_sca' session.lang '_' session.date];
             exp_str = [session.task_name '_' num2str(session.num_runs) 'runs'];
             id = [par_str '_' exp_str];
         end
@@ -113,7 +112,7 @@ classdef votclocSession
             fpath = fullfile(session.exp_dir, 'data', session.id, fname);
             % make stimulus sequences if not already defined for session
             if ~exist(fpath, 'file')
-                seq = votclocSequence(session.stim_set, session.num_runs, session.task_num);
+                seq = votclocSequence(session.lang, session.stim_set, session.num_runs, session.task_num);
                 seq = make_runs(seq);
                 mkdir(fileparts(fpath));
                 save(fpath, 'seq', '-v7.3');
