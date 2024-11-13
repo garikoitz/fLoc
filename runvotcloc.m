@@ -122,6 +122,10 @@ also gonna test if eye_link works well
 New FEATURE BCBL: I add lang to the runvotcloc parametes, from now on there
 will be 8 parameters
 
+========
+20241113
+scan Jessi testing
+runvotcloc('Jessi_ES','ES',0,1,5,1,1)
 
 BCBL
 ========
@@ -240,6 +244,8 @@ fname = [session.id '_votclocSession.mat'];
 fpath = fullfile(session.exp_dir, 'data', session.id, fname);
 
 for rr = start_run:num_runs
+    script_startrun=sprintf("########### The current run is %i ########### \n", rr);
+    disp(script_startrun);
     session = run_exp(session, rr);
     save(fpath, 'session', '-v7.3');
 end
