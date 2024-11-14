@@ -126,7 +126,10 @@ will be 8 parameters
 20241113
 scan Jessi testing
 runvotcloc('Jessi_ES','ES',0,1,5,1,1)
-
+========
+20241114
+scan Daiki multisite
+runvotcloc('Daiki_multisite','JP',0,1,10,1,1)
 BCBL
 ========
 Ask participant to press red button which is number 4
