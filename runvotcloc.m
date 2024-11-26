@@ -1,4 +1,4 @@
-function runvotcloc(name, lang,trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
+function runvotcloc(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
 %{ 
 Prompts experimenter for session parameters and executes functional localizer experiment used 
 to define regions in high-level visual cortex selective to faces, places, bodies, and printed characters.
