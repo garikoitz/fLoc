@@ -11,7 +11,7 @@ function k = get_keyboard_num
 % 834 is tiger's MAC
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth
-keyboard_id = 834; k = 0; d = PsychHID('Devices');
+keyboard_id = 257; k = 0; d = PsychHID('Devices');
 for nn = 1:length(d)
     if (d(nn).productID == keyboard_id) && strcmp(d(nn).usageName, 'Keyboard');
         k = nn;
