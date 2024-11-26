@@ -130,6 +130,16 @@ runvotcloc('Jessi_ES','ES',0,1,5,1,1)
 20241114
 scan Daiki multisite
 runvotcloc('Daiki_multisite','JP',0,1,10,1,1)
+
+========
+20241126
+scan VOTCLOC ses-001
+problems: name needs to be greater than 6 items, because Eyelink get names
+is hardcoded
+runnum if it is 10, then the total length will exceeded 8 characters and
+eyelink will not working
+
+runvotcloc('sub3s01','IT',0,1,10,1,1)
 BCBL
 ========
 Ask participant to press red button which is number 4
@@ -231,7 +241,7 @@ NORDIC_scans=1;
 dummy_scans=5;
 %counter down is in sec
 count_down=session.count_down; 
-num_of_TR=dummy_scans+count_down/TR-dummy_scans+round(num_of_stim/(TR/onset_dur))+NORDIC_scans;
+num_of_TR=dummy_scans+count_down/TR-dummy_scans+round(num_of_stim/(TR/onset_dur));
 
 script_TR=sprintf("########### \n Total volumns for this experiment is %i \n ########### \n", num_of_TR);
 disp(script_TR);
