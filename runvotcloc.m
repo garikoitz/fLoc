@@ -133,15 +133,34 @@ runvotcloc('Daiki_multisite','JP',0,1,10,1,1)
 
 ========
 20241126
-scan VOTCLOC ses-001
-problems: name needs to be greater than 6 items, because Eyelink get names
-is hardcoded
-runnum if it is 10, then the total length will exceeded 8 characters and
-eyelink will not working
-
+scan VOTCLOC sub-03_ses-01
 runvotcloc('sub3s01','IT',0,1,10,1,1)
+
+========
+20241128
+scan VOTCLOC sub-08_ses-01
+runvotcloc('S8_s1_sub-08_ses-01','IT',0,1,10,1,1)
+
+========
+20241129
+scan VOTCLOC sub-01_ses-01
+runvotcloc('S1_s1_sub-01_ses-01','ES',0,1,10,1,1)
+
+========
+20241129
+scan VOTCLOC sub-06_ses-01
+runvotcloc('S6_s1_sub-06_ses-01','FR',0,1,10,1,1);
 BCBL
 ========
+****
+For the eyetracker, it will take the first 5 elements of the subject name
+you input, so try to give all the info within 5 elements, and then put the
+note after
+sub-01_ses-01_Language_IT  etc
+you can do: s1_1
+if it is sub10 put SX_sX
+****
+
 Ask participant to press red button which is number 4
 
 Then start the sequence on MRI MRI will pulse s to the prompt

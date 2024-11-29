@@ -29,8 +29,8 @@ function [el, dummymode, edfFile]=init_eyelink(session,run_num,window,rect,scree
     end
 
     %}
-    session_name=session.name(1:6);
-    new_name = sprintf('%sr%d', session_name, run_num);
+    session_name=session.name(1:5);
+    new_name = sprintf('%s_%d', session_name, run_num);
     edfFile = new_name; %answer{1}; % Save file name to a variable
     % Print some text in Matlab's Command Window if file name is longer than 8 characters
     if length(edfFile) > 8
