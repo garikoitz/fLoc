@@ -147,9 +147,9 @@ scan VOTCLOC sub-01_ses-01
 runvotcloc('S1_s1_sub-01_ses-01','ES',0,1,10,1,1)
 
 ========
-20241129
-scan VOTCLOC sub-06_ses-01
-runvotcloc('S6_s1_sub-06_ses-01','FR',0,1,10,1,1);
+20241203
+scan VOTCLOC sub-04_ses-01
+runvotcloc('S4_s1_sub-06_ses-01','AT',0,1,10,1,1);
 BCBL
 ========
 ****
@@ -260,7 +260,7 @@ NORDIC_scans=1;
 dummy_scans=5;
 %counter down is in sec
 count_down=session.count_down; 
-num_of_TR=dummy_scans+count_down/TR-dummy_scans+round(num_of_stim/(TR/onset_dur));
+num_of_TR=dummy_scans+count_down/TR-dummy_scans+round(num_of_stim/(TR/onset_dur))+NORDIC_scans;
 
 script_TR=sprintf("########### \n Total volumns for this experiment is %i \n ########### \n", num_of_TR);
 disp(script_TR);
