@@ -150,8 +150,24 @@ runvotcloc('S1_s1_sub-01_ses-01','ES',0,1,10,1,1)
 20241203
 scan VOTCLOC sub-04_ses-01
 runvotcloc('S4_s1_sub-06_ses-01','AT',0,1,10,1,1);
+
+========
+20241203
+scan VOTCLOC sub-03_ses-02
+runvotcloc('S3_s2_sub-03_ses-02','IT',0,1,10,1,1)
+
+
+
+
+
+#####
+
+
+
+
 BCBL
 ========
+
 ****
 For the eyetracker, it will take the first 5 elements of the subject name
 you input, so try to give all the info within 5 elements, and then put the
