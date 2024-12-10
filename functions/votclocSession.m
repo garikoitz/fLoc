@@ -9,6 +9,7 @@ classdef votclocSession
         sequence  % session votclocSequence object
         responses % behavioral response data structure
         parfiles  % paths to vistasoft-compatible parfiles
+        event     % paths to event.tsv
         use_eyelink % option to use eyelink in scanner (0 = no, 1 = yes)
     end
     
@@ -79,7 +80,8 @@ classdef votclocSession
         
         % get session-specific id string
         function id = get.id(session)
-            par_str = [session.name  '_' session.date '_' session.lang];
+            parts = split(session.name,'_');
+            par_str = [parts{3}  '_' parts{4} '_taskfLoc_' session.date '_' session.lang];
             exp_str = [session.task_name '_' num2str(session.num_runs) 'runs'];
             id = [par_str '_' exp_str];
         end
@@ -427,6 +429,33 @@ classdef votclocSession
                 session.parfiles{rr} = fpath;
             end
         end
+        % write vistasoft-compatible parfile for each run
+        function session = write_event_tsv(session)
+            disp('Start to writing event_tsv files');
+            session.event = cell(1, session.num_runs);
+            % list of conditions and plotting colors
+            conds = ['Baseline' session.sequence.stim_conds];
+            stim_cat = ['baseline' session.sequence.stim_set1];
+            duration= session.sequence.stim_per_block*session.sequence.stim_duty_cycle;
+            %cols = {[1 1 1] [0 0 1] [0 0 0] [1 0 0] [.8 .8 0] [0 1 0]};
+            % write information about each block on a separate line
+            for rr = 1:session.num_runs
+                block_onsets = session.sequence.block_onsets(:, rr);
+                block_conds = session.sequence.block_conds(:, rr);
+                cond_names = stim_cat(block_conds + 1);
+                %cond_cols = cols(block_conds + 1);
+                parts_id=split(session.id, '_');
+                fname = [parts_id{1}  '_' parts_id{2} '_' parts_id{3} '_run-' num2str(rr, '%02d') '_events.tsv'];
+                fpath = fullfile(session.exp_dir, 'data', session.id, fname);
+                fid = fopen(fpath, 'w');
+                fprintf(fid, 'onset\tduration\ttrial_type\n');
+                for bb = 1:length(block_onsets)
+                    fprintf(fid, '%.2f\t%d\t%s\n', block_onsets(bb), duration, cond_names{bb});
+                end
+                fclose(fid);
+                session.event{rr} = fpath;
+            end
+        end        
         % funciton to close EDF file
         function transferFile(session,window,height)
             try
