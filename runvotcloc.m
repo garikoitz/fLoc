@@ -158,8 +158,20 @@ runvotcloc('S3_s2_sub-03_ses-02','IT',0,1,10,1,1)
 
 
 
+========
+20241204
+scan VOTCLOC sub-05_ses-01
+runvotcloc('S5_s1_sub-05_ses-01','ES',0,1,10,1,1)
 
+========
+20241205
+scan VOTCLOC sub-08_ses-02
+runvotcloc('S8_s2_sub-08_ses-02','IT',0,1,10,1,1)
 
+========
+20241205
+scan VOTCLOC sub-06_ses-02
+runvotcloc('S6_s2_sub-06_ses-02','FR',0,1,10,1,1)
 #####
 
 
