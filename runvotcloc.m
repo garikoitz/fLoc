@@ -169,9 +169,15 @@ scan VOTCLOC sub-08_ses-02
 runvotcloc('S8_s2_sub-08_ses-02','IT',0,1,10,1,1)
 
 ========
-20241205
+20241209
 scan VOTCLOC sub-06_ses-02
 runvotcloc('S6_s2_sub-06_ses-02','FR',0,1,10,1,1)
+#####
+
+========
+20241210
+scan VOTCLOC sub-03_ses-03
+runvotcloc('S3_s3_sub-03_ses-03','IT',0,1,10,1,1)
 #####
 
 
@@ -309,6 +315,6 @@ for rr = start_run:num_runs
     session = run_exp(session, rr);
     save(fpath, 'session', '-v7.3');
 end
-%write_parfiles(session);
+write_parfiles(session);
 write_event_tsv(session);
 end
