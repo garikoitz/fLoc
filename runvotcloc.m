@@ -181,6 +181,21 @@ runvotcloc('S3_s3_sub-03_ses-03','IT',0,1,10,1,1)
 #####
 
 
+========
+20241211   % this name here is wrong careful
+scan VOTCLOC sub-04_ses-02
+runvotcloc('S4_s1_sub-06_ses-02','AT',0,1,10,1,1);
+
+========
+20241219
+scan VOTCLOC sub-03_ses-04
+runvotcloc('S3_s4_sub-03_ses-04','IT',0,1,10,1,1)
+#####
+========
+20241220
+scan VOTCLOC sub-08_ses-03
+runvotcloc('S8_s3_sub-08_ses-03','IT',0,1,10,1,1);
+#####
 
 
 BCBL
@@ -315,6 +330,6 @@ for rr = start_run:num_runs
     session = run_exp(session, rr);
     save(fpath, 'session', '-v7.3');
 end
-write_parfiles(session);
+%write_parfiles(session);
 write_event_tsv(session);
 end
