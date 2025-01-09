@@ -227,20 +227,21 @@ classdef votclocSession
                 Eyelink('Message', 'Start run');
                 for ii = 1:length(stim_names)
                     Eyelink('Command', 'record_status_message "TRIAL %d/%d"', ii, length(stim_names));
+                    Eyelink('Message', 'Trail num: %d/%d"', ii, length(stim_names));
                     % display blank screen if baseline and image if stimulus
                     if strcmp(stim_names{ii}, 'baseline')
                         Screen('FillRect', window_ptr, bcol);
                         draw_fixation(window_ptr, center, fcol);
                         [~, RtFixiation] = Screen('Flip', window_ptr);
                         % Eyelink wrote event of baseline or fixation
-                        Eyelink('Message', 'Fixation')
+                        Eyelink('Message', 'Fixation, Trail num: %d', ii);
                         Eyelink('Message', 'Fixation onset time: %d ms, %s',round((RtFixiation-start_time)*1000), stim_names{ii});
                     else
                         Screen('DrawTexture', window_ptr, img_ptrs(ii), [], stim_rect);
                         draw_fixation(window_ptr, center, fcol);
                         [~, RtStart] = Screen('Flip', window_ptr);
                         % Eyelink wrote event of stimuli
-                        Eyelink('Message', 'Stimuli')
+                        Eyelink('Message', 'Stimuli, Trail num: %d', ii);
                         Eyelink('Message', 'Stimuli onset time: %d ms, stimulus name: %s',round((RtStart-start_time)*1000),stim_names{ii});
                     end
                     
@@ -257,8 +258,12 @@ classdef votclocSession
                         ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
                         [~, ttoc]=Screen('Flip', window_ptr);
                     end
-                    
-                    Eyelink('Message', 'Event finished. Finishing time %d ms, Event name: %s',round((ttoc-start_time)*1000),stim_names{ii});                
+                    if strcmp(stim_names{ii}, 'baseline')
+                        Eyelink('Message', 'Fixation offset. Finishing time %d ms, name: %s',round((ttoc-start_time)*1000),stim_names{ii});
+                    else
+                        Eyelink('Message', 'Stimuli finished. Finishing time %d ms, name: %s',round((ttoc-start_time)*1000),stim_names{ii});
+                    end                    
+                    Eyelink('Message', 'Event finished. Finishing time %d ms, Event name: %s',round((ttoc-start_time)*1000),stim_names{ii});                   
                     resp_keys{ii} = ii_keys;
                     resp_press(ii) = min(ii_press);
                     
