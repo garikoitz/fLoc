@@ -52,7 +52,7 @@ classdef votclocSession
     methods
    
         % class constructor
-        % name='test_0917_14'; lang = 'JP'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;
+        % name='EHCresp_0109'; lang = 'ES'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;
         function session = votclocSession(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink)
             session.name = deblank(name);
             session.lang = lang;
@@ -258,14 +258,15 @@ classdef votclocSession
                         ii_keys = [ii_keys keys]; ii_press = [ii_press ie];
                         [~, ttoc]=Screen('Flip', window_ptr);
                     end
+                    resp_keys{ii} = ii_keys;
+                    resp_press(ii) = min(ii_press);                    
                     if strcmp(stim_names{ii}, 'baseline')
                         Eyelink('Message', 'Fixation offset. Finishing time %d ms, name: %s',round((ttoc-start_time)*1000),stim_names{ii});
                     else
                         Eyelink('Message', 'Stimuli finished. Finishing time %d ms, name: %s',round((ttoc-start_time)*1000),stim_names{ii});
                     end                    
                     Eyelink('Message', 'Event finished. Finishing time %d ms, Event name: %s',round((ttoc-start_time)*1000),stim_names{ii});                   
-                    resp_keys{ii} = ii_keys;
-                    resp_press(ii) = min(ii_press);
+
                     
                 end
                 Eyelink('Command', 'End of Run%d', run_num);

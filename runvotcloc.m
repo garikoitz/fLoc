@@ -197,6 +197,62 @@ scan VOTCLOC sub-08_ses-03
 runvotcloc('S8_s3_sub-08_ses-03','IT',0,1,10,1,1);
 #####
 
+========
+20250109
+scan VOTCLOC sub-05_ses-01
+runvotcloc('S5_s1_sub-05_ses-01','ES',0,1,10,1,1);
+#####
+
+========
+20250110
+scan VOTCLOC sub-04_ses-02
+runvotcloc('S4_s2_sub-04_ses-02','AT',0,1,10,1,1);
+#####
+
+========
+20250112
+scan VOTCLOC sub-05_ses-02
+runvotcloc('S5_s2_sub-05_ses-02','ES',0,1,10,1,1);
+#####
+
+========
+20250113
+scan VOTCLOC sub-08_ses-02
+runvotcloc('S8_s2_sub-08_ses-02','IT',0,1,10,1,1);
+#####
+========
+20250114
+scan VOTCLOC sub-01_ses-01
+runvotcloc('S1_s1_sub-01_ses-01','ES',0,1,10,1,1);
+#####
+========
+20250114
+scan VOTCLOC sub-03_ses-02
+runvotcloc('S3_s2_sub-03_ses-02','IT',0,1,10,1,1);
+#####
+
+========
+202501xx alexia
+scan VOTCLOC sub-99_ses-t
+runvotcloc('S9_st_sub-99_ses-t','AT',0,1,10,1,1);
+#####
+
+========
+20250116
+scan VOTCLOC sub-04_ses-03
+runvotcloc('S4_s3_sub-04_ses-03','AT',0,1,10,1,1);
+#####
+========
+20250117
+scan VOTCLOC sub-01_ses-02
+runvotcloc('S1_s2_sub-01_ses-02','ES',0,1,10,1,1);
+#####
+
+========
+20250117
+scan VOTCLOC sub-03_ses-03
+runvotcloc('S3_s3_sub-03_ses-03','IT',0,1,10,1,1);
+#####
 
 BCBL
 ========
