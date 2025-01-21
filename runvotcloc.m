@@ -254,6 +254,12 @@ scan VOTCLOC sub-03_ses-03
 runvotcloc('S3_s3_sub-03_ses-03','IT',0,1,10,1,1);
 #####
 
+========
+20250117
+test the task probe thing, to see if it can get all the keys
+runvotcloc('S3t_st_test_task_probes','IT',0,1,10,1,0);
+#####
+
 BCBL
 ========
 
