@@ -7,17 +7,29 @@ function k = get_keyboard_num
 
 % change to productID number of native keyboard
 % trigger box is identified as keyboard and it is 257 / the one sending s
+% trigger box locationID is 34280832
 % the real keyboard BCBL is 545
 % 834 is tiger's MAC
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth
 keyboard_id = 257; k = 0; d = PsychHID('Devices');
-for nn = 1:length(d)
-    if (d(nn).productID == keyboard_id) && strcmp(d(nn).usageName, 'Keyboard');
-        k = nn;
-        break
+
+if keyboard_id == 257
+    disp('S-key is being specified')
+    locationID = 34680832;
+    for nn = 1:length(d)
+        if (d(nn).productID == keyboard_id) && (d(nn).locationID == locationID) && strcmp(d(nn).usageName, 'Keyboard');
+            k = nn;
+            break
+        end
     end
-end
+else
+    for nn = 1:length(d)
+        if (d(nn).productID == keyboard_id) && (strcmp(d(nn).usageName, 'Keyboard'))
+            k = nn;
+        end
+    end
+end 
 if k == 0
     fprintf('\nKeyboard not found.\n');
 end

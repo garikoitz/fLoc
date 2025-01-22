@@ -7,16 +7,36 @@ function b = get_box_num
 
 % change to productID number of local button box
 % box_id 12 is for BCBL /the response box
+% another_box_id is 257, the same as s-key box
+% the location ID is: locationID=34680832;
 % 834 is tiger's MAC
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth keyboard
 % 545 is bcbl mac keyboard
 box_id = 12; b = 0; d = PsychHID('Devices');
-for nn = 1:length(d)
-    if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
-        b = nn;
+
+if box_id==257
+    locationID=34684928;
+    for nn = 1:length(d)
+        if (d(nn).productID == box_id) && (d(nn).locationID == locationID) && strcmp(d(nn).usageName, 'Keyboard');
+            b = nn;
+            break
+        end
     end
-end
+elseif box_id==12
+    for nn = 1:length(d)
+        if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Mouse'))
+            b = nn;
+        end
+    end
+else
+    for nn = 1:length(d)
+        if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
+            b = nn;
+        end
+    end
+end 
+
 if b == 0
     fprintf('\nButton box not found.\n');
 end
