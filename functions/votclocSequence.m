@@ -4,7 +4,7 @@ classdef votclocSequence
         lang        % stimulus langauge
         num_runs    % number of runs in experiment
         stim_onsets % onset times of each stimulus in a run
-        stim_names  % sequence of stimulus filenames
+        stim_names  % sequence of stimulus fildnames
         task_probes % index of stimuli that are task probes
     end
     
@@ -17,7 +17,7 @@ classdef votclocSequence
     
     properties (Constant)
         stim_conds = {'Bodies' 'RealWords' 'Faces' 'FalseFonts' 'ConsonantStrings' 'Srambled'};
-        stim_per_block = 3;   % number of stimuli in a block
+        stim_per_block = 12;   % number of stimuli in a block
         stim_duty_cycle = 0.5; % duration of stimulus duty cycle (s)
     end
     

@@ -260,6 +260,70 @@ test the task probe thing, to see if it can get all the keys
 runvotcloc('S3t_st_test_task_probes','IT',0,1,10,1,0);
 #####
 
+========
+20250121
+scan VOTCLOC sub-01_ses-03
+runvotcloc('S1_s3_sub-01_ses-03','ES',0,1,10,1,1);
+#####
+
+========
+20250122
+test the task probe thing, to see if it can get all the keys
+runvotcloc('St_st_test_newbox','FR',0,1,3,1,1);
+#####
+
+========
+20250122
+scan VOTCLOC sub-06_ses-02
+runvotcloc('S6_s2_sub-01_ses-03','FR',0,1,10,1,1);
+#####
+
+========
+20250123
+scan VOTCLOC sub-04_ses-04
+runvotcloc('S4_s4_sub-04_ses-04','AT',0,1,10,1,1);
+#####
+
+========
+20250124
+scan VOTCLOC sub-01_ses-04
+runvotcloc('S1_s4_sub-01_ses-04','ES',0,1,10,1,1);
+#####
+
+========
+20250127
+scan VOTCLOC sub-06_ses-03
+runvotcloc('S6_s3_sub-06_ses-03','FR',0,1,10,1,1);
+#####
+
+========
+20250128
+scan VOTCLOC sub-01_ses-05
+runvotcloc('S1_s5_sub-01_ses-05','ES',0,1,10,1,1);
+#####
+========
+20250128
+scan VOTCLOC sub-03_ses-04
+runvotcloc('S3_s4_sub-03_ses-04','IT',0,1,10,1,1);
+#####
+========
+20250130
+scan VOTCLOC sub-04_ses-05
+runvotcloc('S4_s5_sub-04_ses-05','AT',0,1,10,1,1);
+#####
+
+========
+20250131
+scan VOTCLOC sub-t_ses-t
+runvotcloc('St_st_test_newbox','IT',0,1,3,1,0);
+#####
+
+========
+20250130
+scan VOTCLOC sub-08_ses-03
+runvotcloc('S8_s3_sub-08_ses-03','IT',0,1,10,1,1);
+#####
+
 BCBL
 ========
 

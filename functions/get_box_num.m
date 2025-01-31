@@ -8,15 +8,17 @@ function b = get_box_num
 % change to productID number of local button box
 % box_id 12 is for BCBL /the response box
 % another_box_id is 257, the same as s-key box
-% the location ID is: locationID=34680832;
+% the location ID for tiger MAC is: locationID=34680832; 
+% it is actually highly dependent on the location! put the starttech port
+% to iMAC first usb, and put the box usb to it's top port, it is 336855040;
 % 834 is tiger's MAC
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth keyboard
 % 545 is bcbl mac keyboard
-box_id = 12; b = 0; d = PsychHID('Devices');
+box_id = 257; b = 0; d = PsychHID('Devices');
 
 if box_id==257
-    locationID=34684928;
+    locationID=336855040;
     for nn = 1:length(d)
         if (d(nn).productID == box_id) && (d(nn).locationID == locationID) && strcmp(d(nn).usageName, 'Keyboard');
             b = nn;
@@ -25,7 +27,7 @@ if box_id==257
     end
 elseif box_id==12
     for nn = 1:length(d)
-        if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Mouse'))
+        if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
             b = nn;
         end
     end

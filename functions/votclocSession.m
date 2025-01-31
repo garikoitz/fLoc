@@ -388,8 +388,9 @@ classdef votclocSession
             % button
             % For rest of places we can maintain 5 as the generic one
             % get_key('4', session.keyboard);
-            % FOR BCBL it is 4 the red button from response box
-            get_key('4', session.input);
+            % FOR BCBL it is the red button from response box, if box_id is
+            % 12  or it is d if using the 257
+            get_key('d', session.input);
             ShowCursor;
             Screen('CloseAll');
         end
