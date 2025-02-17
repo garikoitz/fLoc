@@ -324,6 +324,121 @@ scan VOTCLOC sub-08_ses-03
 runvotcloc('S8_s3_sub-08_ses-03','IT',0,1,10,1,1);
 #####
 
+========
+20250203
+scan VOTCLOC sub-02_ses-01
+runvotcloc('S2_s1_sub-02_ses-01new','AT',0,1,10,1,1);
+first 5 run, no eyetracker, then we have
+runvotcloc('S2_s1_sub-02_ses-01neweye','AT',0,1,10,1,1,6);
+#####
+========
+20250203
+scan VOTCLOC sub-05_ses-03
+runvotcloc('S5_s3_sub-05_ses-03','ES',0,1,10,1,1);
+#####
+
+========
+20250204
+scan VOTCLOC sub-08_ses-04
+showing stim 
+runvotcloc('S8_st_sub-08_test','IT',0,1,10,1,0);
+runvotcloc('S8_s4_sub-08_ses-04','IT',0,1,10,1,1);
+#####
+========
+20250204
+scan VOTCLOC sub-01_ses-06
+runvotcloc('S1_s6_sub-01_ses-06','ES',0,1,10,1,1);
+#####
+========
+20250204
+scan VOTCLOC sub-03_ses-05
+runvotcloc('S3_s5_sub-03_ses-05','IT',0,1,10,1,1);
+#####
+
+========
+20250205
+scan VOTCLOC sub-06_ses-04
+runvotcloc('S6_s4_sub-06_ses-04','FR',0,1,10,1,1);
+#####
+========
+
+========
+20250206
+scan VOTCLOC sub-02_ses-02
+runvotcloc('S2_s2_sub-02_ses-02','AT',0,1,10,1,1);
+#####
+========
+
+
+========
+20250206
+scan VOTCLOC sub-04_ses-06
+runvotcloc('S4_s6_sub-04_ses-06','AT',0,1,10,1,1);
+#####
+========
+
+
+========
+20250207
+scan VOTCLOC sub-01_ses-07
+runvotcloc('S1_s7_sub-01_ses-07','ES',0,1,10,1,1);
+#####
+========
+
+========
+20250207
+scan VOTCLOC sub-03_ses-06
+runvotcloc('S3_s6_sub-03_ses-06','IT',0,1,10,1,1);
+#####
+
+========
+20250210
+scan VOTCLOC sub-06_ses-05
+runvotcloc('S6_s5_sub-06_ses-05','FR',0,1,10,1,1);
+#####
+
+========
+20250211
+scan VOTCLOC sub-01_ses-08
+runvotcloc('S1_s8_sub-01_ses-08','ES',0,1,10,1,1);
+#####
+========
+20250211
+scan VOTCLOC sub-03_ses-07
+runvotcloc('S3_s7_sub-03_ses-07','IT',0,1,10,1,1);
+#####
+========
+20250212
+scan VOTCLOC sub-02_ses-03
+runvotcloc('S2_s3_sub-02_ses-03','AT',0,1,10,1,1);
+#####
+
+========
+20250212
+scan VOTCLOC sub-05_ses-04
+runvotcloc('S5_s4_sub-05_ses-04','ES',0,1,10,1,1);
+#####
+
+========
+20250213
+scan VOTCLOC sub-04_ses-07
+runvotcloc('S4_s7_sub-04_ses-07','AT',0,1,10,1,1);
+#####
+========
+
+========
+20250214
+scan VOTCLOC sub-01_ses-09
+runvotcloc('S1_s9_sub-01_ses-09','ES',0,1,10,1,1);
+#####
+========
+
+========
+20250217
+scan VOTCLOC sub-06_ses-06
+runvotcloc('S6_s6_sub-06_ses-06','FR',0,1,10,1,1);
+#####
+========
 BCBL
 ========
 
@@ -378,6 +493,7 @@ end
 if nargin < 3
     trigger = -1;
     while ~ismember(trigger, 0:1)
+        sca
         trigger = input('Trigger scanner? (0 = no, 1 = yes) : ');
     end
 end

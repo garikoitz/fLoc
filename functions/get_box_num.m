@@ -10,7 +10,8 @@ function b = get_box_num
 % another_box_id is 257, the same as s-key box
 % the location ID for tiger MAC is: locationID=34680832; 
 % it is actually highly dependent on the location! put the starttech port
-% to iMAC first usb, and put the box usb to it's top port, it is 336855040;
+% to iMAC_old first usb, and put the box usb to it's top port, it is 336855040;
+% for iMac_M4, using the 2nd type-c port with the 23240 anker, it is 34865152;
 % 834 is tiger's MAC
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth keyboard
@@ -18,7 +19,7 @@ function b = get_box_num
 box_id = 257; b = 0; d = PsychHID('Devices');
 
 if box_id==257
-    locationID=336855040;
+    locationID=34865152;
     for nn = 1:length(d)
         if (d(nn).productID == box_id) && (d(nn).locationID == locationID) && strcmp(d(nn).usageName, 'Keyboard');
             b = nn;

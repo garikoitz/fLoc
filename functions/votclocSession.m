@@ -81,7 +81,7 @@ classdef votclocSession
         % get session-specific id string
         function id = get.id(session)
             parts = split(session.name,'_');
-            par_str = [parts{3}  '_' parts{4} '_taskfLoc_' session.date '_' session.lang];
+            par_str = [parts{3}  '_' parts{4} '_task-fLoc_' session.date '_' session.lang];
             exp_str = [session.task_name '_' num2str(session.num_runs) 'runs'];
             id = [par_str '_' exp_str];
         end
