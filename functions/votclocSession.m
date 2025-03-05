@@ -180,7 +180,7 @@ classdef votclocSession
 
             %% if use eyelink, initialize eyelink and record things 
             % the following is a run we specified
-            if session.use_eyelink             
+            if session.use_eyelink == 1            
                 [session.el,session.dummymode, session.edfFile]=init_eyelink(session,run_num,window_ptr,rect,screen_num);
                 
                 Eyelink('SetOfflineMode');% Put tracker in idle/offline mode before recording
@@ -272,7 +272,7 @@ classdef votclocSession
                 Eyelink('Command', 'End of Run%d', run_num);
                 Eyelink('Message', 'End of Run%d', run_num);
             %% if don't use_eyelink, it's like before
-            else
+            elseif session.use_eyelink == 0  
                 % main display loop
                 % setup screen and load all stimuli in run
                 [window_ptr, rect, center,screen_num] = do_screen;
