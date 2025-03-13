@@ -48,8 +48,8 @@ classdef votclocSequence
     end
     
     properties (Dependent, Hidden)
-        stim_set1  % dynamically generate stimulus set based on lang
-        stim_set2
+        stim_set1 % dynamically generate stimulus set based on lang
+        stim_set2 % dynamically generate stimulus set based on lang
         num_conds % number of conditions in experiment
         run_sets  % stimulus set used in each run
         
