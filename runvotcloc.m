@@ -554,6 +554,19 @@ scan VOTCLOC sub-08_ses-06
 runvotcloc('S8_s6_sub-08_ses-06','IT',0,1,10,1,1);
 runvotcloc('S8_s6_sub-08_ses-06','IT',0,1,10,1,1,6);
 
+========
+20250312
+scan VOTCLOC sub-05_ses-08
+runvotcloc('S5_s8_sub-05_ses-08','ES',0,2,10,1,1);
+runvotcloc('S5_s8_sub-05_ses-08','ES',0,2,10,1,1,6);
+
+========
+20250313
+scan VOTCLOC sub-02_ses-07
+runvotcloc('S2_s7_sub-02_ses-07','AT',0,2,10,1,1);
+runvotcloc('S2_s7_sub-02_ses-07','AT',0,2,10,1,1,6);
+
+
 BCBL
 ========
 
