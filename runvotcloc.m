@@ -566,6 +566,11 @@ scan VOTCLOC sub-02_ses-07
 runvotcloc('S2_s7_sub-02_ses-07','AT',0,2,10,1,1);
 runvotcloc('S2_s7_sub-02_ses-07','AT',0,2,10,1,1,6);
 
+========
+20250314
+scan VOTCLOC sub-07_ses-01r
+runvotcloc('S7_s1_sub-07_ses-01r','CN',0,1,10,1,1);
+runvotcloc('S7_s1_sub-07_ses-01r','CN',0,1,10,1,1,6);
 
 BCBL
 ========
