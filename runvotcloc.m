@@ -572,6 +572,39 @@ scan VOTCLOC sub-07_ses-01r
 runvotcloc('S7_s1_sub-07_ses-01r','CN',0,1,10,1,1);
 runvotcloc('S7_s1_sub-07_ses-01r','CN',0,1,10,1,1,6);
 
+========
+20250317
+scan VOTCLOC sub-08_ses-07
+# edited the votclocSequence and the get stimset function
+runvotcloc('S8_s7_sub-08_ses-07r','IT',0,1,10,1,1);
+runvotcloc('S8_s7_sub-08_ses-07','IT',0,1,10,1,1,6);
+
+========
+20250320
+scan VOTCLOC sub-08_ses-08
+# edited the votclocSequence and the get stimset function
+runvotcloc('S8_s8_sub-08_ses-08','IT',0,1,10,1,1);
+runvotcloc('S8_s8_sub-08_ses-08','IT',0,1,10,1,1,6);
+
+========
+20250321
+scan VOTCLOC sub-02_ses-07r2
+runvotcloc('S2_s7_sub-02_ses-07r2','AT',0,2,10,1,1);
+runvotcloc('S2_s7_sub-02_ses-07r2','AT',0,2,10,1,1,6);
+
+========
+20250324
+scan VOTCLOC sub-02_ses-08
+runvotcloc('S2_s8_sub-02_ses-08mar24','AT',0,2,10,1,1);
+runvotcloc('S2_s8_sub-02_ses-08mar24','AT',0,2,10,1,1,6);
+
+========
+20250325
+scan VOTCLOC sub-04_ses-10
+runvotcloc('S4_sx_sub-04_ses-10','AT',0,2,10,1,1);
+runvotcloc('S4_sx_sub-04_ses-10','AT',0,2,10,1,1,6);
+#####
+
 BCBL
 ========
 
@@ -707,4 +740,5 @@ for rr = start_run:num_runs
 end
 %write_parfiles(session);
 write_event_tsv(session);
+
 end

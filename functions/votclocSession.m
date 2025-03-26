@@ -52,7 +52,7 @@ classdef votclocSession
     methods
    
         % class constructor
-        % name='EHCresp_0109'; lang = 'ES'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;
+        % name='ss_st'; lang = 'ES'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;
         function session = votclocSession(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink)
             session.name = deblank(name);
             session.lang = lang;
