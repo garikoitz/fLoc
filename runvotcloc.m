@@ -1,4 +1,4 @@
-function runvotcloc(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
+ function runvotcloc(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
 %{ 
 Prompts experimenter for session parameters and executes functional localizer experiment used 
 to define regions in high-level visual cortex selective to faces, places, bodies, and printed characters.
@@ -604,6 +604,38 @@ scan VOTCLOC sub-04_ses-10
 runvotcloc('S4_sx_sub-04_ses-10','AT',0,2,10,1,1);
 runvotcloc('S4_sx_sub-04_ses-10','AT',0,2,10,1,1,6);
 #####
+
+========
+20250326
+scan VOTCLOC sub-02_ses-09
+runvotcloc('S2_s9_sub-02_ses-09','AT',0,2,10,1,1);
+runvotcloc('S2_s9_sub-02_ses-09','AT',0,2,10,1,1,6);
+#####
+
+========
+20250327
+scan VOTCLOC sub-08_ses-09
+runvotcloc('S8_s9_sub-08_ses-09','IT',0,1,10,1,1);
+runvotcloc('S8_s9_sub-08_ses-09','IT',0,1,10,1,1,6);
+
+========
+20250328
+scan VOTCLOC sub-06_ses-09
+runvotcloc('S6_s9_sub-06_ses-09','FR',0,1,10,1,1);
+runvotcloc('S6_s9_sub-06_ses-09','FR',0,1,10,1,1,6);
+
+========
+20250328 it is a test
+scan VOTCLOC sub-09_ses-01
+runvotcloc('S9_s1_sub-09_ses-01','FR',0,1,10,1,1);
+runvotcloc('S9_s1_sub-09_ses-01','FR',0,1,10,1,1,6);
+
+
+========
+20250331
+scan VOTCLOC sub-05_ses-09
+runvotcloc('S5_s9_sub-05_ses-09','ES',0,2,10,1,1);
+runvotcloc('S5_s9_sub-05_ses-09','ES',0,2,10,1,1,6);
 
 BCBL
 ========
