@@ -611,6 +611,11 @@ scan VOTCLOC sub-02_ses-09
 runvotcloc('S2_s9_sub-02_ses-09','AT',0,2,10,1,1);
 runvotcloc('S2_s9_sub-02_ses-09','AT',0,2,10,1,1,6);
 #####
+========
+20250326
+scan VOTCLOC sub-07_ses-02
+runvotcloc('S7_s2_sub-07_ses-02','CN',0,1,10,1,1);
+runvotcloc('S7_s2_sub-07_ses-02','CN',0,1,10,1,1,6);
 
 ========
 20250327
@@ -637,8 +642,215 @@ scan VOTCLOC sub-05_ses-09
 runvotcloc('S5_s9_sub-05_ses-09','ES',0,2,10,1,1);
 runvotcloc('S5_s9_sub-05_ses-09','ES',0,2,10,1,1,6);
 
-BCBL
 ========
+20250401
+scan VOTCLOC sub-07_ses-03
+runvotcloc('S7_s3_sub-07_ses-03','CN',0,2,10,1,1);
+runvotcloc('S7_s3_sub-07_ses-03','CN',0,2,10,1,1,6);
+
+========
+20250402 it is real
+scan VOTCLOC sub-09_ses-01r
+runvotcloc('S9_s1_sub-09_ses-01rr','FR',0,1,10,1,1);
+runvotcloc('S9_s1_sub-09_ses-01rr','FR',0,1,10,1,1,6);
+
+========
+20250404
+scan VOTCLOC sub-05_ses-10
+runvotcloc('S5_sx_sub-05_ses-10','ES',0,2,10,1,1);
+runvotcloc('S5_sx_sub-05_ses-10','ES',0,2,10,1,1, 6);
+
+========
+20250406
+scan VOTCLOC sub-08_ses-10
+runvotcloc('S8_sx_sub-08_ses-10','IT',0,1,10,1,1);
+runvotcloc('S8_sx_sub-08_ses-10','IT',0,1,10,1,1,6);
+
+========
+20250407 
+scan VOTCLOC sub-09_ses-02
+runvotcloc('S9_s2_sub-09_ses-02','FR',0,1,10,1,1);
+runvotcloc('S9_s2_sub-09_ses-02','FR',0,1,10,1,1,6);
+
+========
+20250407
+scan VOTCLOC sub-07_ses-04
+runvotcloc('S7_s4_sub-07_ses-04','CN',0,1,10,1,1);
+runvotcloc('S7_s4_sub-07_ses-04','CN',0,1,10,1,1,6);
+
+========
+20250408
+scan VOTCLOC sub-02_ses-10
+runvotcloc('S2_sx_sub-02_ses-10','AT',0,2,10,1,1);
+runvotcloc('S2_sx_sub-02_ses-10','AT',0,2,10,1,1,6);
+
+========
+20250409 canceled
+scan VOTCLOC sub-06_ses-10
+runvotcloc('S6_sx_sub-06_ses-10','FR',0,2,10,1,1);
+runvotcloc('S6_sx_sub-06_ses-10','FR',0,2,10,1,1,6);
+
+========
+20250411
+scan VOTCLOC sub-07_ses-05
+runvotcloc('S7_s5_sub-07_ses-05','CN',0,2,10,1,1);
+runvotcloc('S7_s5_sub-07_ses-05','CN',0,2,10,1,1,6);
+
+========
+20250414 
+scan VOTCLOC sub-09_ses-03
+runvotcloc('S9_s3_sub-09_ses-03','FR',0,2,10,1,1);
+runvotcloc('S9_s3_sub-09_ses-03','FR',0,2,10,1,1,6);
+
+========
+20250414
+scan VOTCLOC sub-07_ses-06
+runvotcloc('S7_s6_sub-07_ses-06','CN',0,1,10,1,1);
+runvotcloc('S7_s6_sub-07_ses-06','CN',0,1,10,1,1,6);
+
+========
+20250416 redo
+scan VOTCLOC sub-06_ses-10 real
+runvotcloc('S6_sx_sub-06_ses-10r','FR',0,2,10,1,1);
+runvotcloc('S6_sx_sub-06_ses-10r','FRhttps://www.youtube.com/',0,2,10,1,1,4);
+
+========
+20250422 
+scan VOTCLOC sub-09_ses-04
+runvotcloc('S9_s4_sub-09_ses-04','FR',0,1,10,1,1);
+runvotcloc('S9_s4_sub-09_ses-04','FR',0,1,10,1,1,6);
+
+========
+20250428 
+scan VOTCLOC sub-07_ses-07
+runvotcloc('S7_s7_sub-07_ses-07','CN',0,2,10,1,1);
+runvotcloc('S7_s7_sub-07_ses-07','CN',0,2,10,1,1,6);
+
+========
+20250505 
+scan VOTCLOC sub-07_ses-08
+runvotcloc('S7_s8_sub-07_ses-08','CN',0,1,10,1,1);
+runvotcloc('S7_s8_sub-07_ses-08','CN',0,1,10,1,1,6);
+
+========
+20250506 
+scan VOTCLOC sub-10_ses-01
+runvotcloc('Sx_s1_sub-10_ses-01','CN',0,1,10,1,1);
+runvotcloc('Sx_s1_sub-10_ses-01','CN',0,1,10,1,1,6);
+
+========
+20250602
+scan VOTCLOC sub-11_ses-00d
+Subject 11 will be Cesar. Ses/00 will be testing
+runvotcloc('S11_s0_sub-11_ses-00','ES',0,1,10,1,0);
+#####
+
+========
+20250616 
+scan VOTCLOC sub-10_ses-02
+runvotcloc('Sx_s2_sub-10_ses-02','CN',0,2,10,1,1);
+runvotcloc('Sx_s2_sub-10_ses-02','CN',0,2,10,1,1,6);
+
+========
+20250619 
+scan VOTCLOC sub-10_ses-03
+runvotcloc('Sx_s3_sub-10_ses-03','CN',0,1,10,1,1);
+runvotcloc('Sx_s3_sub-10_ses-03','CN',0,1,10,1,1,6);
+
+
+========
+20250623 
+scan VOTCLOC sub-07_ses-09
+runvotcloc('S7_s9_sub-07_ses-09','CN',0,2,10,1,1);
+runvotcloc('S7_s9_sub-07_ses-09','CN',0,2,10,1,1,6);
+
+========
+20250624 
+scan VOTCLOC sub-09_ses-05
+runvotcloc('S9_s5_sub-09_ses-05','FR',0,2,10,1,1);
+runvotcloc('S9_s5_sub-09_ses-05','FR',0,2,10,1,1,6);
+
+========
+20250625 
+scan VOTCLOC sub-11_ses-01
+runvotcloc('S11_1_sub-11_ses-01','ES',0,1,10,1,1);
+runvotcloc('S11_1_sub-11_ses-01','ES',0,1,10,1,1,6);
+
+========
+20250619 
+scan VOTCLOC sub-10_ses-04
+runvotcloc('Sx_s4_sub-10_ses-04','CN',0,2,10,1,1);
+runvotcloc('Sx_s4_sub-10_ses-04','CN',0,2,10,1,1,6);
+
+========
+20250626 
+scan VOTCLOC sub-07_ses-10
+runvotcloc('S7_sx_sub-07_ses-10','CN',0,1,10,1,1);
+runvotcloc('S7_sx_sub-07_ses-10','CN',0,1,10,1,1,6);
+
+========
+20250627 
+scan VOTCLOC sub-09_ses-06
+runvotcloc('S9_s6_sub-09_ses-06','FR',0,1,10,1,1);
+runvotcloc('S9_s6_sub-09_ses-06','FR',0,1,10,1,1,6);
+
+========
+20250701 
+scan VOTCLOC sub-09_ses-07
+runvotcloc('S9_s7_sub-09_ses-07','FR',0,2,10,1,1);
+runvotcloc('S9_s7_sub-09_ses-07','FR',0,2,10,1,1,6);
+
+========
+20250702 
+scan VOTCLOC sub-11_ses-02
+runvotcloc('S11_2_sub-11_ses-02','ES',0,2,10,1,1);
+runvotcloc('S11_2_sub-11_ses-02','ES',0,2,10,1,1,6);
+
+========
+20250703 
+scan VOTCLOC sub-10_ses-05
+runvotcloc('Sx_s5_sub-10_ses-05','CN',0,1,10,1,1);
+runvotcloc('Sx_s5_sub-10_ses-05','CN',0,1,10,1,1,6);
+
+========
+20250701 
+scan VOTCLOC sub-09_ses-08
+runvotcloc('S9_s8_sub-09_ses-08','FR',0,1,10,1,1);
+runvotcloc('S9_s8_sub-09_ses-08','FR',0,1,10,1,1,6);
+
+========
+20250707 
+scan VOTCLOC sub-10_ses-06
+runvotcloc('Sx_s6_sub-10_ses-06','CN',0,2,10,1,1);
+runvotcloc('Sx_s6_sub-10_ses-06','CN',0,2,10,1,1,6);
+
+
+========
+20250707 
+scan VOTCLOC sub-11_ses-02SE
+runvotcloc('S11_2_sub-11_ses-02SE','ES',0,2,10,1,1);
+runvotcloc('S11_2_sub-11_ses-02SE','ES',0,2,10,1,1,6);
+
+========
+20250710 SHE is wearing contact lens, I canceled bc eye blinks a lot
+scan VOTCLOC sub-10_ses-07
+runvotcloc('Sx_s7_sub-10_ses-07','CN',0,1,10,1,1);
+runvotcloc('Sx_s7_sub-10_ses-07','CN',0,1,10,1,1,6);
+
+========
+20250714 
+scan VOTCLOC sub-10_ses-07
+runvotcloc('Sx_s7_sub-10_ses-07_new','CN',0,1,10,1,1);
+runvotcloc('Sx_s7_sub-10_ses-07_new','CN',0,1,10,1,1,6);
+
+========
+
+========
+20250714 using 0702 experiment 
+scan VOTCLOC sub-11_ses-02
+runvotcloc('S11_2_sub-11_ses-02','ES',0,2,10,1,1);
+runvotcloc('S11_2_sub-11_ses-02','ES',0,2,10,1,1,6);
+
 
 ****
 For the eyetracker, it will take the first 5 elements of the subject name
@@ -762,6 +974,8 @@ save(fpath, 'session', '-v7.3');
 
 % execute all runs from start_run to num_runs and save parfiles
 fname = [session.id '_votclocSession.mat'];
+%disp('###### fname is')
+%ddisp(fname)
 fpath = fullfile(session.exp_dir, 'data', session.id, fname);
 
 for rr = start_run:num_runs
