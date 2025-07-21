@@ -844,13 +844,25 @@ runvotcloc('Sx_s7_sub-10_ses-07_new','CN',0,1,10,1,1);
 runvotcloc('Sx_s7_sub-10_ses-07_new','CN',0,1,10,1,1,6);
 
 ========
-
-========
 20250714 using 0702 experiment 
 scan VOTCLOC sub-11_ses-02
 runvotcloc('S11_2_sub-11_ses-02','ES',0,2,10,1,1);
 runvotcloc('S11_2_sub-11_ses-02','ES',0,2,10,1,1,6);
 
+========
+20250718 RUN CB1 for ME 
+scan VOTCLOC sub-11_ses-03ME
+runvotcloc('S11_3_sub-11_ses-03ME','ES',0,1,10,1,1);
+runvotcloc('S11_3_sub-11_ses-03ME','ES',0,1,10,1,1,6);
+
+
+
+
+========
+20250717 
+scan VOTCLOC sub-10_ses-08
+runvotcloc('Sx_s8_sub-10_ses-08','CN',0,2,10,1,1);
+runvotcloc('Sx_s8_sub-10_ses-08','CN',0,2,10,1,1,6);
 
 ****
 For the eyetracker, it will take the first 5 elements of the subject name
