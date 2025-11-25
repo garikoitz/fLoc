@@ -658,7 +658,7 @@ runvotcloc('S9_s1_sub-09_ses-01rr','FR',0,1,10,1,1,6);
 20250404
 scan VOTCLOC sub-05_ses-10
 runvotcloc('S5_sx_sub-05_ses-10','ES',0,2,10,1,1);
-runvotcloc('S5_sx_sub-05_ses-10','ES',0,2,10,1,1, 6);
+runvotcloc('S5_sx_sub-05_ses-10','ES',0,2,10,1,1,6);
 
 ========
 20250406
@@ -712,7 +712,7 @@ runvotcloc('S7_s6_sub-07_ses-06','CN',0,1,10,1,1,6);
 20250416 redo
 scan VOTCLOC sub-06_ses-10 real
 runvotcloc('S6_sx_sub-06_ses-10r','FR',0,2,10,1,1);
-runvotcloc('S6_sx_sub-06_ses-10r','FRhttps://www.youtube.com/',0,2,10,1,1,4);
+runvotcloc('S6_sx_sub-06_ses-10r','FR',0,2,10,1,1,4);
 
 ========
 20250422 
@@ -855,18 +855,133 @@ scan VOTCLOC sub-11_ses-03ME
 runvotcloc('S11_3_sub-11_ses-03ME','ES',0,1,10,1,1);
 runvotcloc('S11_3_sub-11_ses-03ME','ES',0,1,10,1,1,6);
 
-
-
-
 ========
 20250717 
 scan VOTCLOC sub-10_ses-08
 runvotcloc('Sx_s8_sub-10_ses-08','CN',0,2,10,1,1);
 runvotcloc('Sx_s8_sub-10_ses-08','CN',0,2,10,1,1,6);
 
+========
+20250721 
+scan VOTCLOC sub-10_ses-09
+runvotcloc('Sx_s9_sub-10_ses-09','CN',0,1,10,1,1);
+runvotcloc('Sx_s9_sub-10_ses-09','CN',0,1,10,1,1,6);
+
+========
+20250721 RUN CB1 for ME 
+scan VOTCLOC sub-11_ses-04ME
+runvotcloc('S11_4_sub-11_ses-04ME','ES',0,1,10,1,1);
+runvotcloc('S11_4_sub-11_ses-04ME','ES',0,1,10,1,1,6);
+
+========
+20250722
+scan VOTCLOC sub-04_ses-10rerun
+runvotcloc('S4_sx_sub-04_ses-10rerun','AT',0,2,10,1,1);
+runvotcloc('S4_sx_sub-04_ses-10rerun','AT',0,2,10,1,1,6);
+
+========
+20250724 
+scan VOTCLOC sub-11_ses-02
+runvotcloc('S11_2_sub-11_ses-02','ES',0,2,10,1,1);
+runvotcloc('S11_2_sub-11_ses-02','ES',0,2,10,1,1,6);
+
+========
+20250728 
+scan VOTCLOC sub-10_ses-10
+runvotcloc('Sx_sx_sub-10_ses-10','CN',0,2,10,1,1);
+runvotcloc('Sx_sx_sub-10_ses-10','CN',0,2,10,1,1,6);
+
+
+========
+20250728 
+scan VOTCLOC sub-11_ses-03
+runvotcloc('S11_3_sub-11_ses-03','ES',0,1,10,1,1);
+runvotcloc('S11_3_sub-11_ses-03','ES',0,1,10,1,1,6);
+
+========
+20250804 
+scan VOTCLOC sub-11_ses-04
+runvotcloc('S11_4_sub-11_ses-04','ES',0,2,10,1,1);
+runvotcloc('S11_4_sub-11_ses-04','ES',0,2,10,1,1,6);
+
+========
+20250808 
+scan VOTCLOC sub-11_ses-05
+runvotcloc('S11_5_sub-11_ses-05','ES',0,1,10,1,1);
+runvotcloc('S11_5_sub-11_ses-05','ES',0,1,10,1,1,6);
+
+========
+20250820 
+scan VOTCLOC sub-05_ses-08
+runvotcloc('S5_8_sub-05_ses-08','ES',0,2,10,1,1);
+runvotcloc('S5_8_sub-05_ses-08','ES',0,2,10,1,1,6);
+
+========
+20250826 
+scan VOTCLOC sub-09_ses-09
+runvotcloc('S9_s9_sub-09_ses-09','FR',0,2,10,1,1);
+runvotcloc('S9_s9_sub-09_ses-09','FR',0,2,10,1,1,6);
+
+========
+20250826 
+scan VOTCLOC sub-11_ses-06
+runvotcloc('S11_6_sub-11_ses-06','ES',0,2,10,1,1);
+runvotcloc('S11_6_sub-11_ses-06','ES',0,2,10,1,1,6);
+
+========
+20250829 
+scan VOTCLOC sub-09_ses-10
+runvotcloc('S9_sx_sub-09_ses-10','FR',0,1,10,1,1);
+runvotcloc('S9_sx_sub-09_ses-10','FR',0,1,10,1,1,6);
+
+========
+20250829 
+scan VOTCLOC sub-11_ses-07
+runvotcloc('S11_7_sub-11_ses-07','ES',0,1,10,1,1);
+runvotcloc('S11_7_sub-11_ses-07','ES',0,1,10,1,1,6);
+runvotcloc('S11_7_sub-11_ses-07','ES',0,1,10,1,1,8);
+
+========
+20250901
+scan VOTCLOC sub-11_ses-08
+runvotcloc('S11_8_sub-11_ses-08','ES',0,2,10,1,1);
+runvotcloc('S11_8_sub-11_ses-08','ES',0,2,10,1,1,6);
+
+========
+20250331/0902 rerun
+scan VOTCLOC sub-05_ses-09
+runvotcloc('S5_s9_sub-05_ses-09','ES',0,2,10,1,1);
+runvotcloc('S5_s9_sub-05_ses-09','ES',0,2,10,1,1,6);
+
+========
+20250904
+scan VOTCLOC sub-11_ses-09
+runvotcloc('S11_9_sub-11_ses-09','ES',0,1,10,1,1);
+runvotcloc('S11_9_sub-11_ses-09','ES',0,1,10,1,1,6);
+
+========
+20250908
+scan VOTCLOC sub-11_ses-10
+runvotcloc('S11_x_sub-11_ses-10','ES',0,2,10,1,1);
+runvotcloc('S11_x_sub-11_ses-10','ES',0,2,10,1,1,6);
+runvotcloc('S11_x_sub-11_ses-10','ES',0,2,10,1,1,4);
+
+========
+20250404/0910 rerun
+scan VOTCLOC sub-05_ses-10
+runvotcloc('S5_sx_sub-05_ses-10','ES',0,2,10,1,1);
+runvotcloc('S5_sx_sub-05_ses-10','ES',0,2,10,1,1,6);
+
+========
+20250707 / 0911
+scan VOTCLOC sub-11_ses-02SE
+runvotcloc('S11_2_sub-11_ses-02SE','ES',0,2,10,1,1);
+runvotcloc('S11_2_sub-11_ses-02SE','ES',0,2,10,1,1,6);
+
+
 ****
 For the eyetracker, it will take the first 5 elements of the subject name
-you input, so try to give all the info within 5 elements, and then put the
+you input, so try to give all the info within 5 elements, and the n put the
 note after
 sub-01_ses-01_Language_IT  etc
 you can do: s1_1
@@ -963,6 +1078,8 @@ session = votclocSession(name, lang, trigger ,stim_set, num_runs, task_num, use_
 session = load_seqs(session);
 session_dir = (fullfile(session.exp_dir, 'data', session.id));
 
+script_session_ID=sprintf("########### Session ID is %s ########### \n", session.id);
+disp(script_session_ID);
 % print the number of TR in the command to help checking the sequence
 seq=session.sequence;
 TR=2;
@@ -975,7 +1092,7 @@ dummy_scans=5;
 count_down=session.count_down; 
 num_of_TR=dummy_scans+count_down/TR-dummy_scans+round(num_of_stim/(TR/onset_dur))+NORDIC_scans;
 
-script_TR=sprintf("########### \n Total volumns for this experiment is %i \n ########### \n", num_of_TR);
+script_TR=sprintf("########### Total volumns for this experiment is %i ########### \n", num_of_TR);
 disp(script_TR);
 
 if ~exist(session_dir, 'dir') == 7
