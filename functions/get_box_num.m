@@ -16,7 +16,7 @@ function b = get_box_num
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth keyboard
 % 545 is bcbl mac keyboard
-box_id = 257; b = 0; d = PsychHID('Devices');
+box_id = 24729; b = 0; d = PsychHID('Devices');
 
 if box_id==257
     locationID=34865152;
@@ -34,7 +34,7 @@ elseif box_id==12
     end
 else
     for nn = 1:length(d)
-        if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
+        if (d(nn).productID == box_id) % && (strcmp(d(nn).usageName, 'Keyboard'))
             b = nn;
         end
     end

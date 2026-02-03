@@ -15,7 +15,7 @@ function k = get_keyboard_num
 % 834 is tiger's MAC
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth
-keyboard_id = 257; k = 0; d = PsychHID('Devices');
+keyboard_id = 24729; k = 0; d = PsychHID('Devices');
 
 if keyboard_id == 257
     %disp('S_key is being specified')
@@ -28,7 +28,7 @@ if keyboard_id == 257
     end
 else
     for nn = 1:length(d)
-        if (d(nn).productID == keyboard_id) && (strcmp(d(nn).usageName, 'Keyboard'))
+        if (d(nn).productID == keyboard_id) %&& (strcmp(d(nn).usageName, 'Keyboard'))
             k = nn;
         end
     end
