@@ -484,12 +484,18 @@ classdef votclocSession
                 %cond_cols = cols(block_conds + 1);
                 parts_id=split(session.id, '_');
                 fname = [parts_id{1}  '_' parts_id{2} '_' parts_id{3} '_run-' num2str(rr, '%02d') '_events.tsv'];
+                disp(fname);
                 fpath = fullfile(session.exp_dir, 'data', session.id, fname);
+                % if it is using after the experiment
+                sourcedata_dir = '/bcbl/home/public/Gari/VOTCLOC/main_exp/BIDS/sourcedata';
+                subses = [parts_id{1}  '/' parts_id{2}];
+                fpath = fullfile(sourcedata_dir, subses, session.id, fname);
+                disp(fpath);
                 fid = fopen(fpath, 'w');
                 fprintf(fid, 'onset\tduration\ttrial_type\n');
-                for bb = 1:length(block_onsets)
-                    fprintf(fid, '%.2f\t%d\t%s\n', block_onsets(bb), duration, cond_names{bb});
-                end
+%                 for bb = 1:length(block_onsets)
+%                     fprintf(fid, '%.2f\t%d\t%s\n', block_onsets(bb), duration, cond_names{bb});
+%                 end
                 fclose(fid);
                 session.event{rr} = fpath;
             end
