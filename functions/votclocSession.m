@@ -86,7 +86,7 @@ classdef votclocSession
             % the specific date to reuse the previous session, I want to
             % compare the difference between the same session across
             % different days
-            par_str = [parts{3}  '_' parts{4} '_task-fLoc_' '07-Jul-2025' '_' session.lang]; 
+            par_str = [parts{3}  '_' parts{4} '_task-fLoc_' session.date '_' session.lang]; 
             exp_str = ['Stimset' num2str(session.stim_set) '_' session.task_name '_' num2str(session.num_runs) 'runs'];
             id = [par_str '_' exp_str];
         end
