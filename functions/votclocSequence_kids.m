@@ -1,4 +1,4 @@
-classdef votclocSequence
+classdef votclocSequence_kids
     
     properties
         lang        % stimulus langauge
@@ -16,9 +16,13 @@ classdef votclocSequence
     end
     
     properties (Constant)
-        stim_conds = {'Bodies' 'RealWords' 'Faces' 'FalseFonts' 'ConsonantStrings' 'Srambled'};
+        % for kids now we are going to use RWvsPER, so will only maintain
+        % RealWords and Scrambled
+        %stim_conds = {'Bodies' 'RealWords' 'Faces' 'FalseFonts' 'ConsonantStrings' 'Srambled'};
+        stim_conds = {'RealWords' 'Srambled'};
         stim_per_block = 12;   % number of stimuli in a block
         stim_duty_cycle = 0.5; % duration of stimulus duty cycle (s)
+        run_kids = true;
     end
     
     properties (Constant, Hidden)
@@ -34,7 +38,8 @@ classdef votclocSequence
 
         % stim_set1 = {'body' 'chars' 'adult' 'instrument' 'corridor'};
         % stim_set2 = {'limb' 'numbers' 'child' 'car' 'house'};
-        trials_per_cond= 7;
+        block_per_active_cond = 15;
+        block_per_rest_cond = 6;
         stim_per_set = 80; % because now for CN FF there are only 52
         task_names = {'1back' '2back' 'oddball'};
         task_freq = 0.5;
@@ -58,9 +63,10 @@ classdef votclocSequence
     methods
          
         % class constructor
-        function seq = votclocSequence(lang, stim_set, num_runs, task_num)
+        function seq = votclocSequence_kids(lang, stim_set, num_runs, task_num)
             if nargin < 1
-                seq.lang = 'ES';
+                % default language will be EU
+                seq.lang = 'EU';
             else
                 seq.lang=lang;
             end
@@ -88,11 +94,16 @@ classdef votclocSequence
 
         % get run duration given stimulus duty cycle
         function run_dur = get.run_dur(seq)
-            block_dur = seq.stim_per_block * seq.stim_duty_cycle;
-            % trials_per_cond
-            blocks_per_run = 1 + (1 + length(seq.stim_conds))*seq.trials_per_cond+ 1;
-            run_dur = block_dur * blocks_per_run;
+            block_dur = seq.stim_per_block * seq.stim_duty_cycle; % 12 * 0.5 = 6s
+            % inner blocks: 2 active conds * 15 blocks + 6 rest blocks = 36
+            % + 2 padding blocks (start + end)
+            % total = 38 blocks
+            num_blocks = seq.num_conds * seq.block_per_active_cond ...
+                    + seq.block_per_rest_cond ...
+                    + 2; % padding
+            run_dur = block_dur * num_blocks; % 6 * 38 = 228s
         end
+
         
         % get ISI duration given task
         function isi_dur = get.isi_dur(seq)
@@ -110,8 +121,9 @@ classdef votclocSequence
         
         % get number of experimental conditions including baseline
         function num_conds = get.num_conds(seq)
-            num_conds = 1 + length(seq.stim_conds);
+            num_conds = length(seq.stim_conds); % 2 (RealWords, Scrambled)
         end
+
         
         % get image sets for each run given selection
         function run_sets = get.run_sets(seq)
@@ -131,115 +143,190 @@ classdef votclocSequence
         end
         
         % dynamically generate stimulus set based on lang
+        % function stim_set1 = get.stim_set1(seq)
+        %     stim_set1= {...
+        %         'bodylimb1' ...
+        %         sprintf('%s_RW1',seq.lang) ...
+        %         'face1' ...
+        %         sprintf('%s_FF1',seq.lang) ...
+        %         sprintf('%s_CS1',seq.lang) ...
+        %         sprintf('%s_SC1',seq.lang) ...
+        %         };
+        % end
+        % function stim_set2 = get.stim_set2(seq)
+        %     stim_set2= {...
+        %         'bodylimb2' ...
+        %         sprintf('%s_RW2',seq.lang) ...
+        %         'face2' ...
+        %         sprintf('%s_FF2',seq.lang) ...
+        %         sprintf('%s_CS2',seq.lang) ...
+        %         sprintf('%s_SC2',seq.lang) ...
+        %         };
+        % end
+
+        % get new stimulis set for kids condition: RW and SC only
         function stim_set1 = get.stim_set1(seq)
             stim_set1= {...
-                'bodylimb1' ...
                 sprintf('%s_RW1',seq.lang) ...
-                'face1' ...
-                sprintf('%s_FF1',seq.lang) ...
-                sprintf('%s_CS1',seq.lang) ...
                 sprintf('%s_SC1',seq.lang) ...
                 };
         end
+        % get new stimulis set for kids condition: RW and SC only
         function stim_set2 = get.stim_set2(seq)
             stim_set2= {...
-                'bodylimb2' ...
                 sprintf('%s_RW2',seq.lang) ...
-                'face2' ...
-                sprintf('%s_FF2',seq.lang) ...
-                sprintf('%s_CS2',seq.lang) ...
                 sprintf('%s_SC2',seq.lang) ...
                 };
-        end
+        end        
         % get total number of stim of one set in each run
         %{
         function stim_per_set = get.stim_per_set(seq)
-            stim_per_set=seq.trials_per_cond*seq.stim_per_block;
+            stim_per_set=seq.block_per_active_cond*seq.stim_per_block;
         end
     %}
               
 
         % generate randomized stimulus sequences and insert task probes
         function seq = make_runs(seq)
-            % calculate number of images needed from each category
+
+            % --- Derived counts ---
+            num_active_blocks = seq.num_conds * seq.block_per_active_cond; % 2*15 = 30
+            num_inner_blocks  = num_active_blocks + seq.block_per_rest_cond; % 30+6 = 36
+            num_total_blocks  = num_inner_blocks + 2; % +2 padding = 38
+            block_dur = seq.stim_per_block * seq.stim_duty_cycle; % 6s
+
+            % -------------------------------------------------------
+            % 1. Build shuffled stimulus number pools per category
+            % -------------------------------------------------------
+            % Each active condition uses block_per_active_cond * stim_per_block
+            % = 15 * 12 = 180 images per category per run.
             [unique_cats, ~, idxs] = unique(seq.run_sets(:));
             unique_cats = unique_cats';
-            cnts = accumarray(idxs(:), 1, [], @sum)';
-            stim_per_cat = cnts * seq.stim_per_block * seq.num_conds;
+            cnts = accumarray(idxs(:), 1, [], @sum)'; % times each category appears across runs
+
+            % total images needed per category across all runs
+            stim_per_cat = cnts * seq.stim_per_block * seq.block_per_active_cond;
             cycles_per_cat = ceil(stim_per_cat / seq.stim_per_set);
-            % randomize the order of stimuli minimizing image repetition
+
+            % randomize stimulus numbers, cycling through full permutations
+            % to minimize image repetition
             stim_nums = cell(1, length(cycles_per_cat));
             for cc = 1:length(cycles_per_cat)
                 for cy = 1:cycles_per_cat(cc)
                     stim_nums{cc} = [stim_nums{cc} randperm(seq.stim_per_set)];
                 end
             end
-            stim_nums = cellfun(@(X, Y) X(1:Y), stim_nums, num2cell(stim_per_cat), 'uni', false);
-            
-            % get order of conditions in each run with padding blocks
-            % trials_per_cond
-            block_conds = make_orders(seq.num_conds, seq.trials_per_cond, seq.num_runs);
-            block_conds = [zeros(1, seq.num_runs); block_conds; zeros(1, seq.num_runs)];
-            block_dur = seq.stim_per_block * seq.stim_duty_cycle;
-            block_onsets = repmat(0:block_dur:seq.run_dur - block_dur, seq.num_runs, 1)';
-            % generate sequence of stimulus filenames for each run
-            % trials_per_cond
-            stim_mat = cell(seq.stim_per_block, seq.num_conds *seq.trials_per_cond + 2, seq.num_runs);
+            % trim to exact count needed
+            stim_nums = cellfun(@(X, Y) X(1:Y), stim_nums, ...
+                num2cell(stim_per_cat), 'uni', false);
+
+            % -------------------------------------------------------
+            % 2. Get block condition order for each run
+            % -------------------------------------------------------
+            % block_conds: num_inner_blocks x num_runs matrix
+            % values: 0 = baseline, 1 = cond1 (RW), 2 = cond2 (SC)
+            if seq.run_kids
+                block_conds = make_orders_kids(seq.num_conds, ...
+                    seq.block_per_active_cond, seq.block_per_rest_cond, seq.num_runs);
+            else
+                block_conds = make_orders(seq.num_conds, ...
+                    seq.block_per_active_cond, seq.block_per_rest_cond, seq.num_runs);
+            end
+            % add padding baseline blocks at start and end
+            block_conds = [zeros(1, seq.num_runs); ...
+                        block_conds; ...
+                        zeros(1, seq.num_runs)];
+            % block_conds is now num_total_blocks x num_runs
+
+            % block onsets (same for all runs)
+            block_onsets = repmat((0:block_dur:seq.run_dur - block_dur)', 1, seq.num_runs);
+
+            % -------------------------------------------------------
+            % 3. Map blocks to stimulus filenames
+            % -------------------------------------------------------
+            stim_mat = cell(seq.stim_per_block, num_total_blocks, seq.num_runs);
             for rr = 1:seq.num_runs
+                % cat_list: index 1 = 'baseline', index 2+ = active categories
                 cat_list = ['baseline' seq.run_sets(rr, :)];
+                % map block condition indices to category names
                 cat_seq = cat_list(block_conds(:, rr) + 1);
+                % MATLAB note: cat_seq is 1 x num_total_blocks, repmat across stim_per_block rows
                 stim_mat(:, :, rr) = repmat(cat_seq, seq.stim_per_block, 1);
             end
+
+            % assign image numbers from the shuffled pools
             stim_cat_list = reshape(stim_mat, [], 1);
             stim_num_list = zeros(size(stim_cat_list));
             for cc = 1:length(unique_cats)
                 cat_idxs = find(strcmp(unique_cats{cc}, stim_mat));
                 stim_num_list(cat_idxs) = stim_nums{cc};
             end
+
+            % build filename strings
             stim_num_list = num2cell(stim_num_list);
-            stim_num_list = cellfun(@(X) ['-' num2str(X) '.jpg'], stim_num_list, 'uni', false);
-            stim_num_list = strrep(stim_num_list, '-0.jpg', '');
+            stim_num_list = cellfun(@(X) ['-' num2str(X) '.jpg'], ...
+                stim_num_list, 'uni', false);
+            stim_num_list = strrep(stim_num_list, '-0.jpg', ''); % baseline gets no number
             stim_list = cellfun(@(X, Y) [X Y], stim_cat_list, stim_num_list, 'uni', false);
-            % insert task probes in randomly-selected stimulus blocks
-            % trials_per_cond
-            probes_per_run = floor(seq.task_freq * seq.num_conds*seq.trials_per_cond);
+
+            % -------------------------------------------------------
+            % 4. Insert task probes
+            % -------------------------------------------------------
+            probes_per_run = floor(seq.task_freq * num_active_blocks); % floor(0.5 * 30) = 15
+
             if seq.task_num == 2
+                % 2-back: probe position must be >= 3
                 probe_pos = randi(seq.stim_per_block - 3, [probes_per_run seq.num_runs]) + 2;
             else
-                probe_pos = randi(seq.stim_per_block - 2, [probes_per_run seq.num_runs ]) + 1;
+                % 1-back or oddball: probe position must be >= 2
+                probe_pos = randi(seq.stim_per_block - 2, [probes_per_run seq.num_runs]) + 1;
             end
-            % trials_per_cond
-            probe_stim_mat = zeros(seq.stim_per_block, seq.num_conds*seq.trials_per_cond + 2, seq.num_runs);
+
+            probe_stim_mat = zeros(seq.stim_per_block, num_total_blocks, seq.num_runs);
             for rr = 1:seq.num_runs
-                stim_block_idxs = shuffle(find(block_conds(:, rr) > 0));
+                % select random active blocks to receive probes
+                active_block_idxs = shuffle(find(block_conds(:, rr) > 0));
                 xi = probe_pos(:, rr);
-                yi = sort(stim_block_idxs(1:probes_per_run));
+                yi = sort(active_block_idxs(1:probes_per_run));
                 zi = repmat(rr, probes_per_run, 1);
                 run_probe_idxs = sub2ind(size(probe_stim_mat), xi, yi, zi);
                 probe_stim_mat(run_probe_idxs) = 1;
             end
+
             probe_stim_idxs = find(probe_stim_mat);
             if seq.task_num == 1
+                % 1-back: replace probe with copy of previous stimulus
                 probe_stim_names = stim_list(probe_stim_idxs - 1);
             elseif seq.task_num == 2
+                % 2-back: replace probe with copy of stimulus 2 positions back
                 probe_stim_names = stim_list(probe_stim_idxs - 2);
             else
-                oddball_nums = num2cell(randi(seq.stim_per_set, probes_per_run * seq.num_runs, 1));
-                probe_stim_names = cellfun(@(X) ['scrambled-' num2str(X) '.jpg'], oddball_nums, 'uni', false);
+                % oddball: replace with random scrambled image
+                oddball_nums = num2cell(randi(seq.stim_per_set, ...
+                    probes_per_run * seq.num_runs, 1));
+                probe_stim_names = cellfun(@(X) ['scrambled-' num2str(X) '.jpg'], ...
+                    oddball_nums, 'uni', false);
             end
             stim_list(probe_stim_idxs) = probe_stim_names;
-            % here is reshape the sequence into different runs
-            stim_names = reshape(stim_list', [], seq.num_runs);
-            stim_onsets = repmat(0:seq.stim_duty_cycle:seq.run_dur - seq.stim_duty_cycle, seq.num_runs, 1)';
-            task_probes = reshape(probe_stim_mat, [], seq.num_runs);
-            % store stimulus sequence parameters
+
+            % -------------------------------------------------------
+            % 5. Reshape into per-run outputs
+            % -------------------------------------------------------
+            num_stim_per_run = seq.stim_per_block * num_total_blocks; % 12 * 38 = 456
+            stim_names  = reshape(stim_list, num_stim_per_run, seq.num_runs);
+            stim_onsets = repmat((0:seq.stim_duty_cycle:seq.run_dur - seq.stim_duty_cycle)', ...
+                1, seq.num_runs);
+            task_probes = reshape(probe_stim_mat, num_stim_per_run, seq.num_runs);
+
+            % -------------------------------------------------------
+            % 6. Store results
+            % -------------------------------------------------------
             seq.block_onsets = block_onsets;
-            seq.block_conds = block_conds;
-            seq.stim_onsets = stim_onsets;
-            seq.stim_names = stim_names;
-            seq.task_probes = task_probes;
+            seq.block_conds  = block_conds;
+            seq.stim_onsets  = stim_onsets;
+            seq.stim_names   = stim_names;
+            seq.task_probes  = task_probes;
         end
-                
     end
     
 end

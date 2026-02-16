@@ -28,7 +28,7 @@ stim_set: 1 (standard)
 num_runs: 1
 task_num: 1 (1-back)
 use_eyelink: 0 (No)
-runvotcloc('S1_s1_sub-01_ses-01','EU',0,1,1,1,0);
+runvotcloc_kids('S1_s1_sub-01_ses-01','EU',0,1,1,1,0);
 
 TK was always scanned with lights on.
 A couple of times scanner B was stopped with reconstruction errors, we
