@@ -67,6 +67,7 @@ FOR WORD HEIGHT CALCULATION
 ===========================
 
 BCBL
+
 ----
 Screen resolution: 
 Screen size: 
@@ -99,8 +100,6 @@ Screen distance: 854mm
 See photo of square inside screen: h: 169 mm ; v: 169 mm
 Outside square: The phase scrambled are size is: h:421
 v:242mm
-
-
 
 
 

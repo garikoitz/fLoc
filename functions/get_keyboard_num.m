@@ -7,7 +7,7 @@ function k = get_keyboard_num
 
 % change to productID number of native keyboard
 % Linux box productID 8467 12314
-keyboard_id = 8467; k = 0; d = PsychHID('Devices');
+keyboard_id = 24729; k = 0; d = PsychHID('Devices');
 for nn = 1:length(d)
     if (d(nn).productID == keyboard_id) % && strcmp(d(nn).usageName, 'Keyboard');
          k = nn;
