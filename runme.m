@@ -16,7 +16,7 @@ Inputs (optional):
 
 Run fLocMINI using this command: 
 runme('testgari03', 0, 1, 2, 1)
-runme('ss01',0, 1, 1, 1)
+runme('ss01',0, 1, 1, 3)
 runme('ss01',0, 1, 2, 2)
 
 
