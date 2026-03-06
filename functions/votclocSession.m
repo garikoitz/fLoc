@@ -86,7 +86,7 @@ classdef votclocSession
             % the specific date to reuse the previous session, I want to
             % compare the difference between the same session across
             % different days
-            par_str = [parts{3}  '_' parts{4} '_task-fLoc_' '07-Jul-2025' '_' session.lang]; 
+            par_str = [parts{3}  '_' parts{4} '_task-fLoc_' session.date '_' session.lang]; 
             exp_str = ['Stimset' num2str(session.stim_set) '_' session.task_name '_' num2str(session.num_runs) 'runs'];
             id = [par_str '_' exp_str];
         end
@@ -489,12 +489,18 @@ classdef votclocSession
                 %cond_cols = cols(block_conds + 1);
                 parts_id=split(session.id, '_');
                 fname = [parts_id{1}  '_' parts_id{2} '_' parts_id{3} '_run-' num2str(rr, '%02d') '_events.tsv'];
+                disp(fname);
                 fpath = fullfile(session.exp_dir, 'data', session.id, fname);
+                % if it is using after the experiment
+                sourcedata_dir = '/bcbl/home/public/Gari/VOTCLOC/main_exp/BIDS/sourcedata';
+                subses = [parts_id{1}  '/' parts_id{2}];
+                fpath = fullfile(sourcedata_dir, subses, session.id, fname);
+                disp(fpath);
                 fid = fopen(fpath, 'w');
                 fprintf(fid, 'onset\tduration\ttrial_type\n');
-                for bb = 1:length(block_onsets)
-                    fprintf(fid, '%.2f\t%d\t%s\n', block_onsets(bb), duration, cond_names{bb});
-                end
+%                 for bb = 1:length(block_onsets)
+%                     fprintf(fid, '%.2f\t%d\t%s\n', block_onsets(bb), duration, cond_names{bb});
+%                 end
                 fclose(fid);
                 session.event{rr} = fpath;
             end
