@@ -1,9 +1,10 @@
-classdef fLocSequence
+classdef votclocSequence
     
     properties
+        lang        % stimulus langauge
         num_runs    % number of runs in experiment
         stim_onsets % onset times of each stimulus in a run
-        stim_names  % sequence of stimulus filenames
+        stim_names  % sequence of stimulus fildnames
         task_probes % index of stimuli that are task probes
     end
     
@@ -15,7 +16,7 @@ classdef fLocSequence
     end
     
     properties (Constant)
-        stim_conds = {'Bodies' 'RealWords' 'Faces' 'Lexical' 'Perceptual'};
+        stim_conds = {'Bodies' 'RealWords' 'Faces' 'FalseFonts' 'ConsonantStrings' 'Srambled'};
         stim_per_block = 12;   % number of stimuli in a block
         stim_duty_cycle = 0.5; % duration of stimulus duty cycle (s)
     end
@@ -28,13 +29,13 @@ classdef fLocSequence
         % stim_set1 = {'body' 'EU_word1' 'adult' 'EU_FF1' 'EU_CB1'};
         % stim_set2 = {'limb' 'EU_word2' 'child' 'EU_CS1' 'EU_SC1'};
         % ES
-        stim_set1 = {'body' 'ES_word1' 'adult' 'ES_FF1' 'ES_CB1'};
-        stim_set2 = {'limb' 'ES_word2' 'child' 'ES_CS1' 'ES_SC1'};
+        % stim_set1 = {'bodylimb' '_RW' 'face' 'ES_FF' 'ES_CS' 'ES_SC'};
+        % stim_set2 = {'limb' 'ES_word' 'child' 'ES_CS' 'ES_SC'};
 
         % stim_set1 = {'body' 'chars' 'adult' 'instrument' 'corridor'};
         % stim_set2 = {'limb' 'numbers' 'child' 'car' 'house'};
-        
-        stim_per_set = 52; % 52 because CN I only create 52
+        trials_per_cond= 7;
+        stim_per_set = 80; % because now for CN FF there are only 52
         task_names = {'1back' '2back' 'oddball'};
         task_freq = 0.5;
     end
@@ -47,26 +48,34 @@ classdef fLocSequence
     end
     
     properties (Dependent, Hidden)
+        stim_set1 % dynamically generate stimulus set based on lang
+        stim_set2 % dynamically generate stimulus set based on lang
         num_conds % number of conditions in experiment
         run_sets  % stimulus set used in each run
+        
     end
     
     methods
-        
+         
         % class constructor
-        function seq = fLocSequence(stim_set, num_runs, task_num)
+        function seq = votclocSequence(lang, stim_set, num_runs, task_num)
             if nargin < 1
-                seq.stim_set = 3;
+                seq.lang = 'ES';
+            else
+                seq.lang=lang;
+            end
+            if nargin < 2
+                seq.stim_set = 1;
             else
                 seq.stim_set = stim_set;
             end
-            if nargin < 2
-                seq.num_runs = 4;
+            if nargin < 3
+                seq.num_runs = 5;
             else
                 seq.num_runs = num_runs;
             end
-            if nargin < 3
-                seq.task_num = 3;
+            if nargin < 4
+                seq.task_num = 1;
             else
                 seq.task_num = task_num;
             end
@@ -76,12 +85,12 @@ classdef fLocSequence
         function task_name = get.task_name(seq)
             task_name = seq.task_names{seq.task_num};
         end
-        
+
         % get run duration given stimulus duty cycle
         function run_dur = get.run_dur(seq)
             block_dur = seq.stim_per_block * seq.stim_duty_cycle;
-            % trail_number
-            blocks_per_run = 1 + (1 + length(seq.stim_conds)) ^ 2 + 1;
+            % trials_per_cond
+            blocks_per_run = 1 + (1 + length(seq.stim_conds))*seq.trials_per_cond+ 1;
             run_dur = block_dur * blocks_per_run;
         end
         
@@ -121,6 +130,35 @@ classdef fLocSequence
             end
         end
         
+        % dynamically generate stimulus set based on lang
+        function stim_set1 = get.stim_set1(seq)
+            stim_set1= {...
+                'bodylimb1' ...
+                sprintf('%s_RW1',seq.lang) ...
+                'face1' ...
+                sprintf('%s_FF1',seq.lang) ...
+                sprintf('%s_CS1',seq.lang) ...
+                sprintf('%s_SC1',seq.lang) ...
+                };
+        end
+        function stim_set2 = get.stim_set2(seq)
+            stim_set2= {...
+                'bodylimb2' ...
+                sprintf('%s_RW2',seq.lang) ...
+                'face2' ...
+                sprintf('%s_FF2',seq.lang) ...
+                sprintf('%s_CS2',seq.lang) ...
+                sprintf('%s_SC2',seq.lang) ...
+                };
+        end
+        % get total number of stim of one set in each run
+        %{
+        function stim_per_set = get.stim_per_set(seq)
+            stim_per_set=seq.trials_per_cond*seq.stim_per_block;
+        end
+    %}
+              
+
         % generate randomized stimulus sequences and insert task probes
         function seq = make_runs(seq)
             % calculate number of images needed from each category
@@ -137,15 +175,16 @@ classdef fLocSequence
                 end
             end
             stim_nums = cellfun(@(X, Y) X(1:Y), stim_nums, num2cell(stim_per_cat), 'uni', false);
+            
             % get order of conditions in each run with padding blocks
-            % trail_number
-            block_conds = make_orders(seq.num_conds, seq.num_conds, seq.num_runs);
+            % trials_per_cond
+            block_conds = make_orders(seq.num_conds, seq.trials_per_cond, seq.num_runs);
             block_conds = [zeros(1, seq.num_runs); block_conds; zeros(1, seq.num_runs)];
             block_dur = seq.stim_per_block * seq.stim_duty_cycle;
             block_onsets = repmat(0:block_dur:seq.run_dur - block_dur, seq.num_runs, 1)';
             % generate sequence of stimulus filenames for each run
-            % trail_number
-            stim_mat = cell(seq.stim_per_block, seq.num_conds ^ 2 + 2, seq.num_runs);
+            % trials_per_cond
+            stim_mat = cell(seq.stim_per_block, seq.num_conds *seq.trials_per_cond + 2, seq.num_runs);
             for rr = 1:seq.num_runs
                 cat_list = ['baseline' seq.run_sets(rr, :)];
                 cat_seq = cat_list(block_conds(:, rr) + 1);
@@ -162,13 +201,15 @@ classdef fLocSequence
             stim_num_list = strrep(stim_num_list, '-0.jpg', '');
             stim_list = cellfun(@(X, Y) [X Y], stim_cat_list, stim_num_list, 'uni', false);
             % insert task probes in randomly-selected stimulus blocks
-            probes_per_run = floor(seq.task_freq * seq.num_conds ^ 2);
+            % trials_per_cond
+            probes_per_run = floor(seq.task_freq * seq.num_conds*seq.trials_per_cond);
             if seq.task_num == 2
                 probe_pos = randi(seq.stim_per_block - 3, [probes_per_run seq.num_runs]) + 2;
             else
                 probe_pos = randi(seq.stim_per_block - 2, [probes_per_run seq.num_runs ]) + 1;
             end
-            probe_stim_mat = zeros(seq.stim_per_block, seq.num_conds ^ 2 + 2, seq.num_runs);
+            % trials_per_cond
+            probe_stim_mat = zeros(seq.stim_per_block, seq.num_conds*seq.trials_per_cond + 2, seq.num_runs);
             for rr = 1:seq.num_runs
                 stim_block_idxs = shuffle(find(block_conds(:, rr) > 0));
                 xi = probe_pos(:, rr);

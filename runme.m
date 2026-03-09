@@ -1,36 +1,34 @@
-function runme(name, trigger, stim_set, num_runs, task_num, start_run)
+ function runvotcloc_kids(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
 %{ 
-Prompts experimenter for session parameters and executes functional
-localizer experiment used to define regions in high-level visual cortex
-selective to faces, places, bodies, and printed characters.
+Prompts experimenter for session parameters and executes functional localizer experiment used 
+to define regions in high-level visual cortex selective to faces, places, bodies, and printed characters.
 
 Inputs (optional):
   1) name -- session-specific identifier (e.g., particpant's initials)
-  2) trigger -- option to trigger scanner (0 = no, 1 = yes)
-  3) stim_set -- stimulus set (1 = standard, 2 = alternate, 3 = both)
-  4) num_runs -- number of runs (stimuli repeat after 2 runs/set)
-  5) task_num -- which task (1 = 1-back, 2 = 2-back, 3 = oddball)
-  6) start_run -- run number to begin with (if sequence is interrupted)
+  2) language -- language of the participant (e.g., CN, ES, JP, AT, FR, IT)
+  3) trigger -- option to trigger scanner (0 = no, 1 = yes)
+  4) stim_set -- stimulus set (1 = standard, 2 = alternate, 3 = both) % for
+  VOTCLOC we will always use 1. because we already combine Faces catagory
+  and Limbs catagory into a big stimulus set
+  5) num_runs -- number of runs (stimuli repeat after 2 runs/set)
+  6) task_num -- which task (1 = 1-back, 2 = 2-back, 3 = oddball)
+  7) use_eyelink -- options to use eyelink (0 = no, 1 = yes )
+  8) start_run -- run number to begin with (if sequence is interrupted)
 
-Run fLocMINI using this command: 
-runme('okazaki_pilot_01_initials, 0, 3, 4, 1, start_run) % Edit if interrupted
 
-
-20240129 MORNING
-runme('okazaki_multisite_20240129_DT', 0, 3, 6, 1): scanner B
-runme('okazaki_multisite_20240129_ST', 0, 3, 6, 1): scanner Bs
-
-20240129 AFTERNOON
-runme('okazaki_multisite_20240129_TM_B', 0, 3, 6,1);  scanner B
-runme('okazaki_multisite_20240129_TK_B', 0, 3, 6,1);  scanner B
-
-20240130 MORNING
-runme('okazaki_multisite_20240130_ST_B', 0, 3, 6, 1): scanner B
-runme('okazaki_multisite_20240130_DT_B', 0, 3, 6, 1): scanner B
-
-20240130 AFTERNOON
-runme('okazaki_multisite_20240130_TK_B', 0, 3, 6,1);  scanner B
-runme('okazaki_multisite_20240130_TM_B', 0, 3, 6,1);  scanner B
+To run the experiment use:
+========
+20260215    
+scan VOTCLOC_kids sub-01_ses-01
+This means: 
+participant name:S1_s1_sub-01_ses-01
+language: EU (Basque)
+trigger: 0 (no)
+stim_set: 1 (standard)
+num_runs: 1
+task_num: 3 (oddball)
+use_eyelink: 0 (No)
+runme('S1_s1_sub-01_ses-01','EU',0,1,1,3,0);
 
 TK was always scanned with lights on.
 A couple of times scanner B was stopped with reconstruction errors, we
@@ -46,110 +44,23 @@ FOR WORD HEIGHT CALCULATION
 BCBL
 ----
 Screen resolution: 
-Screen size: heigth: 41, width:55
+Screen size: heigth: 41, width:55 %measured 0916 2024
 Screen distance: 
 Square inside screen: height: 31 cm ; width: 33 cm
-The CB are size is: height: 6 cm
+The CB are size is: height: 6 cm; word 4cm
 
-VIENNA
-------
-Screen resolution: 
-Screen size: 
-Screen distance: 
-
-OKAZAKI
--------
-Screen resolution: 1280 x 1024
-Screen size: 391mm →13.1deg 
-Screen distance: 1704mm 
-Outside gray square: w: 43cm, h: 32.5cm
-Inside stimulus size (phase scrambled size): w: 26cm, h: 24.5
-The height of letters it was aprox 3.5, checkerboards height: 4cm
-
-it seems that pixels are not rectangular, same image in the console display
-was: outside grey square: w: 37.5cm, h: 30 cm
-inside phase scrambles square: 22.5cm per side
-
-TAMAGAWA
---------
-Screen resolution: 1920 x 1080
-Screen size: vertical 239mm, horiz: 420mm 
-Screen distance: 854mm
-See photo of square inside screen: h: 169 mm ; v: 169 mm
-Outside square: The phase scrambled are size is: h:421
-v:242mm
+(This one needs to change because I measure it wrong! )
 
 
+****
+For the eyetracker, it will take the first 5 elements of the subject name
+you input, so try to give all the info within 5 elements, and the n put the
+note after
+sub-01_ses-01_Language_IT  etc
+you can do: s1_1
+if it is sub10 put SX_sX
+****
 
-
-
-=========
-= SCANS =
-=========
-
-OKAZAKI
-=======
-
-
-20240205 
-Takemura-san
-runme('okazaki_multisite_20240205_TH-JP_B', 0, 3, 6,1);  scanner B
-
-Lerma-san
-runme('okazaki_multisite_20240205_GL-EU_B', 0, 3, 6,1);  scanner B
-
-20240206
-Takemura-san
-runme('okazaki_multisite_20240206_TH-JP_B', 0, 3, 6,1);  scanner B
-
-Lerma-san
-runme('okazaki_multisite_20240206_GL-EU_B', 0, 3, 6,1);  scanner B
-
-
-20240130 AFTERNOON
-runme('okazaki_multisite_20240130_TK_B', 0, 3, 6,1);  scanner B
-runme('okazaki_multisite_20240130_TM_B', 0, 3, 6,1);  scanner B
-
-
-TAMAGAWA
-========
-20240221
---------
-runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
-runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
-runme('tamagawa_multisite_20240221_-JP', 0, 3, 6,1);
-
-20240222
---------
-runme('tamagawa_multisite_20240222_-JP', 0, 3, 6,1);
-runme('tamagawa_multisite_20240222_-ES', 0, 3, 6,1);
-
-
-BCBL
-========
-20240417
---------
-runme('bcbl_multisite_20240417_GL-ES', 0, 3, 6,1);
-runme('bcbl_TEST', 0, 3, 6,1);
-
-
-
-========
-20240909
---------
-runme_idenrun('bcbl_idenrun_5runs_GL-ES', 0, 3, 5, 1);
-
-
-========
-20240911
---------
-runme_idenrun('test_newseq', 0, 1, 5, 1);
-## the stimulus set is using first set, not things combined. 
-
-
-# To continue to next run
-BCBL
-========
 Ask participant to press red button which is number 4
 
 Then start the sequence on MRI MRI will pulse s to the prompt
@@ -165,11 +76,10 @@ sca
 Screen('Close')
 
 
-
-
-Version 3.0 8/2017
-Anthony Stigliani (astiglia@stanford.edu)
-Department of Psychology, Stanford University
+Version 0.0.2/2024
+Yongning Lei (t.lei@bcbl.eu)
+Basque Center on Cognition Brain and Language
+Was derived from Anthony Stigliani (astiglia@stanford.edu)
 %}
 
 %% add paths and check inputs
@@ -182,16 +92,24 @@ if nargin < 1
     end
 end
 
+% session lang
+if nargin < 3
+    lang = [];
+    while isempty(deblank(lang))
+        lang = input('Testing language : ', 's');
+    end
+end
 % option to trigger scanner
-if nargin < 2
+if nargin < 3
     trigger = -1;
     while ~ismember(trigger, 0:1)
+        sca
         trigger = input('Trigger scanner? (0 = no, 1 = yes) : ');
     end
 end
 
 % which stimulus set/s to use
-if nargin < 3
+if nargin < 4
     stim_set = -1;
     while ~ismember(stim_set, 1:3)
         stim_set = input('Which stimulus set? (1 = standard, 2 = alternate, 3 = both) : ');
@@ -199,7 +117,7 @@ if nargin < 3
 end
 
 % number of runs to generate
-if nargin < 4
+if nargin < 5
     num_runs = -1;
     while ~ismember(num_runs, 1:24)
         num_runs = input('How many runs? : ');
@@ -207,39 +125,67 @@ if nargin < 4
 end
 
 % which task to use
-if nargin < 5
+if nargin < 6
     task_num = -1;
     while ~ismember(task_num, 1:3)
         task_num = input('Which task? (1 = 1-back, 2 = 2-back, 3 = oddball) : ');
     end
 end
-
+if nargin < 7
+    use_eyelink = -1;
+        while ~ismember(use_eyelink, 0:1)
+            use_eyelink = input('Use Eyetracker? (0 = no, 1 = yes) : ');
+        end
+end
 % which run number to begin executing (default = 1)
-if nargin < 6
+if nargin < 8
     start_run = 1;
 end
 
 
 %% initialize session object and execute experiment
 
-
-% setup fLocSession and save session information
-session = fLocSession(name, trigger, stim_set, num_runs, task_num);
+% setup votclocSession and save session information
+session = votclocSession(name, lang, trigger ,stim_set, num_runs, task_num, use_eyelink);
 session = load_seqs(session);
 session_dir = (fullfile(session.exp_dir, 'data', session.id));
+
+script_session_ID=sprintf("########### Session ID is %s ########### \n", session.id);
+disp(script_session_ID);
+% print the number of TR in the command to help checking the sequence
+seq=session.sequence;
+TR=2;
+onset_dur=seq.stim_dur+seq.isi_dur;
+num_of_stim=length(seq.stim_onsets);
+
+NORDIC_scans=1;
+dummy_scans=5;
+%counter down is in sec
+count_down=session.count_down; 
+num_of_TR=dummy_scans+count_down/TR-dummy_scans+round(num_of_stim/(TR/onset_dur))+NORDIC_scans;
+
+script_TR=sprintf("########### Total volumns for this experiment is %i ########### \n", num_of_TR);
+disp(script_TR);
+
 if ~exist(session_dir, 'dir') == 7
     mkdir(session_dir);
 end
-fpath = fullfile(session_dir, [session.id '_fLocSession.mat']);
+fpath = fullfile(session_dir, [session.id '_votclocSession.mat']);
 save(fpath, 'session', '-v7.3');
 
 % execute all runs from start_run to num_runs and save parfiles
-fname = [session.id '_fLocSession.mat'];
+fname = [session.id '_votclocSession.mat'];
+%disp('###### fname is')
+%ddisp(fname)
 fpath = fullfile(session.exp_dir, 'data', session.id, fname);
+
 for rr = start_run:num_runs
+    script_startrun=sprintf("########### The current run is %i ########### \n", rr);
+    disp(script_startrun);
     session = run_exp(session, rr);
     save(fpath, 'session', '-v7.3');
 end
-write_parfiles(session);
+%write_parfiles(session);
+write_event_tsv(session);
 
 end

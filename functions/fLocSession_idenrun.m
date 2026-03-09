@@ -103,7 +103,7 @@ classdef fLocSession_idenrun
             elseif session.task_num == 2
                 instructions = 'Fixate. Press a button when an image repeats with one intervening image.';
             else
-                instructions = 'Fixate. Press a button when a scrambled image appears.';
+                instructions = 'Fixate. Press a button when an alien image appears.';
             end
         end
         

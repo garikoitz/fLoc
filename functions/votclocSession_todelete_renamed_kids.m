@@ -1,4 +1,4 @@
-classdef votclocSession_kids
+classdef votclocSession
     
     properties
         name      % participant initials or id string
@@ -6,7 +6,7 @@ classdef votclocSession_kids
         lang      % language of the word stimulus
         trigger   % option to trigger scanner (0 = no, 1 = yes)
         num_runs  % number of runs in experiment
-        sequence  % session votclocSequence_kids object
+        sequence  % session votclocSequence object
         responses % behavioral response data structure
         parfiles  % paths to vistasoft-compatible parfiles
         event     % paths to event.tsv
@@ -52,8 +52,8 @@ classdef votclocSession_kids
     methods
    
         % class constructor
-        % name='S1_s1_sub-01_ses-01'; lang = 'EU'; trigger=0; stim_set=1; num_runs=1; task_num=1; run_num=1;use_eyelink=0;
-        function session = votclocSession_kids(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink)
+        % name='ss_st'; lang = 'ES'; trigger=0; stim_set=1; num_runs=3; task_num=1; run_num=1;use_eyelink=1;
+        function session = votclocSession(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink)
             session.name = deblank(name);
             session.lang = lang;
             session.trigger = trigger;
@@ -86,7 +86,7 @@ classdef votclocSession_kids
             % the specific date to reuse the previous session, I want to
             % compare the difference between the same session across
             % different days
-            par_str = [parts{3}  '_' parts{4} '_task-fLoc_' session.date '_' session.lang]; 
+            par_str = [parts{3}  '_' parts{4} '_task-fLoc_' '07-Jul-2025' '_' session.lang]; 
             exp_str = ['Stimset' num2str(session.stim_set) '_' session.task_name '_' num2str(session.num_runs) 'runs'];
             id = [par_str '_' exp_str];
         end
@@ -109,7 +109,7 @@ classdef votclocSession_kids
             elseif session.task_num == 2
                 instructions = 'Fixate. Press a button when an image repeats with one intervening image.';
             else
-                instructions = 'Fixate. Press a button when a scrambled image appears.';
+                instructions = 'Fixate. Press a button when an alien image appears.';
             end
         end
         
@@ -119,7 +119,7 @@ classdef votclocSession_kids
             fpath = fullfile(session.exp_dir, 'data', session.id, fname);
             % make stimulus sequences if not already defined for session
             if ~exist(fpath, 'file')
-                seq = votclocSequence_kids(session.lang, session.stim_set, session.num_runs, session.task_num);
+                seq = votclocSequence(session.lang, session.stim_set, session.num_runs, session.task_num);
                 seq = make_runs(seq);
                 mkdir(fileparts(fpath));
                 save(fpath, 'seq', '-v7.3');

@@ -183,8 +183,8 @@ classdef votclocSequence_seprun
             elseif seq.task_num == 2
                 probe_stim_names = stim_list(probe_stim_idxs - 2);
             else
-                oddball_nums = num2cell(randi(seq.stim_per_set, probes_per_run * seq.num_runs, 1));
-                probe_stim_names = cellfun(@(X) ['scrambled-' num2str(X) '.jpg'], oddball_nums, 'uni', false);
+                oddball_nums = num2cell(randi(8, probes_per_run * seq.num_runs, 1));
+                probe_stim_names = cellfun(@(X) ['aliens-scrambled_alien_' num2str(X) '.jpg'], oddball_nums, 'uni', false);
             end
             stim_list(probe_stim_idxs) = probe_stim_names;
             % here is reshape the sequence into different runs
