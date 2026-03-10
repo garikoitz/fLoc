@@ -38,8 +38,9 @@ classdef votclocSequence
 
         % stim_set1 = {'body' 'chars' 'adult' 'instrument' 'corridor'};
         % stim_set2 = {'limb' 'numbers' 'child' 'car' 'house'};
-        block_per_active_cond = 15;
-        block_per_rest_cond = 6;
+        block_per_active_cond = 6; % if 15 blocks, total is 6*6= 36 blocks --> one run is 4 mins
+        % if 6 blocks, total is 4*4 =16 blocks --> 1 run is 2 mins
+        block_per_rest_cond = 4;
         stim_per_set = 80; % because now for CN FF there are only 52
         task_names = {'1back' '2back' 'oddball'};
         task_freq = 0.5;
@@ -165,10 +166,11 @@ classdef votclocSequence
         % end
 
         % get new stimulis set for kids condition: RW and SC only
+        % for EU only RW and SC will work, we don't have 2 sets for EU, need to create
         function stim_set1 = get.stim_set1(seq)
             stim_set1= {...
-                sprintf('%s_RW1',seq.lang) ...
-                sprintf('%s_SC1',seq.lang) ...
+                sprintf('%s_RW',seq.lang) ...
+                sprintf('%s_SC',seq.lang) ...
                 };
         end
         % get new stimulis set for kids condition: RW and SC only

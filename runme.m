@@ -1,4 +1,4 @@
- function runvotcloc_kids(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
+function runme(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
 %{ 
 Prompts experimenter for session parameters and executes functional localizer experiment used 
 to define regions in high-level visual cortex selective to faces, places, bodies, and printed characters.
@@ -25,10 +25,10 @@ participant name:S1_s1_sub-01_ses-01
 language: EU (Basque)
 trigger: 0 (no)
 stim_set: 1 (standard)
-num_runs: 1
+num_runs: 2
 task_num: 3 (oddball)
 use_eyelink: 0 (No)
-runme('S1_s1_sub-01_ses-01','EU',0,1,1,3,0);
+runme('S1_s1_sub-01_ses-01','EU',0,1,2,3,0);
 
 TK was always scanned with lights on.
 A couple of times scanner B was stopped with reconstruction errors, we
