@@ -17,7 +17,7 @@ classdef votclocSequence
     
     properties (Constant)
         stim_conds = {'Bodies' 'RealWords' 'Faces' 'FalseFonts' 'ConsonantStrings' 'Srambled'};
-        stim_per_block = 12;   % number of stimuli in a block
+        stim_per_block = 3;   % number of stimuli in a block, default 12, but for testing can set to 3
         stim_duty_cycle = 0.5; % duration of stimulus duty cycle (s)
     end
     

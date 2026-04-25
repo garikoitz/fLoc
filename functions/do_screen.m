@@ -1,8 +1,6 @@
 function [w, rect, center, screen_num] = doScreen
-% Opens a full-screen window, sets text properties, and hides the cursor.
-% Written by KGS Lab
-% Edited by AS 8/2014
-
+% Opens a PTB window matching the BfLoc_video MRI screen configuration.
+% Screen 0, second monitor rect [1920 0 3840 1080], grey background (128).
 
 %{
 
@@ -51,17 +49,21 @@ Screen('BlendFunction', params.display.windowPtr, GL_SRC_ALPHA, GL_ONE_MINUS_SRC
 
 
 % open window and find center
-Screen('Preference', 'SkipSyncTests', 1)
-Screen('Preference','VisualDebugLevel', 0)
-S = Screen('Screens');
+Screen('Preference', 'SkipSyncTests', 1);
+Screen('Preference', 'VisualDebugLevel', 0);
 
-screen_num = max(S);
-[w, rect] = Screen('OpenWindow', screen_num,[133,133,133]);
+% Use screen 0, open only on the projector (second monitor) portion,
+% matching BfLoc_video: DELL 23" at [0..1920] + projector at [1920..3840].
+screen_num = 0;
+second_screen_rect = [1920, 0, 3840, 1080];
+
+[w, rect] = Screen('OpenWindow', screen_num, 128, second_screen_rect);
 center = rect(3:4) / 2;
 
 % set text properties
 Screen('TextFont', w, 'Times');
 Screen('TextSize', w, 24);
+Screen('BlendFunction', w, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 Screen('FillRect', w, 128);
 
 % hide cursor

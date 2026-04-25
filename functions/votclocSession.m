@@ -81,12 +81,7 @@ classdef votclocSession
         % get session-specific id string
         function id = get.id(session)
             parts = split(session.name,'_');
-            % [parts{3}  '_' parts{4} '_task-fLoc_' session.date '_'
-            % session.lang]; it was this before, change the session.date to
-            % the specific date to reuse the previous session, I want to
-            % compare the difference between the same session across
-            % different days
-            par_str = [parts{3}  '_' parts{4} '_task-fLoc_' session.date '_' session.lang]; 
+            par_str = [parts{3}  '_' parts{4} '_task-fLoc' '_' session.date '_' session.lang]; 
             exp_str = ['Stimset' num2str(session.stim_set) '_' session.task_name '_' num2str(session.num_runs) 'runs'];
             id = [par_str '_' exp_str];
         end
@@ -514,23 +509,20 @@ classdef votclocSession
                     Screen('DrawText', window, 'Receiving data file...', 5, height-35, 0); % Prepare text
                     Screen('Flip', window); % Present text
                     fprintf('Receiving data file ''%s.edf''\n', session.edfFile); % Print some text in Matlab's Command Window
-                    
-                    % Transfer EDF file to Host PC
-                    % [status =] Eyelink('ReceiveFile',['src'], ['dest'], ['dest_is_path'])
-                    %status = Eyelink('ReceiveFile');
-                    % Optionally uncomment below to change edf file name when a copy is transferred to the Display PC
-                    % % If <src> is omitted, tracker will send last opened data file.
-                    % % If <dest> is omitted, creates local file with source file name.
-                    % % Else, creates file using <dest> as name.  If <dest_is_path> is supplied and non-zero
-                    % % uses source file name but adds <dest> as directory path.
-                    % newName = ['Test_',char(datetime('now','TimeZone','local','Format','y_M_d_HH_mm')),'.edf'];                
-                    newName = [session.edfFile,'_',char(datetime('now','TimeZone','local')),'.edf'];  
+
+                    newName = [session.edfFile,'_',char(datetime('now','TimeZone','local')),'.edf'];
                     dst_dir = fullfile(session.exp_dir, 'data', session.id);
-                    status = Eyelink('ReceiveFile', [], fullfile(dst_dir,newName), 0);
-                    
+                    fullDest = fullfile(dst_dir, newName);
+                    fprintf('[EDF] dummymode=%d\n', session.dummymode);
+                    fprintf('[EDF] Host PC filename : ''%s.edf''\n', session.edfFile);
+                    fprintf('[EDF] Destination path : ''%s''\n', fullDest);
+                    fprintf('[EDF] Calling Eyelink(''ReceiveFile'', [], dest, 0) ...\n');
+                    status = Eyelink('ReceiveFile', [], fullDest, 0);
+                    fprintf('[EDF] ReceiveFile returned status = %d\n', status);
+
                     % Check if EDF file has been transferred successfully and print file size in Matlab's Command Window
                     if status > 0
-                        fprintf('EDF file size: %.1f KB\n', status/1024); % Divide file size by 1024 to convert bytes to KB
+                        fprintf('[EDF] EDF file size: %.1f KB\n', status/1024);
                     end
                     % Print transferred EDF file path in Matlab's Command Window
                     fprintf('Data file ''%s.edf'' can be found in ''%s''\n', session.edfFile, dst_dir);
