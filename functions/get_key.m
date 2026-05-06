@@ -5,7 +5,7 @@ function get_key(key, laptop_key)
 
 while 1
     while 1
-        [key_is_down, ~, key_code] = KbCheck(laptop_key);
+        [key_is_down, ~, key_code] = KbCheck(-1); %laptop_key);
         if key_is_down
             break
         end
