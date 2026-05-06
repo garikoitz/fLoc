@@ -1,3 +1,51 @@
+%Use this for the Button box ID in the MRI room
+
+function b = get_box_num
+% Checks connected USB devices and returns the device number corresponding
+% to the scanner button box (box_id should be set to the productID of
+% the button box used locally).
+% Written by KGS Lab
+% Edited by AS 8/2014
+
+% Set the productID of your button box (update if it ever changes)
+% NNL (Nordic Neuro Labs) KeyWarrior8 Flex trigger: vendorID 0x07c0, productID 0x0101
+box_id = 257;
+
+% Initialize output
+b = 0;
+
+% Get list of all connected input devices
+d = PsychHID('Devices');
+
+% Loop through all devices to find a match
+for nn = 1:length(d)
+    if d(nn).productID == box_id
+        b = nn;
+        break;  % Stop as soon as found
+    end
+end
+
+% Warn user if box not found
+if b == 0
+    fprintf('\nButton box not found.\n');
+else
+    fprintf('\nButton box found at device number: %d\n', b);
+end
+
+end
+
+
+
+
+
+
+
+
+
+
+
+%Use this upstair for the get_box_num
+%{
 function b = get_box_num
 % Checks connected USB devices and returns the device number corresponding
 % to the scanner button box (box_id should be set the the productID of
@@ -6,54 +54,47 @@ function b = get_box_num
 % Edited by AS 8/2014
 
 % change to productID number of local button box
-% box_id 12 is for BCBL /the response box
-% another_box_id is 257, the same as s-key box
-% the location ID for tiger MAC is: locationID=34680832; 
-% it is actually highly dependent on the location! put the starttech port
-% to iMAC_old first usb, and put the box usb to it's top port, it is 336855040;
-% for iMac_M4, using the 2nd type-c port with the 23240 anker, it is 34865152;
-% 834 is tiger's MAC
-% 5648 is tiger's steelseries
-% 671 is tiger's bluetooth keyboard
-% 545 is bcbl mac keyboard
-box_id = 257; b = 0; d = PsychHID('Devices');
-
-if box_id==257
-    locationID=34865152;
-    for nn = 1:length(d)
-        if (d(nn).productID == box_id) && (d(nn).locationID == locationID) && strcmp(d(nn).usageName, 'Keyboard');
-            b = nn;
-            break
-        end
+box_id = 8467; b = 0; d = PsychHID('Devices');
+for nn = 1:length(d)
+    if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
+        b = nn;
     end
-elseif box_id==12
-    for nn = 1:length(d)
-        if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
-            b = nn;
-        end
-    end
-else
-    for nn = 1:length(d)
-        if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
-            b = nn;
-        end
-    end
-end 
-
+end
 if b == 0
     fprintf('\nButton box not found.\n');
 end
-
+%b = 2
 end
 
 
+%this is to access the number of USB connected
 %{
-d = PsychHID('Devices');
-for nn = 1:length(d)
-    if strcmp(d(nn).usageName, 'Keyboard')
-        disp(nn)
-        disp(d(nn))
+devices = PsychHID('Devices');
 
-    end
+for i = 1:length(devices)
+    fprintf('\nDevice %d:\n', i);
+    fprintf('  Product Name : %s\n', devices(i).product);
+    fprintf('  Usage Name   : %s\n', devices(i).usageName);
+    fprintf('  Vendor ID    : %d\n', devices(i).vendorID);
+    fprintf('  Product ID   : %d\n', devices(i).productID);
+    fprintf('  Manufacturer : %s\n', devices(i).manufacturer);
+    fprintf('  Serial Number: %s\n', devices(i).serialNumber);
 end
+
 %}
+
+%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
