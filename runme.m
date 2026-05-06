@@ -1,33 +1,60 @@
 function runme(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
 %{ 
-Prompts experimenter for session parameters and executes functional localizer experiment used 
-to define regions in high-level visual cortex selective to faces, places, bodies, and printed characters.
+Prompts experimenter for session parameters and executes functional
+localizer experiment used to define regions in high-level visual cortex
+selective to faces, places, bodies, and printed characters.
 
-Inputs (optional):
-  1) name -- session-specific identifier (e.g., particpant's initials)
-  2) language -- language of the participant (e.g., CN, ES, JP, AT, FR, IT)
-  3) trigger -- option to trigger scanner (0 = no, 1 = yes)
-  4) stim_set -- stimulus set (1 = standard, 2 = alternate, 3 = both) % for
-  VOTCLOC we will always use 1. because we already combine Faces catagory
-  and Limbs catagory into a big stimulus set
-  5) num_runs -- number of runs (stimuli repeat after 2 runs/set)
-  6) task_num -- which task (1 = 1-back, 2 = 2-back, 3 = oddball)
-  7) use_eyelink -- options to use eyelink (0 = no, 1 = yes )
-  8) start_run -- run number to begin with (if sequence is interrupted)
+Special notes for input option 1 2 and 7:
+  1) name       -- session-specific identifier string.
+                   REQUIRED FORMAT:  'XX_YY_sub-NN_ses-MM'
+                   where:
+                     XX    : short subject code (e.g. s1)
+                     YY    : short session label (e.g. t1)
+                     sub-NN: BIDS subject ID  (e.g. sub-01)
+                     ses-MM: BIDS session number (e.g. ses-01)
+                   -------------------------------------------------------
+                   *** IMPORTANT — The first two tokens XX_YY are used as
+                   the EyeLink EDF filename on the Host PC (max 8 chars).
+                   They must:
+                     (a) be unique per subject+session combination so that
+                         EDF files from different sessions are never mixed up
+                     (b) match the sub-NN and ses-MM tokens in meaning
+                         (e.g. 's1_t1' should correspond to sub-01, ses-01)
+                     (c) together be exactly 5 characters long so that
+                         appending '_<run>' stays within the 8-char limit:
+                           XX_YY_<run>  ->  e.g. s1_t1_1  (7 chars ✓)
+                                                 s1_t1_10 (8 chars ✓)
+                   -------------------------------------------------------
+                   Examples:
+                     's1_t1_sub-01_ses-01'  -> subject 01, session 01, test 1
 
+                   The full session ID written to disk is auto-built as:
+                     sub-NN_ses-MM_task-BfLocVideo_<date>_Stimset<S>_<task>_<R>runs
+                     e.g. sub-01_ses-01_task-BfLocVideo_oddball_25-Apr-2026_Stimset1_oddball_2runs
+                   EyeLink EDF on Host PC (≤8 chars, auto-derived from XX_YY + run):
+                     s1_t1_1  (run 1),  s1_t1_2  (run 2), ...  s1_t1_10 (run 10)
+                   Example calls:
+                     runme('s1_t1_sub-01_ses-01', 0, 1, 2, 3)        %% no scanner, oddball
+  2) Language: always be EU (Basque) for this experiment              
+  7) use_eyelink -- use EyeLink eye-tracker? (0 = no [default], 1 = yes)
+                    When 1, calibration runs before the first scanner trigger.
+                    To adjust the calibration zoom (area proportion), edit
+                    session.el_calib_area after fLocSession() is created:
+                      session.el_calib_area = [0.477 0.678]; %% 1920x1080 projector
+                      session.el_calib_area = [0.715 0.715]; %% 1280x1024 iMac
+TO run the experiment, go with this sample command 
 
-To run the experiment use:
 ========
 20260215    
 scan VOTCLOC_kids sub-01_ses-01
 This means: 
-participant name:S1_s1_sub-01_ses-01
-language: EU (Basque)
-trigger: 0 (no)
-stim_set: 1 (standard)
-num_runs: 2
-task_num: 3 (oddball)
-use_eyelink: 0 (No)
+1)participant name:S1_s1_sub-01_ses-01
+2)language: EU (Basque)
+3)trigger: 0 (no)
+4)stim_set: 1 (standard)
+5)num_runs: 2
+6)task_num: 3 (oddball)
+7)use_eyelink: 0 (No)
 runme('S1_s1_sub-01_ses-01','EU',0,1,2,3,0);
 
 TK was always scanned with lights on.
