@@ -67,11 +67,11 @@ restarted the functional in the correct scanner option and that was it.
 
 ========
 20260506 
-runme('s2_s1_sub-02_ses-01','EU',0,1,2,3,0);
+runme('s1_s1_sub-01_ses-01','EU',0,1,2,3,0);
 
 ========
 20260512 
-runme('s3_s1_sub-03_ses-01','EU',0,1,2,3,0);
+runme('s2_s1_sub-02_ses-01','EU',0,1,2,3,0);
 
 
 FOR WORD HEIGHT CALCULATION
