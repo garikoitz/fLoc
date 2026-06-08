@@ -16,29 +16,14 @@ function b = get_box_num
 % 5648 is tiger's steelseries
 % 671 is tiger's bluetooth keyboard
 % 545 is bcbl mac keyboard
-box_id = 24729; b = 0; d = PsychHID('Devices');
+box_id = 12; b = 0; d = PsychHID('Devices');
 
-if box_id==257
-    locationID=34865152;
-    for nn = 1:length(d)
-        if (d(nn).productID == box_id) && (d(nn).locationID == locationID) && strcmp(d(nn).usageName, 'Keyboard');
-            b = nn;
-            break
-        end
+for nn = 1:length(d)
+    if d(nn).productID == box_id
+        b = nn;
+        break
     end
-elseif box_id==12
-    for nn = 1:length(d)
-        if (d(nn).productID == box_id) && (strcmp(d(nn).usageName, 'Keyboard'))
-            b = nn;
-        end
-    end
-else
-    for nn = 1:length(d)
-        if (d(nn).productID == box_id) % && (strcmp(d(nn).usageName, 'Keyboard'))
-            b = nn;
-        end
-    end
-end 
+end
 
 if b == 0
     fprintf('\nButton box not found.\n');
