@@ -9,7 +9,9 @@ function b = get_box_num
 
 % Set the productID of your button box (update if it ever changes)
 % NNL (Nordic Neuro Labs) KeyWarrior8 Flex trigger: vendorID 0x07c0, productID 0x0101
-box_id = 257;
+% the linux box keyboard is 24729
+% the current design is 12
+box_id = 24729;
 
 % Initialize output
 b = 0;

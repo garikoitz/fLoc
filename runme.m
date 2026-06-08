@@ -1,5 +1,7 @@
 function runme(name, lang, trigger, stim_set, num_runs, task_num, use_eyelink, start_run)
 %{ 
+This is for bibalance
+
 Prompts experimenter for session parameters and executes functional
 localizer experiment used to define regions in high-level visual cortex
 selective to faces, places, bodies, and printed characters.
@@ -73,6 +75,11 @@ runme('s1_s1_sub-01_ses-01','EU',0,1,2,3,0);
 20260512 
 runme('s2_s1_sub-02_ses-01','EU',0,1,2,3,0);
 
+========
+20260608 
+runme('st_st_sub-t_ses-t','EU',0,1,2,3,0); # right now the example has 7
+arguements, the last one is default as 1, if you want to start with run-02,
+you can put runme('st_st_sub-t_ses-t','EU',0,1,2,3,0,2)
 
 FOR WORD HEIGHT CALCULATION
 ===========================
